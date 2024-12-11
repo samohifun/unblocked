@@ -53,47 +53,96 @@
         }
 
         @media screen and (max-width: 768px) {
+            /* Header adjustments */
+            header .max-w-8xl {
+                padding: 0.5rem;
+            }
+            
             header .flex {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem;
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                align-items: center;
             }
 
-            .markets-nav {
+            /* User info in header */
+            #username-display, 
+            #networth-display, 
+            #balance-display {
+                font-size: 0.875rem;
+                margin-right: 0.5rem;
+            }
+
+            /* Navigation tabs */
+            nav .flex {
+                gap: 0.5rem !important;
                 overflow-x: auto;
                 padding: 0.5rem;
-                margin: 0 -1rem;
+                -webkit-overflow-scrolling: touch;
             }
 
-            .market-btn {
+            .tab-button {
+                padding: 0.5rem 1rem !important;
                 white-space: nowrap;
-                padding: 0.5rem 1rem;
+                font-size: 0.875rem;
+            }
+
+            /* Market filters */
+            .market-filters {
+                padding: 0.5rem;
+            }
+
+            .filter-btn {
+                padding: 0.25rem 0.75rem;
+                font-size: 0.75rem;
+            }
+
+            /* Market cards layout */
+            #markets-container {
+                grid-template-columns: 1fr !important;
+                gap: 0.75rem;
+                padding: 0.5rem;
             }
 
             .market-card {
-                margin: 0.5rem 0;
+                margin-bottom: 0.75rem;
             }
 
-            .grid-cols-2, 
-            .grid-cols-3 {
-                grid-template-columns: 1fr;
-            }
-
+            /* Recent activity columns */
             #home-tab .flex {
-                flex-direction: column;
+                flex-direction: column !important;
             }
 
             #recent-buys-list,
             #recent-sells-list {
-                width: 100%;
-                margin: 1rem 0;
+                width: 100% !important;
+                max-height: 200px !important;
+                margin: 0.5rem 0;
             }
 
+            /* Fix for side columns */
+            .w-64 {
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0.5rem;
+            }
+
+            /* Portfolio and Leaderboard adjustments */
+            .grid-cols-2, 
+            .grid-cols-3 {
+                grid-template-columns: 1fr !important;
+            }
+
+            /* Modal adjustments */
             .modal-content {
-                width: 90%;
-                margin: 1rem;
-                max-height: 90vh;
-                overflow-y: auto;
+                width: 95%;
+                margin: 1rem auto;
+                max-height: 85vh;
+            }
+
+            /* Canvas/chart containers */
+            .canvas-container {
+                height: 200px !important;
             }
         }
 
@@ -3775,6 +3824,7 @@ function updatePortfolioBets() {
         allBets.join('') : 
         '<div class="text-gray-400 text-center py-4">No active bets</div>';
 }
+
 async function sellBet(betIndex) {
     const bet = portfolio.bets[betIndex];
     const market = markets.find(m => m.id === bet.marketId);
@@ -3784,6 +3834,8 @@ async function sellBet(betIndex) {
     const sellValue = bet.shares * currentPrice;
 
     try {
+        await recordSell(market.id, bet.position, sellValue, currentPrice);
+
         portfolio.balance += sellValue;
         portfolio.bets.splice(betIndex, 1);
         portfolio.history.push({
@@ -3797,7 +3849,7 @@ async function sellBet(betIndex) {
         showSellSuccessMessage(sellValue);
     } catch (error) {
         console.error('Error selling bet:', error);
-        alert('Error selling bet. Please try again.');
+        showErrorMessage('Failed to sell position');
     }
 }
 
@@ -4459,75 +4511,73 @@ async function updateRecentActivity() {
     try {
         const betsSnapshot = await db.collection('bets')
             .orderBy('timestamp', 'desc')
-            .limit(10)
+            .limit(20)
             .get();
 
         const buys = [];
         const sells = [];
 
-        betsSnapshot.docs.forEach(doc => {
+        for (const doc of betsSnapshot.docs) {
             const bet = doc.data();
             const market = markets.find(m => m.id === bet.marketId);
-            if (!market) return;
+            if (!market) continue;
 
             const activityHtml = `
-                <div class="bg-gray-800/80 rounded-lg p-2 mb-2">
+                <div class="bg-gray-800/80 rounded-lg p-3 mb-2 hover:bg-gray-700/80 transition-colors">
                     <div class="flex items-center space-x-2">
-                        <img src="${market.image}" class="w-8 h-8 rounded object-cover flex-shrink-0">
+                        <img src="${market.image}" 
+                             class="w-10 h-10 rounded object-cover flex-shrink-0"
+                             onerror="this.src='${DEFAULT_PROFILE_PIC}'">
                         <div class="flex-1 min-w-0">
-                            <div class="text-sm text-blue-300 font-medium truncate">${market.title}</div>
-                            <div class="flex items-center text-xs text-gray-400">
-                                <span class="${bet.position === 'yes' ? 'text-green-400' : 'text-red-400'}">${bet.position}</span>
-                                <span class="mx-1">at ${(bet.price * 100).toFixed(0)}¢</span>
+                            <div class="text-sm text-blue-300 font-medium truncate">
+                                ${market.title}
+                            </div>
+                            <div class="flex items-center text-xs space-x-1">
+                                <span class="font-medium text-gray-400">${bet.username}</span>
+                                <span class="${bet.position === 'yes' ? 'text-green-400' : 'text-red-400'}">
+                                    ${bet.position}
+                                </span>
+                                <span class="text-gray-400">
+                                    @ ${(bet.price * 100).toFixed(0)}¢
+                                </span>
                                 <span class="text-gray-500">• ${formatTimeAgo(bet.timestamp)}</span>
                             </div>
+                        </div>
+                        <div class="text-sm text-gray-400 whitespace-nowrap">
+                            $${bet.amount.toFixed(2)}
                         </div>
                     </div>
                 </div>
             `;
 
-            if (bet.type === 'buy') {
-                buys.push(activityHtml);
-            } else {
+            if (bet.type === 'sell') {
                 sells.push(activityHtml);
+            } else {
+                buys.push(activityHtml);
             }
-        });
+        }
 
-        // Update side columns with more compact layout
         const buysList = document.getElementById('recent-buys-list');
         const sellsList = document.getElementById('recent-sells-list');
 
         if (buysList) {
-            buysList.innerHTML = `
-                <div class="space-y-1">
-                    ${buys.length ? buys.join('') : '<div class="text-gray-400 text-center p-2">No recent buys</div>'}
-                </div>
-            `;
+            buysList.innerHTML = buys.length ? buys.join('') : 
+                '<div class="text-gray-400 text-center p-4">No recent buys</div>';
         }
 
         if (sellsList) {
-            sellsList.innerHTML = `
-                <div class="space-y-1">
-                    ${sells.length ? sells.join('') : '<div class="text-gray-400 text-center p-2">No recent sells</div>'}
-                </div>
-            `;
+            sellsList.innerHTML = sells.length ? sells.join('') : 
+                '<div class="text-gray-400 text-center p-4">No recent sells</div>';
         }
 
     } catch (error) {
         console.error('Error updating activity:', error);
-        ['recent-buys-list', 'recent-sells-list'].forEach(id => {
-            const element = document.getElementById(id);
-            if (element) {
-                element.innerHTML = '<div class="text-red-400 text-center p-2">Error loading activity</div>';
-            }
-        });
     }
 }
 function showAllActivity(type) {
     const modal = document.createElement('div');
     modal.className = 'fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[60]';
     
-    // Get all activities directly from the list containers
     const sourceList = document.getElementById(type === 'buys' ? 'recent-buys-list' : 'recent-sells-list');
     const title = type === 'buys' ? 'Recent Buys' : 'Recent Sells';
 
@@ -4546,36 +4596,48 @@ function showAllActivity(type) {
 
     document.body.appendChild(modal);
 }
+async function recordSell(marketId, position, amount, price) {
+    try {
+        await db.collection('bets').add({
+            marketId,
+            position,
+            amount,
+            price,
+            username: currentUser.username,
+            timestamp: Date.now(),
+            type: 'sell',
+            userId: auth.currentUser.uid
+        });
+        
+        await updateRecentActivity();
+    } catch (error) {
+        console.error('Error recording sell:', error);
+    }
+}
 async function handleProfilePictureUpload(input) {
     const file = input.files[0];
     if (!file) return;
 
-    // Check file size (5MB limit)
     if (file.size > 5 * 1024 * 1024) {
         showErrorMessage('File size must be less than 5MB');
         return;
     }
 
-    // Check file type
     if (!file.type.startsWith('image/')) {
         showErrorMessage('Please upload an image file');
         return;
     }
 
     try {
-        // Convert to base64 for storage
         const base64 = await convertFileToBase64(file);
         
-        // Update user profile
         await db.collection('users').doc(auth.currentUser.uid).update({
             profilePicture: base64
         });
 
-        // Update displayed image
         document.getElementById('current-profile-pic').src = base64;
         showSuccessMessage('Profile picture updated successfully');
         
-        // Update currentUser object
         currentUser.profilePicture = base64;
     } catch (error) {
         console.error('Error updating profile picture:', error);
