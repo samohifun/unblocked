@@ -75,12 +75,21 @@
 
             /* Navigation tabs */
             nav .flex {
-                gap: 0.5rem !important;
-                overflow-x: auto;
-                padding: 0.5rem;
-                -webkit-overflow-scrolling: touch;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 3rem;
+                width: 100%;
+                padding: 1.5rem 0;
             }
-
+            nav .flex button {
+                height: 3.5rem;
+            }
+            .tab-button[data-tab="coins"] {
+                display: inline-flex;
+                align-items: center;
+                height: 3.5rem;
+            }
             .tab-button {
                 padding: 0.5rem 1rem !important;
                 white-space: nowrap;
@@ -115,11 +124,75 @@
 
             #recent-buys-list,
             #recent-sells-list {
-                width: 100% !important;
-                max-height: 200px !important;
-                margin: 0.5rem 0;
+                max-height: calc(100vh - 200px);
+                overflow-y: auto;
+            }
+            .activity-item {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                padding: 0.75rem;
+                background: rgba(26, 32, 44, 0.8);
+                border: 1px solid rgba(66, 153, 225, 0.2);
+                border-radius: 0.5rem;
+                margin-bottom: 0.5rem;
             }
 
+            .activity-item img {
+                width: 2.5rem;
+                height: 2.5rem;
+                border-radius: 0.375rem;
+                object-fit: cover;
+            }
+
+            .activity-content {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .activity-title {
+                font-size: 0.875rem;
+                font-weight: 500;
+                color: #4299E1;
+                margin-bottom: 0.25rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .activity-meta {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                font-size: 0.75rem;
+                color: #718096;
+            }
+
+            .activity-position {
+                padding: 0.125rem 0.375rem;
+                border-radius: 0.25rem;
+                font-weight: 500;
+            }
+
+            .activity-position.yes {
+                background: rgba(72, 187, 120, 0.2);
+                color: #48BB78;
+            }
+
+            .activity-position.no {
+                background: rgba(245, 101, 101, 0.2);
+                color: #F56565;
+            }
+
+            .activity-price {
+                color: #E2E8F0;
+                font-weight: 500;
+            }
+
+            .activity-time {
+                color: #718096;
+                font-size: 0.75rem;
+            }
             /* Fix for side columns */
             .w-64 {
                 width: 100% !important;
@@ -143,7 +216,24 @@
             /* Canvas/chart containers */
             .canvas-container {
                 height: 200px !important;
+                
             }
+            #recent-buys-list::-webkit-scrollbar,
+#recent-sells-list::-webkit-scrollbar {
+    width: 0.375rem;
+}
+
+#recent-buys-list::-webkit-scrollbar-track,
+#recent-sells-list::-webkit-scrollbar-track {
+    background: rgba(26, 32, 44, 0.3);
+    border-radius: 0.25rem;
+}
+
+#recent-buys-list::-webkit-scrollbar-thumb,
+#recent-sells-list::-webkit-scrollbar-thumb {
+    background: rgba(66, 153, 225, 0.5);
+    border-radius: 0.25rem;
+}
         }
 
         @media screen and (min-width: 769px) and (max-width: 1366px) {
@@ -244,9 +334,20 @@
             position: relative;
         }
         .tab-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            border-radius: 9999px;
             background: rgba(45, 55, 72, 0.5);
             color: #e2e8f0;
             transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .tab-button svg {
+            width: 1.75rem;
+            height: 1.75rem;
         }
         .tab-button:hover {
             background: rgba(66, 153, 225, 0.5);
@@ -389,8 +490,12 @@
         </header>
 
         <nav class="max-w-8xl mx-auto px-8 py-6">
+            <div id="market-king" class="mb-6">
+                <!-- Market King content will be injected here -->
+            </div>
             <!-- Main tab navigation - Always visible -->
             <div class="flex justify-center items-center gap-12 w-full mb-8">
+                
                 <button class="tab-button p-4 rounded-full flex items-center gap-3 selected" data-tab="home">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
@@ -419,8 +524,15 @@
                     </svg>
                     <span>Leaderboard</span>
                 </button>
+                <!-- <button class="tab-button p-4 rounded-full flex items-center gap-3" data-tab="coins">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>Coins</span>
+                </button> -->
+                
             </div>
-        
+            
             <!-- Market filters -->
             <div class="market-filters">
                 <!-- Market type buttons -->
@@ -471,6 +583,45 @@
         </div>
 
         <main class="max-w-8xl mx-auto px-8 py-4">
+            <div id="coins-tab" class="tab-content hidden">
+                <div id="king-of-hill" class="mb-6">
+                    <!-- King of hill content will be injected here -->
+                </div>
+                <div class="market-card p-6 rounded-lg">
+                    <!-- Admin Controls - Only visible to admins -->
+                    <div id="coin-admin-controls" class="mb-6 hidden">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-2xl font-bold text-blue-300">Coin Management</h2>
+                            <div class="flex gap-3">
+                                <button onclick="coinSystem.showAddCoinModal()" 
+                                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+                                    Add New Coin
+                                </button>
+                                <button onclick="coinAdminControls.showMarketStats()" 
+                                        class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg">
+                                    Market Stats
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <!-- Coin List -->
+                    <div class="mb-6">
+                        <h2 class="text-2xl font-bold text-blue-300 mb-4">Available Coins</h2>
+                        <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3" id="coins-container">
+                            <!-- Coins will be populated here -->
+                        </div>
+                    </div>
+            
+                    <!-- User's Portfolio -->
+                    <div>
+                        <h2 class="text-2xl font-bold text-blue-300 mb-4">Your Coin Portfolio</h2>
+                        <div id="coin-portfolio" class="space-y-4">
+                            <!-- User's coin holdings will be displayed here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div id="home-tab" class="tab-content">
                 <div class="flex gap-8">
                     <!-- Left Column - Push it more to the side -->
@@ -607,7 +758,8 @@ const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({
     'hd': 'smmk12.org',
 });
-
+const pendingBets = new Set();
+// document.addEventListener('DOMContentLoaded', initializeOfflineProtection);
 document.getElementById('google-signin')?.addEventListener('click', async () => {
     try {
         const referralCode = document.getElementById('referral-code')?.value?.trim();
@@ -1234,6 +1386,9 @@ function showMarketStats() {
     document.body.appendChild(modal);
     loadMarketStats();
 }
+document.querySelector('[data-tab="home"]')?.addEventListener('click', () => {
+    marketKingOfHill.initialize();
+});
 async function loadMarketStats() {
     try {
         // Load markets and bets
@@ -1414,16 +1569,30 @@ function showNegativeBalanceAlert(users) {
         adminContent.insertAdjacentHTML('afterbegin', alertHtml);
     }
 }
-// Helper function to format time ago
-function formatTimeAgo(timestamp) {
-    const now = Date.now();
-    const seconds = Math.floor((now - timestamp) / 1000);
 
-    if (seconds < 60) return `${seconds}s ago`;
-    if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
-    if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
-    return `${Math.floor(seconds / 86400)}d ago`;
+function formatTimeAgo(timestamp) {
+    if (!timestamp) return 'just now';
+    
+    // Convert Firebase timestamp if needed
+    const date = timestamp.seconds ? new Date(timestamp.seconds * 1000) : new Date(timestamp);
+    const now = new Date();
+    const diffMs = now - date;
+    
+    // Ensure we're dealing with a valid date
+    if (isNaN(diffMs)) return 'just now';
+    
+    const diffSecs = Math.floor(diffMs / 1000);
+    const diffMins = Math.floor(diffSecs / 60);
+    const diffHours = Math.floor(diffMins / 60);
+    const diffDays = Math.floor(diffHours / 24);
+
+    if (diffSecs < 60) return `${diffSecs}s ago`;
+    if (diffMins < 60) return `${diffMins}m ago`;
+    if (diffHours < 24) return `${diffHours}h ago`;
+    if (diffDays < 30) return `${diffDays}d ago`;
+    return date.toLocaleDateString();
 }
+
 function showAllActivity() {
     const modal = document.createElement('div');
     modal.className = 'fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[60]';
@@ -1489,6 +1658,292 @@ async function loadAllActivity() {
             '<div class="text-red-400 text-center p-4">Error loading activity</div>';
     }
 }
+const coinAdminControls = {
+    async showCoinStats(coinId) {
+        const coin = await db.collection('coins').doc(coinId).get();
+        const coinData = coin.data();
+        
+        const transactions = await db.collection('coinTransactions')
+            .where('coinId', '==', coinId)
+            .orderBy('timestamp', 'desc')
+            .limit(100)
+            .get();
+
+        const volume24h = transactions.docs
+            .filter(doc => doc.data().timestamp > Date.now() - 86400000)
+            .reduce((sum, doc) => sum + doc.data().amount, 0);
+
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50';
+        modal.innerHTML = `
+            <div class="bg-gray-900 rounded-xl p-6 max-w-4xl w-full h-[90vh] overflow-y-auto">
+                <div class="flex justify-between items-center mb-6">
+                    <div class="flex items-center gap-4">
+                        <img src="${coinData.image}" class="w-16 h-16 rounded-full">
+                        <div>
+                            <h3 class="text-2xl font-bold text-blue-300">${coinData.name} Stats</h3>
+                            <p class="text-gray-400">${coinData.symbol}</p>
+                        </div>
+                    </div>
+                    <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-white">×</button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-gray-800 p-4 rounded-lg">
+                        <h4 class="text-lg font-semibold text-blue-300 mb-4">Quick Stats</h4>
+                        <div class="space-y-2">
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Current Price:</span>
+                                <span class="text-white">$${coinData.price.toFixed(8)}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">24h Volume:</span>
+                                <span class="text-white">$${volume24h.toFixed(2)}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Price Change 24h:</span>
+                                <span class="${coinData.priceChange24h >= 0 ? 'text-green-400' : 'text-red-400'}">
+                                    ${coinData.priceChange24h >= 0 ? '+' : ''}${coinData.priceChange24h.toFixed(2)}%
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-800 p-4 rounded-lg">
+                        <h4 class="text-lg font-semibold text-blue-300 mb-4">Admin Actions</h4>
+                        <div class="space-y-4">
+                            <button onclick="coinAdminControls.updatePrice('${coinId}')"
+                                    class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">
+                                Update Price
+                            </button>
+                            <button onclick="coinAdminControls.updateImage('${coinId}')"
+                                    class="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700">
+                                Update Image
+                            </button>
+                            <button onclick="coinAdminControls.deleteCoin('${coinId}')"
+                                    class="w-full bg-red-600 text-white p-2 rounded hover:bg-red-700">
+                                Delete Coin
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-800 p-4 rounded-lg mb-6">
+                    <h4 class="text-lg font-semibold text-blue-300 mb-4">Price History</h4>
+                    <div class="h-64">
+                        <canvas id="price-history-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-gray-800 p-4 rounded-lg">
+                    <h4 class="text-lg font-semibold text-blue-300 mb-4">Recent Transactions</h4>
+                    <div class="space-y-2">
+                        ${transactions.docs.map(doc => {
+                            const tx = doc.data();
+                            return `
+                                <div class="flex justify-between items-center p-2 bg-gray-700 rounded">
+                                    <div class="text-sm">
+                                        <span class="text-gray-400">${tx.username}</span>
+                                        <span class="${tx.type === 'buy' ? 'text-green-400' : 'text-red-400'}">
+                                            ${tx.type === 'buy' ? 'bought' : 'sold'}
+                                        </span>
+                                        <span class="text-white">$${tx.amount.toFixed(2)}</span>
+                                    </div>
+                                    <span class="text-gray-400 text-sm">
+                                        ${new Date(tx.timestamp).toLocaleString()}
+                                    </span>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+        this.createPriceChart(coinData.priceHistory);
+    },
+    async showMarketStats() {
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50';
+        modal.innerHTML = `
+            <div class="bg-gray-900 rounded-xl p-6 max-w-4xl w-full h-[90vh] overflow-y-auto">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold text-blue-300">Market Statistics</h3>
+                    <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-white">×</button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Coin Stats -->
+                    <div class="bg-gray-800 p-4 rounded-lg">
+                        <h4 class="text-lg font-semibold text-blue-300 mb-4">Coin Stats</h4>
+                        <div id="coin-stats-container" class="space-y-2">Loading...</div>
+                    </div>
+
+                    <!-- Market Stats -->
+                    <div class="bg-gray-800 p-4 rounded-lg">
+                        <h4 class="text-lg font-semibold text-blue-300 mb-4">Market Stats</h4>
+                        <div id="market-stats-container" class="space-y-2">Loading...</div>
+                    </div>
+
+                    <!-- Volume Chart -->
+                    <div class="col-span-2 bg-gray-800 p-4 rounded-lg">
+                        <h4 class="text-lg font-semibold text-blue-300 mb-4">24h Volume</h4>
+                        <div class="h-64">
+                            <canvas id="volume-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+        this.loadMarketStats();
+    },
+    async loadMarketStats() {
+        try {
+            const [coinStats, marketStats] = await Promise.all([
+                this.loadCoinStats(),
+                this.loadMarketStats()
+            ]);
+
+            document.getElementById('coin-stats-container').innerHTML = this.renderStats(coinStats);
+            document.getElementById('market-stats-container').innerHTML = this.renderStats(marketStats);
+            this.createVolumeChart();
+        } catch (error) {
+            console.error('Error loading stats:', error);
+            showErrorMessage('Error loading statistics');
+        }
+    },
+    async updatePrice(coinId) {
+        try {
+            const newPrice = prompt('Enter new price:');
+            if (!newPrice) return;
+
+            const price = parseFloat(newPrice);
+            if (isNaN(price) || price <= 0) {
+                showErrorMessage('Invalid price');
+                return;
+            }
+
+            await db.collection('coins').doc(coinId).update({
+                price,
+                priceChange24h: 0,
+                priceHistory: firebase.firestore.FieldValue.arrayUnion({
+                    price,
+                    timestamp: Date.now()
+                })
+            });
+
+            showSuccessMessage('Price updated successfully');
+            coinSystem.loadCoins();
+        } catch (error) {
+            console.error('Error updating price:', error);
+            showErrorMessage('Failed to update price');
+        }
+    },
+    renderStats(stats) {
+        return Object.entries(stats).map(([label, value]) => `
+            <div class="flex justify-between">
+                <span class="text-gray-400">${label}:</span>
+                <span class="text-white">${value}</span>
+            </div>
+        `).join('');
+    }
+};
+const kingOfHill = {
+    async initialize() {
+        await this.updateKingDisplay();
+        setInterval(() => this.updateKingDisplay(), 60000); // Update every minute
+    },
+
+    async updateKingDisplay() {
+        const container = document.getElementById('king-of-hill');
+        if (!container) return;
+
+        try {
+            const twoHoursAgo = Date.now() - (2 * 60 * 60 * 1000);
+            const transactions = await db.collection('coinTransactions')
+                .where('timestamp', '>', twoHoursAgo)
+                .get();
+
+            // Calculate volume per coin
+            const volumes = {};
+            transactions.docs.forEach(doc => {
+                const tx = doc.data();
+                volumes[tx.coinId] = (volumes[tx.coinId] || 0) + tx.amount;
+            });
+
+            // Find king
+            let kingCoinId = null;
+            let maxVolume = 0;
+            Object.entries(volumes).forEach(([coinId, volume]) => {
+                if (volume > maxVolume) {
+                    kingCoinId = coinId;
+                    maxVolume = volume;
+                }
+            });
+
+            if (!kingCoinId) {
+                container.innerHTML = `
+                    <div class="bg-gray-800 p-4 rounded-lg text-center">
+                        <div class="text-gray-400">No trading activity in the last 2 hours</div>
+                    </div>
+                `;
+                return;
+            }
+
+            // Get king coin data
+            const kingCoin = await db.collection('coins').doc(kingCoinId).get();
+            const kingData = kingCoin.data();
+
+            // Calculate amount needed to dethrone
+            const dethroneAmount = maxVolume * 1.1; // Need 10% more volume
+
+            container.innerHTML = `
+                <div class="bg-gray-800/50 p-6 rounded-lg border border-yellow-600">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="relative">
+                            <img src="${kingData.image}" class="w-20 h-20 rounded-full border-4 border-yellow-400">
+                            <svg class="absolute -top-2 -right-2 w-8 h-8 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-yellow-400">Current King</h3>
+                            <div class="text-2xl font-bold text-white">${kingData.name}</div>
+                            <div class="text-sm text-gray-400">
+                                Trading Volume: $${maxVolume.toFixed(2)}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-900/50 p-4 rounded-lg">
+                        <div class="text-sm text-gray-400 mb-2">To Dethrone:</div>
+                        <div class="text-lg font-bold text-white">
+                            Trade $${dethroneAmount.toFixed(2)} of any coin in the next 2 hours
+                        </div>
+                    </div>
+
+                    <div class="mt-4 text-sm text-gray-400 text-center">
+                        Title resets every 2 hours
+                    </div>
+                </div>
+            `;
+        } catch (error) {
+            console.error('Error updating king of hill:', error);
+            container.innerHTML = `
+                <div class="bg-gray-800 p-4 rounded-lg text-center">
+                    <div class="text-red-400">Error loading King of the Hill</div>
+                </div>
+            `;
+        }
+    }
+};
+
+document.querySelector('[data-tab="coins"]')?.addEventListener('click', () => {
+    kingOfHill.initialize();
+});
 function showAdminPanel() {
     if (!currentUser?.isAdmin) {
         showErrorMessage('Unauthorized access');
@@ -1738,6 +2193,196 @@ async function rejectChallenge(marketId) {
     }
 }
 
+const coinSystem = {
+    markets: [],
+    userHoldings: {},
+
+    async initialize() {
+        try {
+            if (currentUser?.isAdmin) {
+                document.getElementById('coin-admin-controls')?.classList.remove('hidden');
+            }
+            await this.loadCoins();
+            this.setupEventListeners();
+        } catch (error) {
+            console.error('Error initializing coin system:', error);
+        }
+    },
+
+    setupEventListeners() {
+        // Add event listeners for admin controls
+        const addCoinBtn = document.querySelector('[data-action="add-coin"]');
+        if (addCoinBtn) {
+            addCoinBtn.onclick = () => this.showAddCoinModal();
+        }
+    },
+
+    async loadCoins() {
+        const coinsContainer = document.getElementById('coins-container');
+        if (!coinsContainer) return;
+
+        try {
+            const snapshot = await db.collection('coins')
+                .orderBy('createdAt', 'desc')
+                .get();
+
+            const coins = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+
+            coinsContainer.innerHTML = coins.map(coin => this.createCoinCard(coin)).join('');
+            await this.loadUserHoldings();
+        } catch (error) {
+            console.error('Error loading coins:', error);
+            coinsContainer.innerHTML = '<div class="text-red-400 text-center p-4">Error loading coins</div>';
+        }
+    },
+
+    async loadUserHoldings() {
+        if (!auth.currentUser) return;
+
+        try {
+            const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
+            this.userHoldings = userDoc.data()?.coinHoldings || {};
+        } catch (error) {
+            console.error('Error loading holdings:', error);
+        }
+    },
+
+    createCoinCard(coin) {
+        const holding = this.userHoldings[coin.id] || 0;
+        const holdingValue = holding * coin.price;
+
+        return `
+            <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                <div class="flex items-center gap-4">
+                    <img src="${coin.image}" class="w-12 h-12 rounded-full">
+                    <div class="flex-1">
+                        <div class="text-lg font-bold text-blue-300">${coin.name}</div>
+                        <div class="text-sm text-gray-400">${coin.symbol.toUpperCase()}</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-lg font-bold text-white">$${coin.price.toFixed(2)}</div>
+                        <div class="text-sm ${coin.priceChange24h >= 0 ? 'text-green-400' : 'text-red-400'}">
+                            ${coin.priceChange24h >= 0 ? '+' : ''}${coin.priceChange24h.toFixed(2)}%
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 grid grid-cols-2 gap-4">
+                    <div>
+                        <div class="text-sm text-gray-400">Your Holdings</div>
+                        <div class="text-lg text-white">${holding.toFixed(8)} ${coin.symbol}</div>
+                        <div class="text-sm text-blue-300">≈ $${holdingValue.toFixed(2)}</div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="coinSystem.showTradeModal('${coin.id}', 'buy')"
+                                class="flex-1 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
+                            Buy
+                        </button>
+                        <button onclick="coinSystem.showTradeModal('${coin.id}', 'sell')"
+                                class="flex-1 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg"
+                                ${holding <= 0 ? 'disabled' : ''}>
+                            Sell
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    },
+
+    async showAddCoinModal() {
+        if (!currentUser?.isAdmin) return;
+
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50';
+        modal.innerHTML = `
+            <div class="bg-gray-900 rounded-xl p-6 max-w-md w-full">
+                <h3 class="text-xl font-bold mb-4 text-blue-300">Add New Coin</h3>
+                <form id="add-coin-form" class="space-y-4">
+                    <div>
+                        <label class="block text-gray-400 mb-2">Coin Name</label>
+                        <input type="text" id="coin-name" required
+                               class="w-full p-3 rounded-lg bg-gray-800/50 border border-gray-700">
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 mb-2">Symbol</label>
+                        <input type="text" id="coin-symbol" required maxlength="10"
+                               class="w-full p-3 rounded-lg bg-gray-800/50 border border-gray-700">
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 mb-2">Initial Price ($)</label>
+                        <input type="number" id="coin-price" required min="0.00000001" step="0.00000001"
+                               class="w-full p-3 rounded-lg bg-gray-800/50 border border-gray-700">
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 mb-2">Image URL</label>
+                        <input type="url" id="coin-image" required
+                               class="w-full p-3 rounded-lg bg-gray-800/50 border border-gray-700"
+                               placeholder="https://example.com/image.png">
+                    </div>
+                    <div class="flex gap-3">
+                        <button type="submit" 
+                                class="flex-1 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg">
+                            Add Coin
+                        </button>
+                        <button type="button" 
+                                onclick="this.closest('.fixed').remove()"
+                                class="flex-1 border border-gray-700 text-gray-400 p-3 rounded-lg">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        document.getElementById('add-coin-form').onsubmit = async (e) => {
+            e.preventDefault();
+            await this.addCoin();
+        };
+    },
+
+    async addCoin() {
+        if (!currentUser?.isAdmin || !auth.currentUser) return;
+
+        try {
+            const name = document.getElementById('coin-name').value;
+            const symbol = document.getElementById('coin-symbol').value.toUpperCase();
+            const price = parseFloat(document.getElementById('coin-price').value);
+            const image = document.getElementById('coin-image').value;
+
+            await db.collection('coins').add({
+                name,
+                symbol,
+                price,
+                image,
+                priceChange24h: 0,
+                volume: 0,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                createdBy: auth.currentUser.uid,
+                priceHistory: [{
+                    price,
+                    timestamp: Date.now()
+                }]
+            });
+
+            document.querySelector('.fixed').remove();
+            showSuccessMessage('Coin added successfully');
+            await this.loadCoins();
+        } catch (error) {
+            console.error('Error adding coin:', error);
+            showErrorMessage('Failed to add coin');
+        }
+    }
+};
+
+document.querySelector('[data-tab="coins"]')?.addEventListener('click', () => {
+    coinSystem.initialize();
+    // coinSystem.addCoinButton();
+});
 async function revertMarket(marketId) {
     if (!confirm('Revert this market to its unresolved state?')) return;
     
@@ -2085,6 +2730,15 @@ function formatCommentTimestamp(timestamp) {
         month: 'short',
         day: 'numeric'
     });
+}
+function initializeOfflineProtection() {
+    // Check if we're offline on page load
+    if (!navigator.onLine) {
+        document.querySelectorAll('.bet-yes, .bet-no').forEach(button => {
+            button.disabled = true;
+            button.classList.add('opacity-50');
+        });
+    }
 }
 function showQuickPriceUpdate(marketId, currentPrice) {
     const modal = document.createElement('div');
@@ -2987,28 +3641,70 @@ async function placeBet(marketId, position) {
             return;
         }
 
-        const market = markets.find(m => m.id === marketId);
-        if (!market) throw new Error('Market not found');
-
         const amount = parseFloat(document.getElementById('bet-amount').value);
         if (isNaN(amount) || amount <= 0) {
             showErrorMessage('Invalid bet amount');
             return;
         }
 
-        // Important: Use exact balance comparison
-        if (amount > portfolio.balance) {
-            showErrorMessage('Insufficient FunBucks');
-            return;
-        }
+        const market = markets.find(m => m.id === marketId);
+        if (!market) throw new Error('Market not found');
 
-        const price = position === 'yes' 
-            ? Math.max(0.001, Math.min(0.999, market.currentPrice))
-            : Math.max(0.001, Math.min(0.999, 1 - market.currentPrice));
+        const price = position === 'yes' ? market.currentPrice : (1 - market.currentPrice);
+        const shares = amount / price;
 
-        const shares = price > 0 ? amount / price : 0;
+        // Start transaction
+        await db.runTransaction(async (transaction) => {
+            const userRef = db.collection('users').doc(auth.currentUser.uid);
+            const userDoc = await transaction.get(userRef);
+            const userData = userDoc.data();
 
-        const bet = {
+            // Verify funds
+            if (userData.funbucks < amount) {
+                throw new Error('Insufficient funds');
+            }
+
+            // Create bet object
+            const bet = {
+                marketId,
+                position,
+                amount,
+                shares,
+                entryPrice: price,
+                date: new Date().toISOString(),
+                marketTitle: market.title,
+                marketImage: market.image
+            };
+
+            // Update user document
+            transaction.update(userRef, {
+                funbucks: firebase.firestore.FieldValue.increment(-amount),
+                bets: firebase.firestore.FieldValue.arrayUnion(bet),
+                history: firebase.firestore.FieldValue.arrayUnion({
+                    date: new Date().toISOString(),
+                    value: userData.funbucks - amount
+                })
+            });
+
+            // Record bet in bets collection
+            transaction.set(db.collection('bets').doc(), {
+                marketId,
+                position,
+                amount,
+                shares,
+                price,
+                username: currentUser.username,
+                userId: auth.currentUser.uid,
+                timestamp: Date.now(),
+                type: 'buy',
+                marketTitle: market.title,
+                marketImage: market.image
+            });
+        });
+
+        // Update local state after successful transaction
+        portfolio.balance -= amount;
+        portfolio.bets.push({
             marketId,
             position,
             amount,
@@ -3017,48 +3713,59 @@ async function placeBet(marketId, position) {
             date: new Date().toISOString(),
             marketTitle: market.title,
             marketImage: market.image
-        };
-
-        // Update Firestore first with exact values
-        const userRef = db.collection('users').doc(auth.currentUser.uid);
-        await userRef.update({
-            funbucks: firebase.firestore.FieldValue.increment(-amount),
-            bets: firebase.firestore.FieldValue.arrayUnion(bet),
-            history: firebase.firestore.FieldValue.arrayUnion({
-                date: new Date().toISOString(),
-                value: portfolio.balance - amount
-            })
-        });
-
-        // Update local state with exact values
-        portfolio.balance = portfolio.balance - amount;
-        portfolio.bets.push(bet);
-        portfolio.history.push({
-            date: new Date().toISOString(),
-            value: portfolio.balance
         });
 
         document.getElementById('betting-modal').classList.add('hidden');
         showSuccessMessage('Bet placed successfully!');
+        
+        // Update displays
         await updatePortfolioDisplays();
         await updateMarkets();
-        await db.collection('bets').add({
-            marketId,
-            position,
-            amount,
-            price,
-            username: currentUser.username,
-            timestamp: Date.now(),
-            type: 'buy', // or 'sell' depending on the action
-            userId: auth.currentUser.uid
-        });
         await updateRecentActivity();
+
     } catch (error) {
         console.error('Error placing bet:', error);
         showErrorMessage(error.message || 'Failed to place bet');
     }
 }
+window.addEventListener('offline', () => {
+    // Disable all betting buttons when offline
+    document.querySelectorAll('.bet-yes, .bet-no').forEach(button => {
+        button.disabled = true;
+        button.classList.add('opacity-50');
+    });
+    showErrorMessage('You are offline. Betting is disabled.');
+});
+window.addEventListener('online', () => {
+    // Re-enable betting buttons when back online
+    document.querySelectorAll('.bet-yes, .bet-no').forEach(button => {
+        button.disabled = false;
+        button.classList.remove('opacity-50');
+    });
+    
+    // Refresh user data to ensure consistency
+    if (auth.currentUser) {
+        loadUserData(auth.currentUser.uid);
+    }
+});
+async function verifyAccountConsistency() {
+    if (!auth.currentUser || !navigator.onLine) return;
 
+    try {
+        const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
+        const userData = userDoc.data();
+        
+        // If local data differs from server data, refresh from server
+        if (userData.funbucks !== portfolio.balance || 
+            JSON.stringify(userData.bets) !== JSON.stringify(portfolio.bets)) {
+            await loadUserData(auth.currentUser.uid);
+            await updatePortfolioDisplays();
+        }
+    } catch (error) {
+        console.error('Error verifying account consistency:', error);
+    }
+}
+setInterval(verifyAccountConsistency, 30000);
 function calculateNetworth(userData = null) {
     // If no userData passed, use current portfolio
     if (!userData) {
@@ -3768,6 +4475,222 @@ async function updateMarkets() {
         });
     });
 }
+// Coin system implementation
+const coins = {
+    state: {
+        coins: [],
+        userHoldings: {}
+    },
+    
+    async initializeCoins() {
+        const coinsRef = db.collection('coins');
+        const snapshot = await coinsRef.get();
+        
+        this.state.coins = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        }));
+        
+        await this.loadUserHoldings();
+    },
+    
+    async loadUserHoldings() {
+        if (!auth.currentUser) return;
+        
+        const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
+        const userData = userDoc.data();
+        this.state.userHoldings = userData.coinHoldings || {};
+    },
+    
+    async buyCoin(coinId, amount) {
+        if (!navigator.onLine) {
+            showErrorMessage('Internet connection required to trade');
+            return;
+        }
+
+        try {
+            await db.runTransaction(async (transaction) => {
+                const userRef = db.collection('users').doc(auth.currentUser.uid);
+                const coinRef = db.collection('coins').doc(coinId);
+                
+                const [userDoc, coinDoc] = await Promise.all([
+                    transaction.get(userRef),
+                    transaction.get(coinRef)
+                ]);
+                
+                const userData = userDoc.data();
+                const coin = coinDoc.data();
+                
+                const totalCost = amount * coin.price;
+                
+                if (userData.funbucks < totalCost) {
+                    throw new Error('Insufficient funds');
+                }
+                
+                // Update user's holdings and balance
+                const currentHolding = userData.coinHoldings?.[coinId] || 0;
+                transaction.update(userRef, {
+                    funbucks: firebase.firestore.FieldValue.increment(-totalCost),
+                    [`coinHoldings.${coinId}`]: currentHolding + amount
+                });
+                
+                // Update coin's market data
+                transaction.update(coinRef, {
+                    volume: firebase.firestore.FieldValue.increment(amount),
+                    lastTraded: firebase.firestore.FieldValue.serverTimestamp(),
+                    priceHistory: firebase.firestore.FieldValue.arrayUnion({
+                        price: coin.price,
+                        timestamp: Date.now()
+                    })
+                });
+            });
+            
+            showSuccessMessage(`Successfully bought ${amount} ${coinId}`);
+            await this.loadUserHoldings();
+            await this.updateCoinDisplay();
+        } catch (error) {
+            console.error('Error buying coin:', error);
+            showErrorMessage(error.message);
+        }
+    },
+    
+    async sellCoin(coinId, amount) {
+        if (!navigator.onLine) {
+            showErrorMessage('Internet connection required to trade');
+            return;
+        }
+
+        try {
+            await db.runTransaction(async (transaction) => {
+                const userRef = db.collection('users').doc(auth.currentUser.uid);
+                const coinRef = db.collection('coins').doc(coinId);
+                
+                const [userDoc, coinDoc] = await Promise.all([
+                    transaction.get(userRef),
+                    transaction.get(coinRef)
+                ]);
+                
+                const userData = userDoc.data();
+                const coin = coinDoc.data();
+                
+                const currentHolding = userData.coinHoldings?.[coinId] || 0;
+                if (currentHolding < amount) {
+                    throw new Error('Insufficient coins');
+                }
+                
+                const totalValue = amount * coin.price;
+                
+                // Update user's holdings and balance
+                transaction.update(userRef, {
+                    funbucks: firebase.firestore.FieldValue.increment(totalValue),
+                    [`coinHoldings.${coinId}`]: currentHolding - amount
+                });
+                
+                // Update coin's market data
+                transaction.update(coinRef, {
+                    volume: firebase.firestore.FieldValue.increment(-amount),
+                    lastTraded: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            });
+            
+            showSuccessMessage(`Successfully sold ${amount} ${coinId}`);
+            await this.loadUserHoldings();
+            await this.updateCoinDisplay();
+        } catch (error) {
+            console.error('Error selling coin:', error);
+            showErrorMessage(error.message);
+        }
+    },
+    
+    async updateCoinDisplay() {
+        const container = document.getElementById('coins-container');
+        if (!container) return;
+        
+        const coinsList = await Promise.all(this.state.coins.map(async (coin) => {
+            const userHolding = this.state.userHoldings[coin.id] || 0;
+            const holdingValue = userHolding * coin.price;
+            
+            return `
+                <div class="market-card p-4 rounded-lg">
+                    <div class="flex items-center gap-4">
+                        <img src="${coin.image}" class="w-12 h-12 rounded-full">
+                        <div class="flex-1">
+                            <div class="text-lg font-bold text-blue-300">${coin.name}</div>
+                            <div class="text-sm text-gray-400">${coin.symbol}</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-lg font-bold text-white">$${coin.price.toFixed(2)}</div>
+                            <div class="text-sm ${coin.priceChange24h >= 0 ? 'text-green-400' : 'text-red-400'}">
+                                ${coin.priceChange24h >= 0 ? '+' : ''}${coin.priceChange24h.toFixed(2)}%
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 grid grid-cols-2 gap-4">
+                        <div>
+                            <div class="text-sm text-gray-400">Your Holdings</div>
+                            <div class="text-lg text-white">${userHolding.toFixed(2)} ${coin.symbol}</div>
+                            <div class="text-sm text-blue-300">$${holdingValue.toFixed(2)}</div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="coins.showTradeModal('${coin.id}', 'buy')"
+                                    class="flex-1 bg-green-600 text-white rounded-lg px-4 py-2">
+                                Buy
+                            </button>
+                            <button onclick="coins.showTradeModal('${coin.id}', 'sell')"
+                                    class="flex-1 bg-red-600 text-white rounded-lg px-4 py-2">
+                                Sell
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }));
+        
+        container.innerHTML = coinsList.join('');
+    },
+    
+    async showTradeModal(coinId, action) {
+        const coin = this.state.coins.find(c => c.id === coinId);
+        if (!coin) return;
+        
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50';
+        modal.innerHTML = `
+            <div class="bg-gray-900 rounded-xl p-6 max-w-md w-full">
+                <h3 class="text-xl font-bold mb-4 text-blue-300">
+                    ${action === 'buy' ? 'Buy' : 'Sell'} ${coin.name}
+                </h3>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-gray-400 mb-2">Amount</label>
+                        <input type="number" id="coin-trade-amount" 
+                               class="w-full p-3 rounded-lg bg-gray-800/50 border border-gray-700"
+                               min="0" step="0.01">
+                    </div>
+                    
+                    <div class="text-sm text-gray-400">
+                        Current Price: $${coin.price.toFixed(2)}
+                    </div>
+                    
+                    <div class="flex gap-3">
+                        <button onclick="coins.${action}Coin('${coinId}', parseFloat(document.getElementById('coin-trade-amount').value))"
+                                class="flex-1 bg-blue-600 text-white p-3 rounded-lg">
+                            Confirm ${action === 'buy' ? 'Purchase' : 'Sale'}
+                        </button>
+                        <button onclick="this.closest('.fixed').remove()"
+                                class="flex-1 border border-gray-700 text-gray-400 p-3 rounded-lg">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+    }
+};
 
 function updatePortfolioBets() {
     const portfolioBets = document.getElementById('portfolio-bets');
@@ -3826,27 +4749,59 @@ function updatePortfolioBets() {
 }
 
 async function sellBet(betIndex) {
-    const bet = portfolio.bets[betIndex];
-    const market = markets.find(m => m.id === bet.marketId);
-    if (!market || !bet) return;
-
-    const currentPrice = bet.position === 'yes' ? market.currentPrice : (1 - market.currentPrice);
-    const sellValue = bet.shares * currentPrice;
-
     try {
-        await recordSell(market.id, bet.position, sellValue, currentPrice);
+        const bet = portfolio.bets[betIndex];
+        const market = markets.find(m => m.id === bet.marketId);
+        if (!market || !bet) return;
 
+        const currentPrice = bet.position === 'yes' ? market.currentPrice : (1 - market.currentPrice);
+        const sellValue = bet.shares * currentPrice;
+
+        await db.runTransaction(async (transaction) => {
+            const userRef = db.collection('users').doc(auth.currentUser.uid);
+            
+            // Record the sell first
+            const sellRecord = {
+                marketId: market.id,
+                marketTitle: market.title,
+                marketImage: market.image,
+                position: bet.position,
+                amount: sellValue,
+                price: currentPrice,
+                shares: bet.shares,
+                username: currentUser.username,
+                userId: auth.currentUser.uid,
+                timestamp: Date.now(),
+                type: 'sell'
+            };
+
+            // Add sell record
+            transaction.set(db.collection('bets').doc(), sellRecord);
+
+            // Update user's portfolio
+            transaction.update(userRef, {
+                funbucks: firebase.firestore.FieldValue.increment(sellValue),
+                bets: portfolio.bets.filter((_, idx) => idx !== betIndex),
+                history: firebase.firestore.FieldValue.arrayUnion({
+                    date: new Date().toISOString(),
+                    value: portfolio.balance + sellValue
+                })
+            });
+        });
+
+        // Update local state
         portfolio.balance += sellValue;
         portfolio.bets.splice(betIndex, 1);
         portfolio.history.push({
             date: new Date().toISOString(),
-            value: calculateNetworth()
+            value: portfolio.balance
         });
 
-        await updateUserData();
         document.querySelector('.fixed').remove();
-        updatePortfolioDisplays();
-        showSellSuccessMessage(sellValue);
+        showSuccessMessage(`Sold for ${formatCurrency(sellValue)}`);
+        await updatePortfolioDisplays();
+        await updateRecentActivity();
+
     } catch (error) {
         console.error('Error selling bet:', error);
         showErrorMessage('Failed to sell position');
@@ -3967,6 +4922,21 @@ document.getElementById('save-profile-picture')?.addEventListener('click', async
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+    marketKingOfHill.initialize();
+    const coinsTab = document.querySelector('[data-tab="coins"]');
+    if (coinsTab) {
+        coinsTab.addEventListener('click', () => {
+            coinSystem.initialize();
+        });
+    }
+    coins.initializeCoins();
+    const adminControls = document.getElementById('coin-admin-controls');
+    if (adminControls) {
+        const addButton = adminControls.querySelector('button');
+        if (addButton) {
+            addButton.onclick = () => coinSystem.showAddCoinModal();
+        }
+    }
     // Add home-tab-active class to body by default
     document.body.classList.add('home-tab-active');
     const allFilter = document.querySelector('[data-category="all"]');
@@ -4522,56 +5492,62 @@ async function updateRecentActivity() {
             const market = markets.find(m => m.id === bet.marketId);
             if (!market) continue;
 
-            const activityHtml = `
-                <div class="bg-gray-800/80 rounded-lg p-3 mb-2 hover:bg-gray-700/80 transition-colors">
-                    <div class="flex items-center space-x-2">
-                        <img src="${market.image}" 
-                             class="w-10 h-10 rounded object-cover flex-shrink-0"
-                             onerror="this.src='${DEFAULT_PROFILE_PIC}'">
+            // Format time ago
+            const timeAgo = formatTimeAgo(bet.timestamp);
+            
+            const activityItem = `
+                <div class="bg-gray-800 p-3 rounded-lg mb-2 border border-gray-700 hover:border-blue-600 transition-colors">
+                    <div class="flex items-center gap-3">
+                        <img src="${market.image || 'default_image_url'}" 
+                             alt="${market.title}" 
+                             class="w-10 h-10 rounded object-cover"
+                             onerror="this.src='https://i.imgur.com/TCcB5yZ.png'">
                         <div class="flex-1 min-w-0">
-                            <div class="text-sm text-blue-300 font-medium truncate">
-                                ${market.title}
+                            <div class="flex items-center gap-2">
+                                <span class="text-sm font-medium text-gray-300">${bet.username || 'Anonymous'}</span>
+                                <span class="${bet.position === 'yes' ? 'text-green-400' : 'text-red-400'} text-xs">
+                                    ${bet.position?.toUpperCase() || 'N/A'}
+                                </span>
                             </div>
-                            <div class="flex items-center text-xs space-x-1">
-                                <span class="font-medium text-gray-400">${bet.username}</span>
-                                <span class="${bet.position === 'yes' ? 'text-green-400' : 'text-red-400'}">
-                                    ${bet.position}
-                                </span>
-                                <span class="text-gray-400">
-                                    @ ${(bet.price * 100).toFixed(0)}¢
-                                </span>
-                                <span class="text-gray-500">• ${formatTimeAgo(bet.timestamp)}</span>
+                            <div class="text-sm text-blue-300 truncate">${market.title}</div>
+                            <div class="text-xs text-gray-400 flex items-center gap-1">
+                                <span>${(bet.price * 100).toFixed(0)}¢</span>
+                                <span>•</span>
+                                <span>${timeAgo}</span>
                             </div>
                         </div>
-                        <div class="text-sm text-gray-400 whitespace-nowrap">
-                            $${bet.amount.toFixed(2)}
+                        <div class="text-right">
+                            <div class="text-sm font-medium text-white">
+                                $${bet.amount?.toFixed(2) || '0.00'}
+                            </div>
                         </div>
                     </div>
                 </div>
             `;
 
             if (bet.type === 'sell') {
-                sells.push(activityHtml);
+                sells.push(activityItem);
             } else {
-                buys.push(activityHtml);
+                buys.push(activityItem);
             }
         }
 
+        // Update buy list
         const buysList = document.getElementById('recent-buys-list');
-        const sellsList = document.getElementById('recent-sells-list');
-
         if (buysList) {
             buysList.innerHTML = buys.length ? buys.join('') : 
                 '<div class="text-gray-400 text-center p-4">No recent buys</div>';
         }
 
+        // Update sell list
+        const sellsList = document.getElementById('recent-sells-list');
         if (sellsList) {
             sellsList.innerHTML = sells.length ? sells.join('') : 
                 '<div class="text-gray-400 text-center p-4">No recent sells</div>';
         }
 
     } catch (error) {
-        console.error('Error updating activity:', error);
+        console.error('Error updating recent activity:', error);
     }
 }
 function showAllActivity(type) {
@@ -4596,6 +5572,146 @@ function showAllActivity(type) {
 
     document.body.appendChild(modal);
 }
+
+const marketKingOfHill = {
+    countdown: null,
+
+    async initialize() {
+        // Show loading state immediately
+        const container = document.getElementById('market-king');
+        if (container) {
+            container.innerHTML = this.renderLoading();
+        }
+        
+        // Update immediately and start interval
+        await this.updateKing();
+        this.startCountdown();
+        setInterval(() => this.updateKing(), 60000);
+    },
+
+    startCountdown() {
+        if (this.countdown) clearInterval(this.countdown);
+        
+        this.countdown = setInterval(() => {
+            const countdownEl = document.querySelector('#market-king .countdown');
+            if (!countdownEl) return;
+
+            const now = new Date();
+            const nextReset = new Date(now);
+            nextReset.setHours(nextReset.getHours() + 2);
+            nextReset.setMinutes(0);
+            nextReset.setSeconds(0);
+            nextReset.setMilliseconds(0);
+
+            const diff = nextReset - now;
+            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+            countdownEl.textContent = `${mins}m ${secs}s`;
+        }, 1000);
+    },
+
+    renderLoading() {
+        return `
+            <div class="bg-gray-800/50 p-6 rounded-lg border border-gray-700 animate-pulse">
+                <div class="flex items-center gap-4">
+                    <div class="w-20 h-20 bg-gray-700 rounded-lg"></div>
+                    <div class="flex-1">
+                        <div class="h-6 bg-gray-700 rounded w-1/3 mb-2"></div>
+                        <div class="h-4 bg-gray-700 rounded w-1/2"></div>
+                    </div>
+                </div>
+            </div>
+        `;
+    },
+
+    renderKing(market, volume) {
+        const dethroneAmount = volume * 1.1;
+        
+        return `
+            <div class="bg-gray-800/50 p-6 rounded-lg border border-yellow-600">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="relative">
+                        <img src="${market.image}" 
+                             class="w-20 h-20 rounded-lg object-cover border-4 border-yellow-400"
+                             onerror="this.src='https://i.imgur.com/TCcB5yZ.png'">
+                        <div class="absolute -top-2 -right-2 bg-yellow-400 rounded-full p-1">
+                            👑
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-yellow-400">Market King</h3>
+                        <div class="text-lg font-bold text-white">${market.title}</div>
+                        <div class="text-sm text-gray-400">
+                            2h Volume: $${volume.toFixed(2)}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-900/50 p-4 rounded-lg">
+                    <div class="text-sm text-gray-400 mb-2">Crown Resets In:</div>
+                    <div class="countdown text-lg font-mono text-yellow-400 mb-2">
+                        Calculating...
+                    </div>
+                    <div class="text-sm text-gray-400">To Dethrone:</div>
+                    <div class="text-lg font-bold text-white">
+                        $${dethroneAmount.toFixed(2)} in trading volume
+                    </div>
+                </div>
+            </div>
+        `;
+    },
+
+    async updateKing() {
+        const container = document.getElementById('market-king');
+        if (!container) return;
+
+        try {
+            const twoHoursAgo = Date.now() - (2 * 60 * 60 * 1000);
+            
+            // Get all bets from last 2 hours
+            const betsSnapshot = await db.collection('bets')
+                .where('timestamp', '>', twoHoursAgo)
+                .get();
+
+            // Calculate volume per market
+            const volumes = {};
+            betsSnapshot.docs.forEach(doc => {
+                const bet = doc.data();
+                volumes[bet.marketId] = (volumes[bet.marketId] || 0) + bet.amount;
+            });
+
+            // Find market with highest volume
+            let kingMarketId = null;
+            let maxVolume = 0;
+            Object.entries(volumes).forEach(([marketId, volume]) => {
+                if (volume > maxVolume) {
+                    kingMarketId = marketId;
+                    maxVolume = volume;
+                }
+            });
+
+            if (!kingMarketId || !maxVolume) {
+                container.innerHTML = this.renderNoKing();
+                return;
+            }
+
+            const market = markets.find(m => m.id === kingMarketId);
+            if (!market) {
+                container.innerHTML = this.renderNoKing();
+                return;
+            }
+
+            container.innerHTML = this.renderKing(market, maxVolume);
+            this.startCountdown();
+
+        } catch (error) {
+            console.error('Error updating market king:', error);
+            container.innerHTML = this.renderError();
+        }
+    }
+};
+
 async function recordSell(marketId, position, amount, price) {
     try {
         await db.collection('bets').add({
