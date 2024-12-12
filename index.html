@@ -1,86 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Samohi.fun 1.0 - Launch Imminent</title>
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background: linear-gradient(to right, #f2712c, #e31b1b);
-      color: #fff;
-      font-family: Arial, sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samohi.fun 1.0 - Launch Imminent</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(to right, #f2712c, #e31b1b);
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
 
-    h1 {
-      font-size: 4rem;
-      text-shadow: 0 0 5px #e31b1b, 0 0 10px #f2712c;
-      animation: pulse 2s infinite;
-    }
+        h1 {
+            font-size: 4rem;
+            text-shadow: 0 0 5px #e31b1b, 0 0 10px #f2712c;
+            animation: pulse 2s infinite;
+        }
 
-    @keyframes pulse {
-      0%, 100% {
-        opacity: 1;
-      }
-      50% {
-        opacity: 0.8;
-      }
-    }
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
 
-    #countdown {
-      font-size: 2.5rem;
-      margin-top: 30px;
-    }
+        #countdown {
+            font-size: 2.5rem;
+            margin-top: 30px;
+        }
 
-    #countdown span {
-      background-color: #e31b1b;
-      padding: 5px 10px;
-      border-radius: 5px;
-      margin: 0 5px;
-    }
-  </style>
+        #countdown span {
+            background-color: #e31b1b;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin: 0 5px;
+        }
+
+        .instagram-link {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .instagram-icon {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
-  <h1>Samohi.fun 1.0 - Launch Imminent</h1>
-  <div id="countdown">
-    <span id="days"></span>
-    <span id="hours"></span>
-    <span id="minutes"></span>
-    <span id="seconds"></span>
-  </div>
-  <script>
-    const countdownDate = new Date("January 7, 2025 09:00:00 PST").getTime();
-
-    const updateCountdown = () => {
-      const now = new Date().getTime();
-      const distance = countdownDate - now;
-
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      document.getElementById("days").innerHTML = days + "d";
-      document.getElementById("hours").innerHTML = hours + "h";
-      document.getElementById("minutes").innerHTML = minutes + "m";
-      document.getElementById("seconds").innerHTML = seconds + "s";
-
-      if (distance < 0) {
-        clearInterval(interval);
-        document.getElementById("countdown").innerHTML = "Launched!";
-      }
-    };
-
-    const interval = setInterval(updateCountdown, 1000);
-    updateCountdown();
-  </script>
-    <a href="https://www.instagram.com/samohi.fun/" target="_blank">
-      <img src="instagram_icon.png" alt="Samohi.fun Instagram">
-      Instagram
+    <h1>Samohi.fun 1.0 - Launch Imminent</h1>
+    <div id="countdown">
+        <span id="days"></span>
+        <span id="hours"></span>
+        <span id="minutes"></span>
+        <span id="seconds"></span>
+    </div>
+    <a href="https://www.instagram.com/samohi.fun/" target="_blank" class="instagram-link">
+        <img src="instagram_icon.png" alt="Samohi.fun Instagram" class="instagram-icon">
+        Follow us on Instagram
     </a>
+    <script>
+        const countdownDate = new Date("January 7, 2025 09:00:00 PST").getTime();
+
+        const updateCountdown = () => {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerHTML = days + "d";
+            document.getElementById("hours").innerHTML = hours + "h";
+            document.getElementById("minutes").innerHTML = minutes + "m";
+            document.getElementById("seconds").innerHTML = seconds + "s";
+
+            if (distance < 0) {
+                clearInterval(interval);
+                document.getElementById("countdown").innerHTML = "Launched!";
+            }
+        };
+
+        const interval = setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
 </body>
 </html>
