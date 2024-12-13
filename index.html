@@ -1,6 +1,308 @@
 <!DOCTYPE html>
 <html lang="en">
-<body>
-samohi.fun
-</body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>samohi.fun</title>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+
+apiKey: "AIzaSyADfvM5G6E17VatDCZGt5WfyhrU2kJl2c0",
+
+authDomain: "polyclone-charlito.firebaseapp.com",
+
+projectId: "polyclone-charlito",
+
+storageBucket: "polyclone-charlito.firebasestorage.app",
+
+messagingSenderId: "33888100969",
+
+appId: "1:33888100969:web:9f58fb4f8fcdcc110d38f8",
+
+measurementId: "G-RYC5DLG9DN"
+
+};
+
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let userId = null;
+
+        document.getElementById("google-signin").addEventListener("click", async () => {
+    const provider = new GoogleAuthProvider();
+
+    try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+
+        if (!user.email.endsWith("@smmk12.org")) {
+            alert("You must use an @smmk12.org email to sign in.");
+            return;
+        }
+
+        userId = user.uid;
+
+        await setDoc(doc(db, "waitlist", user.uid), {
+            name: user.displayName,
+            email: user.email,
+            joinedAt: new Date().toISOString(),
+            rewards: "Custom Tag & 100 Funbucks"
+        });
+
+        alert("Welcome to the waitlist! You'll receive a custom tag and 100 Funbucks upon launch.");
+
+        document.getElementById("poll-container").style.display = "block";
+        updatePollResults();
+    } catch (error) {
+        console.error("Error during sign-in: ", error);
+    }
+});
+
+
+        document.getElementById("poll-yes").addEventListener("click", async () => {
+    if (!userId) return alert("Please sign in first.");
+
+    const userVoteRef = doc(db, "userVotes", userId);
+    const userVoteDoc = await getDoc(userVoteRef);
+
+    if (userVoteDoc.exists()) {
+        return alert("You have already voted!");
+    }
+
+    const pollRef = doc(db, "poll", "open_now");
+    const pollDoc = await getDoc(pollRef);
+
+    if (pollDoc.exists()) {
+        await updateDoc(pollRef, {
+            yes: pollDoc.data().yes + 1
+        });
+    } else {
+        await setDoc(pollRef, { yes: 1, no: 0 });
+    }
+
+    await setDoc(userVoteRef, { voted: true, vote: "yes" });
+
+    document.getElementById("poll-results").classList.add("hype");
+    setTimeout(() => document.getElementById("poll-results").classList.remove("hype"), 1000);
+
+    updatePollResults();
+});
+
+document.getElementById("poll-no").addEventListener("click", async () => {
+    if (!userId) return alert("Please sign in first.");
+
+    const userVoteRef = doc(db, "userVotes", userId);
+    const userVoteDoc = await getDoc(userVoteRef);
+
+    if (userVoteDoc.exists()) {
+        return alert("You have already voted!");
+    }
+
+    const pollRef = doc(db, "poll", "open_now");
+    const pollDoc = await getDoc(pollRef);
+
+    if (pollDoc.exists()) {
+        await updateDoc(pollRef, {
+            no: pollDoc.data().no + 1
+        });
+    } else {
+        await setDoc(pollRef, { yes: 0, no: 1 });
+    }
+
+    await setDoc(userVoteRef, { voted: true, vote: "no" });
+
+    document.getElementById("poll-results").classList.add("hype");
+    setTimeout(() => document.getElementById("poll-results").classList.remove("hype"), 1000);
+
+    updatePollResults();
+});
+
+
+        const updatePollResults = async () => {
+            const pollRef = doc(db, "poll", "open_now");
+            const pollDoc = await getDoc(pollRef);
+
+            if (pollDoc.exists()) {
+                const data = pollDoc.data();
+                const total = data.yes + data.no;
+                const yesPercentage = ((data.yes / total) * 100).toFixed(1);
+                const noPercentage = ((data.no / total) * 100).toFixed(1);
+
+                document.getElementById("poll-results").textContent = `Yes: ${yesPercentage}% | No: ${noPercentage}%`;
+            } else {
+                document.getElementById("poll-results").textContent = "No votes yet.";
+            }
+        };
+    </script>
+    <style>
+        body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(to right, #8a9fd6, #1b1f29);
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+}
+
+h1 {
+    font-size: 4rem;
+    font-weight: bold;
+    margin: 20px;
+    text-align: center;
+}
+
+#countdown {
+    font-size: 3rem;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+#countdown span {
+    background: linear-gradient(135deg, #0d449c, #5889d3);
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 2rem;
+    text-align: center;
+}
+
+#google-signin {
+    margin-top: 20px;
+    padding: 12px 25px;
+    background: linear-gradient(135deg, #0d449c, #5889d3);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(66, 133, 244, 0.5);
+    transition: all 0.3s ease;
+}
+
+#google-signin:hover {
+    background: linear-gradient(135deg, #34A853, #4285F4);
+    box-shadow: 0 0 20px rgba(66, 133, 244, 0.8);
+    transform: scale(1.05);
+}
+
+#poll-container {
+    display: none;
+    margin-top: 20px;
+    text-align: center;
+}
+
+#poll-results {
+    margin-top: 10px;
+    font-size: 1.2rem;
+    color: #f4f4f4;
+}
+
+.poll-button {
+    margin: 5px;
+    padding: 12px 25px;
+    background: linear-gradient(135deg, #0d449c, #5889d3);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.poll-button:hover {
+    background-color: #c71a1a;
+    transform: scale(1.05);
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.instagram-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.instagram-link {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    font-size: 1rem;
+    text-decoration: none;
+}
+
+.instagram-link:hover {
+    color: #f4f4f4;
+}
+
+    </style>
+</head>
+<header><h1>monday @ 8:40</h1></header>
+<body>https://forms.gle/QB71PsRY7V7xK6pdA</body>
+<footer>
+    
+    <a href="https://www.instagram.com/samohi.fun/" target="_blank" class="instagram-link">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/1024px-Instagram_icon.png" alt="Samohi.fun Instagram" class="instagram-icon">
+        follow the ig for updates.
+    </a>
+</footer>
 </html>
+
+    <script>
+        
+        const countdownDate = new Date("January 7, 2025 09:00:00 PST").getTime();
+
+const updateCountdown = () => {
+    const now = new Date().getTime();
+    const distance = countdownDate - now;
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById("days").innerHTML = days + "d";
+    document.getElementById("hours").innerHTML = hours + "h";
+    document.getElementById("minutes").innerHTML = minutes + "m";
+    document.getElementById("seconds").innerHTML = seconds + "s";
+
+    if (distance < 0) {
+        clearInterval(interval);
+        document.getElementById("countdown").innerHTML = "Launched!";
+    }
+};
+
+const interval = setInterval(updateCountdown, 1000);
+updateCountdown();
+</script>
