@@ -1091,7 +1091,7 @@
                         </div>
             
                         <!-- Mines -->
-<!--                         <div class="bg-gray-800/80 backdrop-blur p-6 rounded-xl border border-blue-900/30 hover:border-blue-500 transition-all cursor-pointer shadow-lg hover:transform hover:scale-105" onclick="showMines()">
+                         <div class="bg-gray-800/80 backdrop-blur p-6 rounded-xl border border-blue-900/30 hover:border-blue-500 transition-all cursor-pointer shadow-lg hover:transform hover:scale-105" onclick="showMines()">
                             <div class="flex items-center gap-4 mb-4">
                                 <div class="w-16 h-16 bg-gradient-to-br from-red-600 to-purple-700 rounded-xl flex items-center justify-center shadow-lg">
                                     <svg class="w-10 h-10 text-white" viewBox="0 0 24 24">
@@ -1107,7 +1107,7 @@
                                 Navigate through the minefield to uncover massive multipliers. Each safe tile increases your potential win!
                             </p>
                             <div class="text-sm text-blue-300">Progressive Multiplier to 100x!</div>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -3473,7 +3473,7 @@ const MINES = {
         multiplier *= (safeSpots - i) / (25 - i);
     }
     
-    return 0.6 / multiplier;
+    return 0.2 / multiplier;
 },
 
    async revealCell(index) {
