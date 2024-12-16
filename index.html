@@ -1837,6 +1837,11 @@ const firebaseConfig = {
     appId: "1:33888100969:web:9f58fb4f8fcdcc110d38f8",
     measurementId: "G-RYC5DLG9DN"
 };
+    
+function validateBetAmount(amount) {
+    const betAmount = Number(amount);
+    return !isNaN(betAmount) && betAmount > 0 && isFinite(betAmount);
+}
 const DEFAULT_PROFILE_PIC = "https://polymarket.com/_next/image?url=https%3A%2F%2Fpolymarket-upload.s3.us-east-2.amazonaws.com%2F31669764_829bfb7d-c27d-4c9a-8b78-dd9135282938_1730892972459.png&w=256&q=100";
 const app = firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
@@ -2062,6 +2067,10 @@ const PLINKO = {
         }
 
         const betAmount = parseFloat(document.getElementById('plinko-bet').value);
+        if (!validateBetAmount(betAmount)) {
+            showErrorMessage('Please enter a valid positive bet amount');
+            return;
+        }
         if (betAmount > portfolio.balance) {
             showErrorMessage('Insufficient funds');
             return;
@@ -2385,7 +2394,15 @@ const DRAGON = {
             return;
         }
         
-        const betAmount = parseFloat(document.getElementById('tower-bet').value);
+        const betAmount = parseFloat(document.getElementById('mines-bet').value);
+        if (!validateBetAmount(betAmount)) {
+            showErrorMessage('Please enter a valid positive bet amount');
+            return;
+        }
+        if (!validateBetAmount(betAmount)) {
+            showErrorMessage('Please enter a valid positive bet amount');
+            return;
+        }
         if (betAmount > portfolio.balance) {
             showErrorMessage('Insufficient funds');
             return;
@@ -3666,6 +3683,7 @@ function closeMines() {
         container.classList.add('hidden');
     }
 }
+
 function showRoulette() {
     const container = document.getElementById('roulette-container');
     if (container) {
@@ -10678,7 +10696,36 @@ document.getElementById('save-profile-picture')?.addEventListener('click', async
         alert('Error updating profile picture');
     }
 });
+document.addEventListener('DOMContentLoaded', function() {
+    const betInputs = [
+        'plinko-bet',
+        'tower-bet',
+        'blackjack-bet',
+        'mines-bet'
+    ];
 
+    betInputs.forEach(inputId => {
+        const input = document.getElementById(inputId);
+        if (input) {
+            input.addEventListener('input', function() {
+                if (this.value < 0) {
+                    this.value = Math.abs(this.value);
+                }
+            });
+
+            input.setAttribute('min', '1');
+            
+            input.addEventListener('change', function() {
+                if (this.value < 0) {
+                    this.value = Math.abs(this.value);
+                }
+                if (this.value === '0') {
+                    this.value = '1';
+                }
+            });
+        }
+    });
+});
 document.addEventListener('DOMContentLoaded', () => {
     const gameContainers = [
         'mines-container',
