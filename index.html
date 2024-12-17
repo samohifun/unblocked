@@ -3729,6 +3729,8 @@ const CRASH = {
     autoCashoutEnabled: false,
     gameState: 'waiting',
     crashPoint: 0,
+    betPlaced: false,
+    hasCashedOut: false,
 
     async init() {
         this.canvas = document.getElementById('crash-canvas');
@@ -3767,22 +3769,26 @@ const CRASH = {
 
     startNewRound() {
         this.multiplier = 1.00;
-        this.isRunning = false;
-        this.hasStarted = false;
-        this.gameState = 'waiting';
-        this.crashPoint = this.generateCrashPoint();
-        
-        setTimeout(() => {
-            this.startGame();
-        }, 5000);
+    this.isRunning = false;
+    this.hasStarted = false;
+    this.gameState = 'waiting';
+    this.crashPoint = this.generateCrashPoint();
+    this.betPlaced = false;
+    this.hasCashedOut = false;
+    this.startTime = Date.now();
+    
+    setTimeout(() => {
+        this.startGame();
+    }, 5000);
 
-        this.updateUI();
+    this.updateUI();
     },
 
     startGame() {
         this.isRunning = true;
         this.hasStarted = true;
         this.gameState = 'in_progress';
+        this.hasCashedOut = false;
         
         const startTime = Date.now();
         const gameLoop = () => {
@@ -3799,7 +3805,9 @@ const CRASH = {
             
             this.updateUI();
             
-            if (this.autoCashoutEnabled && this.multiplier >= this.autoCashoutValue) {
+            // Only attempt auto-cashout if bet is placed and hasn't cashed out yet
+            if (this.autoCashoutEnabled && this.betPlaced && !this.hasCashedOut && 
+                this.multiplier >= this.autoCashoutValue) {
                 this.cashout();
             }
         };
@@ -3808,55 +3816,113 @@ const CRASH = {
     },
 
     handleCrash() {
-        this.isRunning = false;
+       this.isRunning = false;
         this.gameState = 'crashed';
-        this.gameHistory.unshift(this.crashPoint);
+        this.gameHistory.unshift(this.multiplier);
         if (this.gameHistory.length > 10) this.gameHistory.pop();
-        
+
+        // Reset bet state
+        if (this.betPlaced && !this.hasCashedOut) {
+            this.betAmount = 0;
+            this.betPlaced = false;
+            this.hasCashedOut = false;
+        }
+
+        // Update UI
+        document.getElementById('crash-cashout-btn').classList.add('hidden');
+        document.getElementById('crash-bet-btn').classList.remove('hidden');
+
         setTimeout(() => {
             this.startNewRound();
         }, 3000);
-        
+
         this.updateUI();
+    
     },
 
     async placeBet() {
-        if (!auth.currentUser || this.hasStarted) return;
-    
-        const betAmount = document.getElementById('crash-bet').value;
-        if (!validateBet(betAmount)) return;
+       if (!auth.currentUser || this.hasStarted || this.betPlaced) return;
 
-        const networth = calculateNetworth();
-        if (networth < 200) {
-            showErrorMessage('Minimum networth of 200 required to play');
-            return;
-        }
+    const betAmount = parseFloat(document.getElementById('crash-bet').value);
+    if (!validateBet(betAmount)) return;
 
-        if (betAmount > portfolio.balance) {
-            showErrorMessage('Insufficient funds');
-            return;
-        }
+    if (betAmount > portfolio.balance) {
+        showErrorMessage('Insufficient funds');
+        return;
+    }
+
+    try {
+        await db.runTransaction(async (transaction) => {
+            const userRef = db.collection('users').doc(auth.currentUser.uid);
+            const userDoc = await transaction.get(userRef);
+            
+            if (userDoc.data().funbucks < betAmount) {
+                throw new Error('Insufficient funds');
+            }
+
+            transaction.update(userRef, {
+                funbucks: firebase.firestore.FieldValue.increment(-betAmount)
+            });
+        });
 
         this.betAmount = betAmount;
+        this.betPlaced = true;
+        this.hasCashedOut = false;
         portfolio.balance -= betAmount;
         updatePortfolioDisplays();
 
         document.getElementById('crash-bet-btn').classList.add('hidden');
         document.getElementById('crash-cashout-btn').classList.remove('hidden');
+    } catch (error) {
+        console.error('Error placing bet:', error);
+        showErrorMessage(error.message);
+    }
     },
 
     async cashout() {
-        if (!this.isRunning || !this.hasStarted) return;
+       if (!this.isRunning || !this.betPlaced || this.hasCashedOut) return;
 
-        const winAmount = this.betAmount * this.multiplier;
-        portfolio.balance += winAmount;
-        updatePortfolioDisplays();
-        showWinCelebration(winAmount);
+        try {
+            // Set hasCashedOut immediately to prevent multiple cashouts
+            this.hasCashedOut = true;
+            const winAmount = this.betAmount * this.multiplier;
 
-        document.getElementById('crash-bet-btn').classList.remove('hidden');
-        document.getElementById('crash-cashout-btn').classList.add('hidden');
+            await db.runTransaction(async (transaction) => {
+                const userRef = db.collection('users').doc(auth.currentUser.uid);
+                
+                transaction.update(userRef, {
+                    funbucks: firebase.firestore.FieldValue.increment(winAmount)
+                });
 
-        this.betAmount = 0;
+                transaction.set(db.collection('gameHistory').doc(), {
+                    userId: auth.currentUser.uid,
+                    username: currentUser.username,
+                    gameType: 'crash',
+                    betAmount: this.betAmount,
+                    winAmount: winAmount,
+                    multiplier: this.multiplier,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            });
+
+            portfolio.balance += winAmount;
+            updatePortfolioDisplays();
+            showWinCelebration(winAmount, this.multiplier);
+
+            // Reset bet state
+            this.betPlaced = false;
+            this.betAmount = 0;
+
+            // Update UI
+            document.getElementById('crash-bet-btn').classList.remove('hidden');
+            document.getElementById('crash-cashout-btn').classList.add('hidden');
+
+        } catch (error) {
+            // If there's an error, reset the cashout flag
+            this.hasCashedOut = false;
+            console.error('Error processing win:', error);
+            showErrorMessage('Error processing win');
+        }
     },
 
     updateUI() {
@@ -3906,6 +3972,28 @@ const CRASH = {
             input.value = Math.min(portfolio.balance, currentBet * 2);
         }
     },
+    update() {
+        if (!this.isRunning) return;
+    
+    const now = Date.now();
+    const elapsed = (now - this.startTime) / 1000;
+    this.multiplier = Math.pow(Math.E, 0.06 * elapsed);
+    
+    if (this.multiplier >= this.crashPoint) {
+        this.handleCrash();
+        return;
+    }
+    
+    // Handle auto-cashout
+    if (this.betPlaced && !this.hasCashedOut && this.autoCashoutEnabled) {
+        const autoCashoutValue = parseFloat(document.getElementById('crash-auto-cashout').value);
+        if (this.multiplier >= autoCashoutValue) {
+            this.cashout();
+        }
+    }
+    
+    this.updateUI();
+    },
 
     animate() {
         const ctx = this.ctx;
@@ -3951,7 +4039,7 @@ const CRASH = {
         requestAnimationFrame(() => this.animate());
     }
 };
-
+    
 const DICE = {
     betAmount: 0,
     targetNumber: 50,
