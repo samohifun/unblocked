@@ -9329,6 +9329,10 @@ async function loadAdminMarkets() {
                                     class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">
                                 Update Price
                             </button>
+                            <button onclick="showResolutionModal('${doc.id}')"
+                                    class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded">
+                                Resolve
+                            </button>
                             <button onclick="deleteMarket('${market.id}')" 
                                     class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700">
                                 Delete
