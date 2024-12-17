@@ -7604,21 +7604,27 @@ async function loadAdminMarkets() {
                 const market = doc.data();
                 return `
                     <div class="bg-gray-800 p-4 rounded-lg mb-2">
-                        <div class="flex justify-between">
-                            <div>
-                                <div class="text-white font-medium">${market.title}</div>
-                                <div class="text-gray-400 text-sm">${market.category}</div>
-                            </div>
-                            <div class="flex gap-2">
-                                <button onclick="updateMarketPrice('${doc.id}')" 
-                                        class="px-3 py-1 bg-blue-600 rounded text-white">Update Price</button>
-                                <button onclick="showResolutionModal('${doc.id}')"
-                                        class="px-3 py-1 bg-green-600 rounded text-white">Resolve</button>
-                                <button onclick="deleteMarket('${doc.id}')"
-                                        class="px-3 py-1 bg-red-600 rounded text-white">Delete</button>
-                            </div>
-                        </div>
-                    </div>
+            <div class="flex justify-between">
+                <div>
+                    <div class="font-medium text-blue-300">${market.title}</div>
+                    <div class="text-sm text-gray-400">${market.category}</div>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="showPriceUpdateModal('${doc.id}')" 
+                            class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded">
+                        Update Price
+                    </button>
+                    <button onclick="showResolutionModal('${doc.id}')"
+                            class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded">
+                        Resolve
+                    </button>
+                    <button onclick="deleteMarket('${doc.id}')"
+                            class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
                 `;
             }).join('');
         } catch (error) {
@@ -8891,7 +8897,7 @@ function showPriceUpdateModal(market) {
 
 
 
-async function showResolutionModal(market) {
+function showResolutionModal(marketId) {
     const modal = document.createElement('div');
     modal.className = 'fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center';
     modal.style.zIndex = '10000';
@@ -8903,29 +8909,24 @@ async function showResolutionModal(market) {
                 <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-white">×</button>
             </div>
             
-            <div class="mb-6">
-                <h4 class="text-white mb-2">${market.title}</h4>
-                <p class="text-gray-400">Select the resolution for this market:</p>
-            </div>
-
             <div class="space-y-4">
-                <button onclick="resolveMarket('${market.id}', true, 2)" 
+                <button onclick="resolveMarket('${marketId}', true, 2)" 
                         class="w-full bg-green-600 hover:bg-green-700 text-white p-4 rounded-lg transition-all">
                     Resolve as YES (2 hour window)
                 </button>
-                <button onclick="resolveMarket('${market.id}', true, 24)" 
+                <button onclick="resolveMarket('${marketId}', true, 24)" 
                         class="w-full bg-green-600/80 hover:bg-green-700 text-white p-4 rounded-lg transition-all">
                     Resolve as YES (24 hour window)
                 </button>
-                <button onclick="resolveMarket('${market.id}', false, 2)" 
+                <button onclick="resolveMarket('${marketId}', false, 2)" 
                         class="w-full bg-red-600 hover:bg-red-700 text-white p-4 rounded-lg transition-all">
                     Resolve as NO (2 hour window)
                 </button>
-                <button onclick="resolveMarket('${market.id}', false, 24)" 
+                <button onclick="resolveMarket('${marketId}', false, 24)" 
                         class="w-full bg-red-600/80 hover:bg-red-700 text-white p-4 rounded-lg transition-all">
                     Resolve as NO (24 hour window)
                 </button>
-                <button onclick="keepMarketOpen('${market.id}')" 
+                <button onclick="keepMarketOpen('${marketId}')" 
                         class="w-full bg-yellow-600 hover:bg-yellow-700 text-white p-4 rounded-lg transition-all">
                     Keep Open
                 </button>
@@ -9360,9 +9361,9 @@ async function resolveMarket(marketId, result, hours) {
     try {
         const marketRef = db.collection('markets').doc(marketId);
         const marketDoc = await marketRef.get();
-        const market = marketDoc.data();
+        if (!marketDoc.exists) throw new Error('Market not found');
         
-        if (!market) throw new Error('Market not found');
+        const market = marketDoc.data();
         if (market.resolved) throw new Error('Market is already resolved');
 
         const resolutionTime = Date.now();
@@ -9379,9 +9380,13 @@ async function resolveMarket(marketId, result, hours) {
             resolutionHours: hours
         });
 
-        document.querySelector('.fixed').remove();
+        // Close any open modals
+        document.querySelector('.fixed')?.remove();
+        
         showSuccessMessage(`Market resolved as ${result ? 'YES' : 'NO'}. Challenge period: ${hours} hours`);
+        await loadAdminMarkets();
         await updateMarkets();
+
     } catch (error) {
         console.error('Error resolving market:', error);
         showErrorMessage(error.message || 'Failed to resolve market');
