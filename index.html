@@ -1076,9 +1076,6 @@
                     <div class="mb-8 text-center">
                         <h2 class="text-3xl font-bold text-blue-300 mb-4">Live Games</h2>
                         <p class="text-lg text-gray-400 max-w-2xl mx-auto">
-                            YOU MUST HAVE 201 or MORE FUNBUCKS TO BE ABLE TO BET!!!
-                            YOU CAN NOT BET MORE THAN 500 FUNBUCKS AT ONCE!!!
-                            THIS IS NOT A 'BUG' THIS IS TO PREVENT YOU FROM LOSING TOO MUCH!!!
                             This category is meant to teach users on the realities of online casinos.
                             Please never go on any of these casinos as it is a sure way to lose your money.
                             This page is meant to mimic those casinos to show why you SHOULD NOT USE THEM!!!
@@ -1125,7 +1122,7 @@
                         </div>
             
                         <!-- Dice -->
-<!--                          <div class="bg-gray-800/80 backdrop-blur p-6 rounded-xl border border-blue-900/30 hover:border-blue-500 transition-all cursor-pointer shadow-lg hover:transform hover:scale-105" onclick="showDice()">
+                         <div class="bg-gray-800/80 backdrop-blur p-6 rounded-xl border border-blue-900/30 hover:border-blue-500 transition-all cursor-pointer shadow-lg hover:transform hover:scale-105" onclick="showDice()">
                             <div class="flex items-center gap-4">
                                 <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-700 rounded-xl flex items-center justify-center shadow-lg">
                                     <svg class="w-10 h-10 text-white" viewBox="0 0 24 24">
@@ -1141,7 +1138,7 @@
                                 Set your target number and multiply your winnings! Higher risk, higher reward.
                             </p>
                             <div class="text-sm text-blue-300">Max Win: 98x</div>
-                        </div> -->
+                        </div>
             
                         <!-- Crash -->
                        <div class="bg-gray-800/80 backdrop-blur p-6 rounded-xl border border-blue-900/30 hover:border-blue-500 transition-all cursor-pointer shadow-lg hover:transform hover:scale-105" onclick="showCrash()">
@@ -3732,8 +3729,6 @@ const CRASH = {
     autoCashoutEnabled: false,
     gameState: 'waiting',
     crashPoint: 0,
-    betPlaced: false,
-    hasCashedOut: false,
 
     async init() {
         this.canvas = document.getElementById('crash-canvas');
@@ -3772,26 +3767,22 @@ const CRASH = {
 
     startNewRound() {
         this.multiplier = 1.00;
-    this.isRunning = false;
-    this.hasStarted = false;
-    this.gameState = 'waiting';
-    this.crashPoint = this.generateCrashPoint();
-    this.betPlaced = false;
-    this.hasCashedOut = false;
-    this.startTime = Date.now();
-    
-    setTimeout(() => {
-        this.startGame();
-    }, 5000);
+        this.isRunning = false;
+        this.hasStarted = false;
+        this.gameState = 'waiting';
+        this.crashPoint = this.generateCrashPoint();
+        
+        setTimeout(() => {
+            this.startGame();
+        }, 5000);
 
-    this.updateUI();
+        this.updateUI();
     },
 
     startGame() {
         this.isRunning = true;
         this.hasStarted = true;
         this.gameState = 'in_progress';
-        this.hasCashedOut = false;
         
         const startTime = Date.now();
         const gameLoop = () => {
@@ -3808,9 +3799,7 @@ const CRASH = {
             
             this.updateUI();
             
-            // Only attempt auto-cashout if bet is placed and hasn't cashed out yet
-            if (this.autoCashoutEnabled && this.betPlaced && !this.hasCashedOut && 
-                this.multiplier >= this.autoCashoutValue) {
+            if (this.autoCashoutEnabled && this.multiplier >= this.autoCashoutValue) {
                 this.cashout();
             }
         };
@@ -3819,113 +3808,55 @@ const CRASH = {
     },
 
     handleCrash() {
-       this.isRunning = false;
+        this.isRunning = false;
         this.gameState = 'crashed';
-        this.gameHistory.unshift(this.multiplier);
+        this.gameHistory.unshift(this.crashPoint);
         if (this.gameHistory.length > 10) this.gameHistory.pop();
-
-        // Reset bet state
-        if (this.betPlaced && !this.hasCashedOut) {
-            this.betAmount = 0;
-            this.betPlaced = false;
-            this.hasCashedOut = false;
-        }
-
-        // Update UI
-        document.getElementById('crash-cashout-btn').classList.add('hidden');
-        document.getElementById('crash-bet-btn').classList.remove('hidden');
-
+        
         setTimeout(() => {
             this.startNewRound();
         }, 3000);
-
+        
         this.updateUI();
-    
     },
 
     async placeBet() {
-       if (!auth.currentUser || this.hasStarted || this.betPlaced) return;
+        if (!auth.currentUser || this.hasStarted) return;
+    
+        const betAmount = document.getElementById('crash-bet').value;
+        if (!validateBet(betAmount)) return;
 
-    const betAmount = parseFloat(document.getElementById('crash-bet').value);
-    if (!validateBet(betAmount)) return;
+        const networth = calculateNetworth();
+        if (networth < 200) {
+            showErrorMessage('Minimum networth of 200 required to play');
+            return;
+        }
 
-    if (betAmount > portfolio.balance) {
-        showErrorMessage('Insufficient funds');
-        return;
-    }
-
-    try {
-        await db.runTransaction(async (transaction) => {
-            const userRef = db.collection('users').doc(auth.currentUser.uid);
-            const userDoc = await transaction.get(userRef);
-            
-            if (userDoc.data().funbucks < betAmount) {
-                throw new Error('Insufficient funds');
-            }
-
-            transaction.update(userRef, {
-                funbucks: firebase.firestore.FieldValue.increment(-betAmount)
-            });
-        });
+        if (betAmount > portfolio.balance) {
+            showErrorMessage('Insufficient funds');
+            return;
+        }
 
         this.betAmount = betAmount;
-        this.betPlaced = true;
-        this.hasCashedOut = false;
         portfolio.balance -= betAmount;
         updatePortfolioDisplays();
 
         document.getElementById('crash-bet-btn').classList.add('hidden');
         document.getElementById('crash-cashout-btn').classList.remove('hidden');
-    } catch (error) {
-        console.error('Error placing bet:', error);
-        showErrorMessage(error.message);
-    }
     },
 
     async cashout() {
-       if (!this.isRunning || !this.betPlaced || this.hasCashedOut) return;
+        if (!this.isRunning || !this.hasStarted) return;
 
-        try {
-            // Set hasCashedOut immediately to prevent multiple cashouts
-            this.hasCashedOut = true;
-            const winAmount = this.betAmount * this.multiplier;
+        const winAmount = this.betAmount * this.multiplier;
+        portfolio.balance += winAmount;
+        updatePortfolioDisplays();
+        showWinCelebration(winAmount);
 
-            await db.runTransaction(async (transaction) => {
-                const userRef = db.collection('users').doc(auth.currentUser.uid);
-                
-                transaction.update(userRef, {
-                    funbucks: firebase.firestore.FieldValue.increment(winAmount)
-                });
+        document.getElementById('crash-bet-btn').classList.remove('hidden');
+        document.getElementById('crash-cashout-btn').classList.add('hidden');
 
-                transaction.set(db.collection('gameHistory').doc(), {
-                    userId: auth.currentUser.uid,
-                    username: currentUser.username,
-                    gameType: 'crash',
-                    betAmount: this.betAmount,
-                    winAmount: winAmount,
-                    multiplier: this.multiplier,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                });
-            });
-
-            portfolio.balance += winAmount;
-            updatePortfolioDisplays();
-            showWinCelebration(winAmount, this.multiplier);
-
-            // Reset bet state
-            this.betPlaced = false;
-            this.betAmount = 0;
-
-            // Update UI
-            document.getElementById('crash-bet-btn').classList.remove('hidden');
-            document.getElementById('crash-cashout-btn').classList.add('hidden');
-
-        } catch (error) {
-            // If there's an error, reset the cashout flag
-            this.hasCashedOut = false;
-            console.error('Error processing win:', error);
-            showErrorMessage('Error processing win');
-        }
+        this.betAmount = 0;
     },
 
     updateUI() {
@@ -3975,28 +3906,6 @@ const CRASH = {
             input.value = Math.min(portfolio.balance, currentBet * 2);
         }
     },
-    update() {
-        if (!this.isRunning) return;
-    
-    const now = Date.now();
-    const elapsed = (now - this.startTime) / 1000;
-    this.multiplier = Math.pow(Math.E, 0.06 * elapsed);
-    
-    if (this.multiplier >= this.crashPoint) {
-        this.handleCrash();
-        return;
-    }
-    
-    // Handle auto-cashout
-    if (this.betPlaced && !this.hasCashedOut && this.autoCashoutEnabled) {
-        const autoCashoutValue = parseFloat(document.getElementById('crash-auto-cashout').value);
-        if (this.multiplier >= autoCashoutValue) {
-            this.cashout();
-        }
-    }
-    
-    this.updateUI();
-    },
 
     animate() {
         const ctx = this.ctx;
@@ -4042,11 +3951,11 @@ const CRASH = {
         requestAnimationFrame(() => this.animate());
     }
 };
-    
+
 const DICE = {
     betAmount: 0,
     targetNumber: 50,
-    multiplier: 2.00,
+    multiplier: 0.00,
     rolling: false,
 
     init() {
@@ -7607,27 +7516,21 @@ async function loadAdminMarkets() {
                 const market = doc.data();
                 return `
                     <div class="bg-gray-800 p-4 rounded-lg mb-2">
-            <div class="flex justify-between">
-                <div>
-                    <div class="font-medium text-blue-300">${market.title}</div>
-                    <div class="text-sm text-gray-400">${market.category}</div>
-                </div>
-                <div class="flex gap-2">
-                    <button onclick="showPriceUpdateModal('${doc.id}')" 
-                            class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded">
-                        Update Price
-                    </button>
-                    <button onclick="showResolutionModal('${doc.id}')"
-                            class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded">
-                        Resolve
-                    </button>
-                    <button onclick="deleteMarket('${doc.id}')"
-                            class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded">
-                        Delete
-                    </button>
-                </div>
-            </div>
-        </div>
+                        <div class="flex justify-between">
+                            <div>
+                                <div class="text-white font-medium">${market.title}</div>
+                                <div class="text-gray-400 text-sm">${market.category}</div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="updateMarketPrice('${doc.id}')" 
+                                        class="px-3 py-1 bg-blue-600 rounded text-white">Update Price</button>
+                                <button onclick="showResolutionModal('${doc.id}')"
+                                        class="px-3 py-1 bg-green-600 rounded text-white">Resolve</button>
+                                <button onclick="deleteMarket('${doc.id}')"
+                                        class="px-3 py-1 bg-red-600 rounded text-white">Delete</button>
+                            </div>
+                        </div>
+                    </div>
                 `;
             }).join('');
         } catch (error) {
@@ -8900,7 +8803,7 @@ function showPriceUpdateModal(market) {
 
 
 
-function showResolutionModal(marketId) {
+async function showResolutionModal(market) {
     const modal = document.createElement('div');
     modal.className = 'fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center';
     modal.style.zIndex = '10000';
@@ -8912,24 +8815,29 @@ function showResolutionModal(marketId) {
                 <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-white">×</button>
             </div>
             
+            <div class="mb-6">
+                <h4 class="text-white mb-2">${market.title}</h4>
+                <p class="text-gray-400">Select the resolution for this market:</p>
+            </div>
+
             <div class="space-y-4">
-                <button onclick="resolveMarket('${marketId}', true, 2)" 
+                <button onclick="resolveMarket('${market.id}', true, 2)" 
                         class="w-full bg-green-600 hover:bg-green-700 text-white p-4 rounded-lg transition-all">
                     Resolve as YES (2 hour window)
                 </button>
-                <button onclick="resolveMarket('${marketId}', true, 24)" 
+                <button onclick="resolveMarket('${market.id}', true, 24)" 
                         class="w-full bg-green-600/80 hover:bg-green-700 text-white p-4 rounded-lg transition-all">
                     Resolve as YES (24 hour window)
                 </button>
-                <button onclick="resolveMarket('${marketId}', false, 2)" 
+                <button onclick="resolveMarket('${market.id}', false, 2)" 
                         class="w-full bg-red-600 hover:bg-red-700 text-white p-4 rounded-lg transition-all">
                     Resolve as NO (2 hour window)
                 </button>
-                <button onclick="resolveMarket('${marketId}', false, 24)" 
+                <button onclick="resolveMarket('${market.id}', false, 24)" 
                         class="w-full bg-red-600/80 hover:bg-red-700 text-white p-4 rounded-lg transition-all">
                     Resolve as NO (24 hour window)
                 </button>
-                <button onclick="keepMarketOpen('${marketId}')" 
+                <button onclick="keepMarketOpen('${market.id}')" 
                         class="w-full bg-yellow-600 hover:bg-yellow-700 text-white p-4 rounded-lg transition-all">
                     Keep Open
                 </button>
@@ -9332,10 +9240,6 @@ async function loadAdminMarkets() {
                                     class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">
                                 Update Price
                             </button>
-                            <button onclick="showResolutionModal('${doc.id}')"
-                                    class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded">
-                                Resolve
-                            </button>
                             <button onclick="deleteMarket('${market.id}')" 
                                     class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700">
                                 Delete
@@ -9368,9 +9272,9 @@ async function resolveMarket(marketId, result, hours) {
     try {
         const marketRef = db.collection('markets').doc(marketId);
         const marketDoc = await marketRef.get();
-        if (!marketDoc.exists) throw new Error('Market not found');
-        
         const market = marketDoc.data();
+        
+        if (!market) throw new Error('Market not found');
         if (market.resolved) throw new Error('Market is already resolved');
 
         const resolutionTime = Date.now();
@@ -9387,13 +9291,9 @@ async function resolveMarket(marketId, result, hours) {
             resolutionHours: hours
         });
 
-        // Close any open modals
-        document.querySelector('.fixed')?.remove();
-        
+        document.querySelector('.fixed').remove();
         showSuccessMessage(`Market resolved as ${result ? 'YES' : 'NO'}. Challenge period: ${hours} hours`);
-        await loadAdminMarkets();
         await updateMarkets();
-
     } catch (error) {
         console.error('Error resolving market:', error);
         showErrorMessage(error.message || 'Failed to resolve market');
@@ -13182,4 +13082,3 @@ window.addEventListener('load', () => {
 </script>
 </body>
 </html>
-    
