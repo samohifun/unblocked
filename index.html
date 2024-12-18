@@ -7518,52 +7518,34 @@ document.querySelector('[data-tab="coins"]')?.addEventListener('click', () => {
     kingOfHill.initialize();
 });
 async function loadAdminMarkets() {
-    const marketsList = document.getElementById('admin-markets-list');
-    if (!marketsList) return;
-
-    try {
-        const snapshot = await db.collection('markets').get();
-        
-        marketsList.innerHTML = snapshot.docs.map(doc => {
-            const market = doc.data();
-            const resolveButtonStyle = market.resolved ? 
-                'bg-green-600 hover:bg-green-700' : 
-                'bg-blue-600 hover:bg-blue-700';
-            const resolveButtonText = market.resolved ? 'Update Resolution' : 'Resolve Market';
-            
-            return `
-                <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                    <div class="flex items-center justify-between">
-                        <div class="flex-1">
-                            <div class="font-medium text-blue-300">${market.title}</div>
-                            <div class="text-sm text-gray-400">${market.category}</div>
-                            <div class="text-sm ${market.resolved ? 'text-green-400' : 'text-yellow-400'}">
-                                ${market.resolved ? 'Resolved as ' + (market.finalResult ? 'YES' : 'NO') : 'Unresolved'}
+        const marketsList = document.getElementById('admin-markets-list');
+        try {
+            const snapshot = await db.collection('markets').orderBy('createdAt', 'desc').get();
+            marketsList.innerHTML = snapshot.docs.map(doc => {
+                const market = doc.data();
+                return `
+                    <div class="bg-gray-800 p-4 rounded-lg mb-2">
+                        <div class="flex justify-between">
+                            <div>
+                                <div class="text-white font-medium">${market.title}</div>
+                                <div class="text-gray-400 text-sm">${market.category}</div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="updateMarketPrice('${doc.id}')" 
+                                        class="px-3 py-1 bg-blue-600 rounded text-white">Update Price</button>
+                                <button onclick="showResolutionModal('${doc.id}')"
+                                        class="px-3 py-1 bg-green-600 rounded text-white">Resolve</button>
+                                <button onclick="deleteMarket('${doc.id}')"
+                                        class="px-3 py-1 bg-red-600 rounded text-white">Delete</button>
                             </div>
                         </div>
-                        <div class="flex gap-2">
-                            <button onclick="showPriceUpdateModal('${doc.id}')" 
-                                    class="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded">
-                                Update Price
-                            </button>
-                            <button onclick="showResolutionModal('${doc.id}')"
-                                    class="px-4 py-2 ${resolveButtonStyle} text-white rounded font-medium">
-                                ${resolveButtonText}
-                            </button>
-                            <button onclick="deleteMarket('${doc.id}')"
-                                    class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded">
-                                Delete
-                            </button>
-                        </div>
                     </div>
-                </div>
-            `;
-        }).join('');
-    } catch (error) {
-        console.error('Error loading markets:', error);
-        marketsList.innerHTML = '<div class="text-red-400">Error loading markets</div>';
-    }
-}
+                `;
+            }).join('');
+        } catch (error) {
+            console.error('Error loading markets:', error);
+            marketsList.innerHTML = '<div class="text-red-400">Error loading markets</div>';
+        }
     
     async function giveMoneyToUser() {
         const username = document.getElementById('give-money-username').value;
@@ -8733,31 +8715,28 @@ async function filterAdminMarkets(search = '', category = 'all') {
     marketsList.innerHTML = filteredMarkets.map(doc => {
         const market = { id: doc.id, ...doc.data() };
         return `
-            <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                    <div class="flex items-center justify-between">
-                        <div class="flex-1">
-                            <div class="font-medium text-blue-300">${market.title}</div>
-                            <div class="text-sm text-gray-400">${market.category}</div>
-                            <div class="text-sm ${market.resolved ? 'text-green-400' : 'text-yellow-400'}">
-                                ${market.resolved ? 'Resolved as ' + (market.finalResult ? 'YES' : 'NO') : 'Unresolved'}
-                            </div>
-                        </div>
-                        <div class="flex gap-2">
-                            <button onclick="showPriceUpdateModal('${doc.id}')" 
-                                    class="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded">
-                                Update Price
-                            </button>
-                            <button onclick="showResolutionModal('${doc.id}')"
-                                    class="px-4 py-2 ${resolveButtonStyle} text-white rounded font-medium">
-                                ${resolveButtonText}
-                            </button>
-                            <button onclick="deleteMarket('${doc.id}')"
-                                    class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded">
-                                Delete
-                            </button>
-                        </div>
+            <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">
+                <div class="flex justify-between items-center">
+                    <div class="flex-grow">
+                        <div class="font-medium text-blue-300">${market.title}</div>
+                        <div class="text-sm text-gray-400">${market.category}</div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="showPriceUpdateModal(${JSON.stringify(market).replace(/"/g, '&quot;')})" 
+                                class="bg-blue-600 text-white px-3 py-2 rounded hover:bg-blue-700">
+                            Update Price
+                        </button>
+                        <button onclick="showResolutionModal(${JSON.stringify(market).replace(/"/g, '&quot;')})" 
+                                class="bg-green-600 text-white px-3 py-2 rounded hover:bg-green-700">
+                            Resolve
+                        </button>
+                        <button onclick="deleteMarket('${market.id}')" 
+                                class="bg-red-600 text-white px-3 py-1 rounded">
+                            Delete
+                        </button>
                     </div>
                 </div>
+            </div>
         `;
     }).join('');
 }
@@ -9155,26 +9134,28 @@ function loadAdminMarkets() {
         const marketsHtml = snapshot.docs.map(doc => {
             const market = doc.data();
             return `
-                <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                    <div class="flex items-center justify-between">
-                        <div class="flex-1">
+                <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">
+                    <div class="flex justify-between items-center">
+                        <div class="flex-grow">
                             <div class="font-medium text-blue-300">${market.title}</div>
                             <div class="text-sm text-gray-400">${market.category}</div>
-                            <div class="text-sm ${market.resolved ? 'text-green-400' : 'text-yellow-400'}">
-                                ${market.resolved ? 'Resolved as ' + (market.finalResult ? 'YES' : 'NO') : 'Unresolved'}
-                            </div>
+                            <div class="text-sm text-gray-400">Price: $${market.currentPrice.toFixed(3)}</div>
                         </div>
                         <div class="flex gap-2">
+                            <button onclick="showEditMarketModal('${doc.id}')" 
+                                    class="bg-yellow-600 text-white px-3 py-1 rounded">
+                                Edit
+                            </button>
                             <button onclick="showPriceUpdateModal('${doc.id}')" 
-                                    class="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded">
+                                    class="bg-blue-600 text-white px-3 py-1 rounded">
                                 Update Price
                             </button>
-                            <button onclick="showResolutionModal('${doc.id}')"
-                                    class="px-4 py-2 ${resolveButtonStyle} text-white rounded font-medium">
-                                ${resolveButtonText}
+                            <button onclick="showResolutionModal('${doc.id}')" 
+                                    class="bg-green-600 text-white px-3 py-1 rounded">
+                                Resolve
                             </button>
-                            <button onclick="deleteMarket('${doc.id}')"
-                                    class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded">
+                            <button onclick="deleteMarket('${doc.id}')" 
+                                    class="bg-red-600 text-white px-3 py-1 rounded">
                                 Delete
                             </button>
                         </div>
