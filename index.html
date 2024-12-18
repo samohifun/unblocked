@@ -9137,28 +9137,26 @@ function loadAdminMarkets() {
         const marketsHtml = snapshot.docs.map(doc => {
             const market = doc.data();
             return `
-                <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">
-                    <div class="flex justify-between items-center">
-                        <div class="flex-grow">
+                <div class="bg-gray-800 p-4 rounded-lg mb-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1">
                             <div class="font-medium text-blue-300">${market.title}</div>
                             <div class="text-sm text-gray-400">${market.category}</div>
-                            <div class="text-sm text-gray-400">Price: $${market.currentPrice.toFixed(3)}</div>
+                            <div class="text-sm ${market.resolved ? 'text-green-400' : 'text-yellow-400'}">
+                                ${market.resolved ? 'Resolved as ' + (market.finalResult ? 'YES' : 'NO') : 'Unresolved'}
+                            </div>
                         </div>
                         <div class="flex gap-2">
-                            <button onclick="showEditMarketModal('${doc.id}')" 
-                                    class="bg-yellow-600 text-white px-3 py-1 rounded">
-                                Edit
-                            </button>
                             <button onclick="showPriceUpdateModal('${doc.id}')" 
-                                    class="bg-blue-600 text-white px-3 py-1 rounded">
+                                    class="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded">
                                 Update Price
                             </button>
-                            <button onclick="showResolutionModal('${doc.id}')" 
-                                    class="bg-green-600 text-white px-3 py-1 rounded">
-                                Resolve
+                            <button onclick="showResolutionModal('${doc.id}')"
+                                    class="px-4 py-2 ${resolveButtonStyle} text-white rounded font-medium">
+                                ${resolveButtonText}
                             </button>
-                            <button onclick="deleteMarket('${doc.id}')" 
-                                    class="bg-red-600 text-white px-3 py-1 rounded">
+                            <button onclick="deleteMarket('${doc.id}')"
+                                    class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded">
                                 Delete
                             </button>
                         </div>
