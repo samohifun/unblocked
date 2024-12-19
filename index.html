@@ -3722,12 +3722,13 @@ const LIMBO = {
 
             // Determine win/loss and calculate winnings
             const didWin = resultMultiplier >= targetMultiplier;
-            const winAmount = didWin ? betAmount * (targetMultiplier - 1) : 0;
+            // If they win, they get their bet amount * target multiplier
+            const winAmount = didWin ? betAmount * targetMultiplier : 0;
 
             // Animate and display result
             this.animateMultiplier(resultMultiplier, targetMultiplier);
 
-            // Process win
+            // Process win if they won
             if (didWin) {
                 await this.processWin(winAmount);
             }
