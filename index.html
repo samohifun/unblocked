@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thank You - Samohi.fun</title>
+    <title>Samohi.fun - Follow Us!</title>
     <style>
         body {
             margin: 0;
@@ -18,45 +18,48 @@
         }
         .container {
             max-width: 600px;
+            text-align: center;
         }
         h1 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             margin-bottom: 1rem;
+            animation: glow 1.5s infinite alternate;
         }
-        .countdown {
+        p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+        }
+        a {
+            display: inline-block;
+            text-decoration: none;
+            padding: 1rem 2rem;
             font-size: 1.5rem;
-            margin-top: 1rem;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(90deg, #ff7c7c, #ffb347);
+            border-radius: 50px;
+            box-shadow: 0 0 10px rgba(255, 92, 92, 0.7), 0 0 20px rgba(255, 180, 71, 0.7);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        a:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 92, 92, 1), 0 0 40px rgba(255, 180, 71, 1);
+        }
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px #ff7c7c, 0 0 20px #ffb347;
+            }
+            to {
+                text-shadow: 0 0 20px #ff7c7c, 0 0 40px #ffb347;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Thank you for using samohi.fun beta, see you next year! Delayed due to fires</h1>
-        <div id="countdown" class="countdown"></div>
+        <h1>🚀 Follow Us on Instagram! 🚀</h1>
+        <p>Release Coming Soon!</p>
+        <a href="https://www.instagram.com/samohi.fun/" target="_blank">✨ Instagram ✨</a>
     </div>
-
-    <script>
-        function updateCountdown() {
-            const targetDate = new Date('Febuary 3, 2025 08:40:00');
-            const now = new Date();
-            const diff = targetDate - now;
-
-            if (diff <= 0) {
-                document.getElementById('countdown').textContent = "It's time! Welcome back!";
-                return;
-            }
-
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-            document.getElementById('countdown').textContent = 
-                `${days}d ${hours}h ${minutes}m ${seconds}s`;
-        }
-
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
-    </script>
 </body>
 </html>
