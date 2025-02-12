@@ -1870,7 +1870,7 @@ input, button {
                     </svg>
                     <span>Head to Head</span>
                 </button>
-                <!-- <button class="tab-button" data-tab="live-games">
+                <button class="tab-button" data-tab="live-games">
                     <div class="relative">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/>
@@ -1878,7 +1878,7 @@ input, button {
                         
                     </div>
                     <span class="ml-2">Live Games</span>
-                </button> -->
+                </button>
                 
                 <!-- <button class="tab-button p-4 rounded-full flex items-center gap-3" data-tab="real-life">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
@@ -2171,10 +2171,33 @@ input, button {
                         <path d="M100 40 L100 180" stroke="#1F2937" stroke-width="4" stroke-dasharray="8 4"/>
                         <path d="M80 100 L120 100" stroke="#1F2937" stroke-width="4" stroke-dasharray="8 4"/>
                     </svg>
-                    <h3>This Feature Has Fallen</h3>
-                    <p>These halls now stand empty, claimed by the tides of time</p>
+                    <h3>This Feature is Resurrecting</h3>
+                    <div id="countdown"></div>
+                    <script>
+                        function updateCountdown() {
+                            const targetDate = new Date("February 17, 2025 08:40:00").getTime();
+                            const now = new Date().getTime();
+                            const timeLeft = targetDate - now;
+                
+                            if (timeLeft <= 0) {
+                                document.getElementById("countdown").innerHTML = "Time's up!";
+                                return;
+                            }
+                
+                            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                
+                            document.getElementById("countdown").innerHTML = 
+                                `${days}d ${hours}h ${minutes}m ${seconds}s`;
+                        }
+                
+                        setInterval(updateCountdown, 1000);
+                        updateCountdown(); // Initial call to prevent delay
+                    </script>
                     <div class="footer">
-                        May it feast eternally in Valhalla
+                        Coming back better than ever
                     </div>
                 </div>
             </div>
