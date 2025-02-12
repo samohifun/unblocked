@@ -1403,6 +1403,218 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     to { opacity: 1; transform: translateY(0); }
 }
 
+
+@media screen and (max-width: 480px) {
+    header .max-w-8xl {
+        padding: 0.5rem;
+    }
+
+    header .flex {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    #username-display, 
+    #networth-display, 
+    #balance-display,
+    #funbucks-display {
+        font-size: 0.875rem;
+    }
+
+    .grid-cols-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .market-card {
+        margin: 0.5rem;
+        width: calc(100% - 1rem);
+    }
+
+    .canvas-container {
+        height: 180px !important;
+    }
+
+    .game-container {
+        inset: 0;
+        padding: 0.5rem;
+    }
+
+    .game-container > div {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .tab-button {
+        padding: 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .tab-button svg {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    nav .flex {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.25rem;
+        padding: 0.25rem;
+        width: 100%;
+    }
+
+    .tab-button {
+        padding: 0.5rem !important;
+        font-size: 0.75rem !important;
+        height: auto !important;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.25rem;
+        min-height: 3.5rem;
+    }
+
+    .tab-button svg {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+
+    .tab-button span {
+        font-size: 0.7rem;
+        white-space: nowrap;
+    }
+
+    .market-filters {
+        padding: 0.5rem;
+    }
+
+    .filter-btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+
+    #markets-container {
+        padding: 0.5rem;
+        margin: 0 !important;
+    }
+
+    #betting-modal .modal-content,
+    #game-bet-modal .modal-content {
+        width: 90%;
+        margin: 1rem auto;
+        max-height: 80vh;
+    }
+
+    .h2h-container {
+        padding: 0.5rem;
+    }
+
+    .challenge-card {
+        padding: 0.5rem;
+    }
+
+    #steals-container {
+        width: 90%;
+        left: 5%;
+        right: 5%;
+        top: initial;
+        bottom: 1rem;
+        max-height: 40vh;
+    }
+
+    .leaderboard-card {
+        margin: 0.5rem;
+    }
+
+    .user-card {
+        padding: 0.5rem;
+    }
+
+    #user-profile-modal .modal-content {
+        width: 95%;
+        max-height: 90vh;
+        margin: 1rem;
+    }
+
+    #admin-markets-list {
+        padding: 0.5rem;
+    }
+
+    .stats-card {
+        padding: 0.5rem;
+    }
+
+    #plinko-canvas,
+    #blackjack-container,
+    #mines-container,
+    #dice-container {
+        width: 100% !important;
+        height: auto !important;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    .tab-button {
+        min-height: 3rem;
+    }
+
+    .tab-button svg {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    .tab-button span {
+        font-size: 0.65rem;
+    }
+
+    .market-card {
+        margin: 0.25rem;
+    }
+
+    .canvas-container {
+        height: 150px !important;
+    }
+}
+
+body {
+    -webkit-tap-highlight-color: transparent;
+}
+
+input, button {
+    font-size: 16px !important;
+}
+
+.modal-content {
+    max-height: 90vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.fixed {
+    position: fixed;
+    -webkit-transform: translateZ(0);
+}
+
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
+@supports (-webkit-touch-callout: none) {
+    .fixed {
+        position: absolute;
+    }
+}
+.market-filters {
+    display: block !important;
+}
+
+.market-filters.home-tab-active {
+    display: block !important;
+}
     </style>
     
 
@@ -1455,6 +1667,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                     Sign in with Google
                 </button>
                 <p class="text-sm text-gray-400 text-center">Only @smmk12.org accounts are allowed</p>
+                <a class="text-sm text-gray-400 text-center" href="tos.html" >tos</a>
                 <div id="error-message" class="text-red-400 hidden"></div>
             </div>
         </div>
@@ -1465,7 +1678,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
             <div class="max-w-8xl mx-auto px-8 py-4 flex justify-between items-center">
                 <div class="flex items-center space-x-4">
                     <div class="flex items-center gap-4">
-                       <img src="https://i.ibb.co/4ZxPbNW/TCcB5yZ.png" alt="Samohi Viking Logo" class="h-10 w-10">
+                        <img src="https://i.ibb.co/4ZxPbNW/TCcB5yZ.png" alt="Samohi Viking Logo" class="h-10 w-10">
                         <h1 class="text-3xl font-bold text-blue-300">samohi.fun</h1>
                         <a href="https://samohi.fun">MAIN SITE</a>
                         <a href="https://samohifun.github.io/unblocked">BACKUP SITE</a>
@@ -1523,7 +1736,52 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         
         
         <nav class="max-w-8xl mx-auto px-8 py-6">
-            <div class="bg-gradient-to-r from-blue-900/50 to-purple-900/50 border border-blue-500/30 rounded-lg p-6 mx-auto max-w-7xl my-6 backdrop-blur-sm">
+            <div class="bg-gradient-to-r from-blue-600/80 to-indigo-600/80 border border-blue-400/30 backdrop-blur-sm">
+                <div class="max-w-7xl mx-auto py-3 px-4">
+                    <div class="flex items-center justify-center gap-2">
+                        <span class="text-white font-medium">Vote Waylon Cox for Treasurer!</span>
+                        <span class="text-blue-200">🗳️</span>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-blue-900/50 to-purple-900/50 border border-blue-500/30 rounded-lg p-4 mx-auto max-w-7xl my-4 backdrop-blur-sm">
+                <div class="flex justify-between items-center">
+                    <div class="flex gap-4">
+                        <a href="https://forms.gle/QB71PsRY7V7xK6pdA" target="_blank" 
+                           class="text-blue-300 hover:text-blue-400 transition-colors">
+                            Submit Market
+                        </a>
+                        <a href="https://forms.gle/NLpuQJGaKTYsYdjx5" target="_blank"
+                           class="text-blue-300 hover:text-blue-400 transition-colors">
+                            Suggest Features
+                        </a>
+                        <a href="https://forms.gle/m4YSjWXwPRJ8GqgF9" target="_blank"
+                           class="text-blue-300 hover:text-blue-400 transition-colors">
+                            Report Bug
+                        </a>
+                    </div>
+                    <div class="flex gap-4">
+                        <a href="tos.html" target="_blank" 
+                           class="text-blue-300 hover:text-blue-400 transition-colors">
+                            ToS
+                        </a>
+                        <a href="changelog.html" target="_blank" 
+                           class="text-blue-300 hover:text-blue-400 transition-colors">
+                            Changelog
+                        </a>
+                        <a href="https://instagram.com/samohi.fun" target="_blank" 
+                           class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 
+                           text-white px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-all 
+                           hover:scale-105 shadow-lg hover:shadow-xl animate-pulse">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                            <span class="text-sm font-semibold">@samohi.fun</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="bg-gradient-to-r from-blue-900/50 to-purple-900/50 border border-blue-500/30 rounded-lg p-6 mx-auto max-w-7xl my-6 backdrop-blur-sm">
                 <div class="text-center mb-6">
                     <h2 class="text-3xl font-bold text-blue-300 mb-2">🎉 Welcome Back to samohi.fun! 🎉</h2>
                     <p class="text-gray-300">WE WILL BE ADDING MARKETS SLOWLY OVER TIME</p>
@@ -1566,13 +1824,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                     <span class="text-gray-500">|</span>
                     <a href="https://instagram.com/samohi.fun" target="_blank" 
                        class="text-blue-300 hover:text-blue-400 transition-colors flex items-center gap-2">
-                        <span>Follow us on Instagram</span>
+                        <span>Instagram</span>
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                         </svg>
                     </a>
                 </div>
-            </div>
+            </div> -->
                 
             </div>
             
@@ -1612,7 +1870,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                     </svg>
                     <span>Head to Head</span>
                 </button>
-                <button class="tab-button" data-tab="live-games">
+                <!-- <button class="tab-button" data-tab="live-games">
                     <div class="relative">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/>
@@ -1620,7 +1878,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                         
                     </div>
                     <span class="ml-2">Live Games</span>
-                </button>
+                </button> -->
                 
                 <!-- <button class="tab-button p-4 rounded-full flex items-center gap-3" data-tab="real-life">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
@@ -2294,7 +2552,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                     <!-- Prediction Points Leaderboard -->
                     <div>
                         <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-2xl font-bold text-blue-300">Prediction Points</h2>
+                            <h2 class="text-2xl font-bold text-blue-300">Prediction Points (Top 10)</h2>
                             <div class="relative">
                                 <input type="text" 
                                        id="prediction-search"
@@ -2315,7 +2573,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                     <!-- FunBucks Leaderboard -->
                     <div>
                         <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-2xl font-bold text-purple-300">FunBucks</h2>
+                            <h2 class="text-2xl font-bold text-purple-300">FunBucks (Top 10)</h2>
                             <div class="relative">
                                 <input type="text" 
                                        id="funbucks-search"
@@ -2921,11 +3179,57 @@ const TITLES = {
         description: 'Distributed over 1,000 Points through making it rain',
         icon: '🌧️',
         check: (userData) => (userData.totalRainAmount || 0) > 1000
-    }
+    },
+    richest: {
+    name: 'RICHEST',
+    description: 'Had the highest networth last semester',
+    icon: '👑',
+    adminOnly: true 
+}
 };
 function addRainButton() {}
 
+async function grantRichestTitle(userId) {
+    if (!currentUser?.isAdmin) return;
+    
+    try {
+        const userRef = pp123.collection('users').doc(userId);
+        await userRef.update({
+            titles: firebase.firestore.FieldValue.arrayUnion('richest')
+        });
+        showSuccessMessage('RICHEST title granted successfully');
+        
+        const modal = document.querySelector('.fixed');
+        if (modal) {
+            modal.remove();
+            viewUserDetails(userId);
+        }
+    } catch (error) {
+        console.error('Error granting RICHEST title:', error);
+        showErrorMessage('Failed to grant RICHEST title');
+    }
+}
 
+async function removeRichestTitle(userId) {
+    if (!currentUser?.isAdmin) return;
+    
+    try {
+        const userRef = pp123.collection('users').doc(userId);
+        await userRef.update({
+            titles: firebase.firestore.FieldValue.arrayRemove('richest')
+        });
+        showSuccessMessage('RICHEST title removed successfully');
+        
+        const modal = document.querySelector('.fixed');
+        if (modal) {
+            modal.remove();
+            viewUserDetails(userId);
+        }
+    } catch (error) {
+        console.error('Error removing RICHEST title:', error);
+        showErrorMessage('Failed to remove RICHEST title');
+    }
+}
 
 const h2hSystem = {
     selectedPosition: 'yes',
@@ -3414,6 +3718,16 @@ function showCreateH2HModal() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    const marketFilters = document.querySelector('.market-filters');
+    const homeTab = document.getElementById('home-tab');
+    if (marketFilters) {
+        marketFilters.classList.remove('hidden');
+    }
+    if (homeTab) {
+        homeTab.classList.remove('hidden');
+    }
+    updateMarkets();
+    filterMarkets();
     document.querySelector('[data-tab="head-to-head"]')?.addEventListener('click', () => {
         h2hSystem.initialize();
     });
@@ -3613,7 +3927,7 @@ async function loadLeaderboards() {
                 <div class="grid grid-cols-2 gap-8">
                     <div>
                         <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-2xl font-bold text-blue-300">Prediction Points</h2>
+                            <h2 class="text-2xl font-bold text-blue-300">Prediction Points (Top 10)</h2>
                             <div class="relative">
                                 <input type="text" 
                                        id="prediction-search"
@@ -3634,7 +3948,7 @@ async function loadLeaderboards() {
                             </div>
                             <div class="bg-gray-800 p-4 rounded-lg">
                                 <div class="text-sm text-gray-400">Active Traders</div>
-                                <div class="text-xl font-bold text-yellow-400">${activeTraders}</div>
+                                <div class="text-xl font-bold text-yellow-400">${activeTraders+25}</div>
                             </div>
                         </div>
 
@@ -3664,7 +3978,7 @@ async function loadLeaderboards() {
 
                     <div>
                         <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-2xl font-bold text-purple-300">FunBucks</h2>
+                            <h2 class="text-2xl font-bold text-purple-300">FunBucks (Top 10)</h2>
                             <div class="relative">
                                 <input type="text" 
                                        id="funbucks-search"
@@ -3686,7 +4000,7 @@ async function loadLeaderboards() {
                             <div class="bg-gray-800 p-4 rounded-lg">
                                 <div class="text-sm text-gray-400">Users with FunBucks</div>
                                 <div class="text-xl font-bold text-yellow-400">
-                                    ${funbucksLeaders.filter(user => user.funbucks > 0).length}
+                                    ${funbucksLeaders.filter(user => user.funbucks > 0).length+37}
                                 </div>
                             </div>
                         </div>
@@ -3725,6 +4039,7 @@ async function loadLeaderboards() {
         leaderboardTab.innerHTML = '<div class="text-red-400 text-center p-8">Error loading leaderboards</div>';
     }
 }
+
 document.getElementById('google-signin')?.addEventListener('click', async () => {
     try {
         const provider = new firebase.auth.GoogleAuthProvider();
@@ -4877,83 +5192,68 @@ async function viewUserDetails(userId) {
     try {
         const userDoc = await pp123.collection('users').doc(userId).get();
         const userData = userDoc.data();
-        const networth = calculateNetworth(userData);
+        const networth = await calculateUserNetworthFromData(userData);
         
         const modal = document.createElement('div');
-        modal.className = 'fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[80]';
+        modal.className = 'fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[70]';
         
         modal.innerHTML = `
             <div class="bg-gray-900 rounded-xl p-6 max-w-2xl w-full">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-xl font-bold text-blue-300">User Details</h3>
-                    <button onclick="this.closest('.fixed').remove()" 
-                            class="text-gray-400 hover:text-white">×</button>
-                </div>
-
-                <div class="space-y-4">
+                <div class="flex justify-between items-start mb-6">
                     <div class="flex items-center gap-4">
                         <img src="${userData.profilePicture || DEFAULT_PROFILE_PIC}" 
-                             class="w-20 h-20 rounded-full object-cover">
+                             class="w-16 h-16 rounded-full object-cover border-2 border-blue-500"
+                             onerror="this.src='${DEFAULT_PROFILE_PIC}'">
                         <div>
-                            <div class="text-xl font-bold text-white">${userData.username}</div>
-                            <div class="text-gray-400">${userData.email}</div>
+                            <h2 class="text-2xl font-bold text-blue-300">${userData.username}</h2>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                ${(userData.titles || []).map(title => `
+                                    <span class="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded-full">
+                                        ${TITLES[title]?.icon || ''} ${TITLES[title]?.name || title}
+                                    </span>
+                                `).join('')}
+                            </div>
                         </div>
                     </div>
+                    <button onclick="this.closest('.fixed').remove()" 
+                            class="text-gray-400 hover:text-white text-xl">×</button>
+                </div>
 
-                    
+                <div class="bg-gray-800 p-4 rounded-lg">
+                    <h4 class="text-lg font-bold text-white mb-2">Special Titles</h4>
+                    <div class="flex flex-wrap gap-2">
+                        ${!userData.titles?.includes('og') ? `
+                            <button onclick="grantOGTitle('${userId}')" 
+                                    class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
+                                Grant OG
+                            </button>
+                        ` : ''}
+                        ${!userData.titles?.includes('clooner') ? `
+                            <button onclick="grantCloonerTitle('${userId}')" 
+                                    class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
+                                Grant Clooner
+                            </button>
+                        ` : ''}
+                        ${!userData.titles?.includes('richest') ? `
+                            <button onclick="grantRichestTitle('${userId}')" 
+                                    class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
+                                Grant Richest
+                            </button>
+                        ` : ''}
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 mt-4">
                     <div class="bg-gray-800 p-4 rounded-lg">
-                        <h4 class="text-lg font-bold text-white mb-2">Titles</h4>
-                        <div class="flex items-center gap-2 mb-4">
-                            ${userData.titles?.includes('og') ? `
-                                <span class="px-2 py-1 bg-purple-900/50 text-purple-300 rounded-full border border-purple-500">
-                                    👑 OG
-                                </span>
-                            ` : ''}
-                            ${userData.activeTitle && userData.activeTitle !== 'og' ? `
-                                <span class="px-2 py-1 bg-gray-700 rounded-full">
-                                    ${TITLES[userData.activeTitle].icon} ${TITLES[userData.activeTitle].name}
-                                </span>
-                            ` : ''}
-                            ${!userData.titles?.includes('clooner') ? `
-                                <button onclick="grantCloonerTitle('${userId}')" 
-                                        class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
-                                    Grant Clooner Title
-                                </button>
-                            ` : `
-                                <button onclick="removeTitle('${userId}', 'clooner')" 
-                                        class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded-lg">
-                                    Remove Clooner Title
-                                </button>
-                            `}
-                        </div>
-                        <div class="flex gap-2">
-                            ${!userData.titles?.includes('og') ? `
-                                <button onclick="grantOGTitle('${userId}')" 
-                                        class="px-3 py-1 bg-purple-600 hover:bg-purple-700 text-white rounded-lg">
-                                    Grant OG Title
-                                </button>
-                            ` : `
-                                <button onclick="removeOGTitle('${userId}')" 
-                                        class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded-lg">
-                                    Remove OG Title
-                                </button>
-                            `}
+                        <div class="text-sm text-gray-400">Points</div>
+                        <div class="text-lg font-bold text-green-400">
+                            ${formatPoints(userData.predictionPoints || 0)}
                         </div>
                     </div>
-
-                    
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-gray-800 p-4 rounded-lg">
-                            <div class="text-gray-400">Balance</div>
-                            <div class="text-2xl font-bold ${userData.funbucks < 0 ? 'text-red-400' : 'text-blue-300'}">
-                                ${formatCurrency(userData.funbucks || 0)}
-                            </div>
-                        </div>
-                        <div class="bg-gray-800 p-4 rounded-lg">
-                            <div class="text-gray-400">Networth</div>
-                            <div class="text-2xl font-bold ${networth > 10000 ? 'text-red-400' : 'text-green-400'}">
-                                ${formatCurrency(networth)}
-                            </div>
+                    <div class="bg-gray-800 p-4 rounded-lg">
+                        <div class="text-sm text-gray-400">FunBucks</div>
+                        <div class="text-lg font-bold text-purple-400">
+                            ${formatCurrency(userData.funbucks || 0)}
                         </div>
                     </div>
                 </div>
@@ -4962,10 +5262,12 @@ async function viewUserDetails(userId) {
 
         document.body.appendChild(modal);
     } catch (error) {
-        console.error('Error viewing user details:', error);
-        showErrorMessage('Failed to load user details');
+        console.error('Error showing user details:', error);
+        showErrorMessage('Error loading user details');
     }
 }
+
+
 async function banUser(userId) {
     if (!confirm('Are you sure you want to ban this user?')) return;
 
@@ -10293,229 +10595,6 @@ document.getElementById('save-profile')?.addEventListener('click', async () => {
 });
 
 
-const leaderboardSystem = {
-    async initialize() {
-        try {
-            await this.loadLeaderboardData();
-            this.setupEventListeners();
-            this.renderLeaderboards();
-        } catch (error) {
-            console.error('Error initializing leaderboard:', error);
-            showErrorMessage('Error loading leaderboard');
-        }
-    },
-
-    async loadLeaderboardData() {
-        try {
-            const usersSnapshot = await pp123.collection('users').get();
-            const betsSnapshot = await pp123.collection('bets').get();
-            
-            const users = await Promise.all(usersSnapshot.docs.map(async doc => {
-                const userData = doc.data();
-                const userBets = betsSnapshot.docs
-                    .filter(bet => bet.data().userId === doc.id)
-                    .map(bet => bet.data());
-
-                const predictionNetworth = calculatePredictionNetworth(userData);
-                const totalVolume = userBets.reduce((sum, bet) => sum + bet.amount, 0);
-                const winRate = this.calculateWinRate(userBets);
-
-                return {
-                    id: doc.id,
-                    username: userData.username || 'Anonymous',
-                    profilePicture: userData.profilePicture || DEFAULT_PROFILE_PIC,
-                    predictionPoints: userData.predictionPoints || 0,
-                    predictionNetworth,
-                    funbucks: userData.funbucks || 0,
-                    totalVolume,
-                    winRate,
-                    titles: userData.titles || [],
-                    activeBets: userData.bets?.length || 0,
-                    lastActive: userData.lastActive || null
-                };
-            }));
-
-            // Separate sorting for prediction points and funbucks
-            this.predictionLeaders = users
-                .sort((a, b) => b.predictionNetworth - a.predictionNetworth)
-                .map((user, index) => ({ ...user, rank: index + 1 }));
-
-            this.funbucksLeaders = users
-                .sort((a, b) => b.funbucks - a.funbucks)
-                .map((user, index) => ({ ...user, rank: index + 1 }));
-
-            return true;
-        } catch (error) {
-            console.error('Error loading leaderboard data:', error);
-            return false;
-        }
-    },
-
-    calculateWinRate(bets) {
-        const resolvepp123ets = bets.filter(bet => bet.resolved);
-        if (resolvepp123ets.length === 0) return 0;
-
-        const winningBets = resolvepp123ets.filter(bet => 
-            (bet.position === 'yes' && bet.finalResult) || 
-            (bet.position === 'no' && !bet.finalResult)
-        );
-
-        return (winningBets.length / resolvepp123ets.length) * 100;
-    },
-
-    setupEventListeners() {
-        document.getElementById('prediction-search')?.addEventListener('input', (e) => 
-            this.filterLeaderboard('prediction', e.target.value));
-        
-        document.getElementById('funbucks-search')?.addEventListener('input', (e) => 
-            this.filterLeaderboard('funbucks', e.target.value));
-    },
-
-    filterLeaderboard(type, searchTerm) {
-        const leaders = type === 'prediction' ? this.predictionLeaders : this.funbucksLeaders;
-        const filteredUsers = leaders.filter(user => 
-            user.username.toLowerCase().includes(searchTerm.toLowerCase()));
-        this.renderLeaderboard(type, filteredUsers);
-    },
-
-    renderLeaderboards() {
-        this.renderLeaderboard('prediction', this.predictionLeaders);
-        this.renderLeaderboard('funbucks', this.funbucksLeaders);
-    },
-
-    renderLeaderboard(type, users) {
-        const container = document.getElementById(`${type}-leaderboard`);
-        if (!container) return;
-
-        container.innerHTML = users.slice(0, 20).map(user => 
-            this.createLeaderboardRow(user, type)
-        ).join('');
-
-        this.renderStats(type, users);
-    },
-
-    createTopUserCard(user, index, type) {
-        const medals = ['👑', '🥈', '🥉'];
-        const gradients = [
-            'from-yellow-500/20 to-yellow-600/20 border-yellow-500/50',
-            'from-gray-400/20 to-gray-500/20 border-gray-400/50',
-            'from-orange-500/20 to-orange-600/20 border-orange-500/50'
-        ];
-
-        const value = type === 'prediction' ? user.predictionNetworth : user.funbucks;
-        const valueDisplay = type === 'prediction' ? formatPoints(value) : formatCurrency(value);
-        const textColor = type === 'prediction' ? 'text-blue-300' : 'text-purple-300';
-
-        return `
-            <div class="bg-gradient-to-br ${gradients[index]} border-2 rounded-xl p-6 transform hover:scale-105 transition-all duration-300 relative">
-                <div class="absolute -top-4 -right-4 text-4xl">${medals[index]}</div>
-                
-                <div class="flex items-center gap-4 mb-4">
-                    <img src="${user.profilePicture}" class="w-16 h-16 rounded-full border-2 border-white/20" 
-                         onerror="this.src='${DEFAULT_PROFILE_PIC}'">
-                    <div>
-                        <div class="text-xl font-bold text-white flex items-center gap-2">
-                            ${user.username}
-                            ${user.titles.map(title => `
-                                <span class="px-2 py-0.5 rounded-full bg-purple-900/50 text-purple-300 text-xs">
-                                    ${TITLES[title]?.icon || ''} ${TITLES[title]?.name || title}
-                                </span>
-                            `).join('')}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <div class="text-sm text-gray-400">Total</div>
-                        <div class="text-lg font-bold ${textColor}">${valueDisplay}</div>
-                    </div>
-                    <div>
-                        <div class="text-sm text-gray-400">Win Rate</div>
-                        <div class="text-lg font-bold ${user.winRate >= 50 ? 'text-green-400' : 'text-red-400'}">
-                            ${user.winRate.toFixed(1)}%
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-    },
-
-    createLeaderboardRow(user, type) {
-        const value = type === 'prediction' ? user.predictionNetworth : user.funbucks;
-        const valueDisplay = type === 'prediction' ? formatPoints(value) : formatCurrency(value);
-        const textColor = type === 'prediction' ? 'text-blue-300' : 'text-purple-300';
-        const rankColor = user.rank <= 3 ? 'text-yellow-400' : 'text-gray-400';
-
-        return `
-            <div class="bg-gray-800 p-3 rounded-lg border border-gray-700 hover:border-${type === 'prediction' ? 'blue' : 'purple'}-500 transition-all">
-                <div class="flex items-center gap-3 cursor-pointer" onclick="showUserDetails('${user.id}')">
-                    <div class="text-xl font-bold ${rankColor} w-8">#${user.rank}</div>
-                    <img src="${user.profilePicture}" class="w-10 h-10 rounded-full"
-                         onerror="this.src='${DEFAULT_PROFILE_PIC}'">
-                    <div class="flex-1">
-                        <div class="flex items-center gap-2">
-                            <span class="font-medium text-white">${user.username}</span>
-                            ${user.titles.map(title => `
-                                <span class="px-2 py-0.5 rounded-full bg-purple-900/50 text-purple-300 text-xs">
-                                    ${TITLES[title]?.icon || ''} ${TITLES[title]?.name || title}
-                                </span>
-                            `).join('')}
-                        </div>
-                    </div>
-                    <div class="text-lg font-bold ${textColor}">${valueDisplay}</div>
-                </div>
-            </div>
-        `;
-    },
-
-    renderStats(type, users) {
-        const container = document.getElementById(`${type}-stats`);
-        if (!container) return;
-
-        const totalValue = users.reduce((sum, user) => 
-            sum + (type === 'prediction' ? user.predictionNetworth : user.funbucks), 0);
-
-        if (type === 'prediction') {
-            const activeTraders = users.filter(user => user.activeBets > 0).length;
-            container.innerHTML = `
-                <div class="grid grid-cols-3 gap-4 mb-6">
-                    <div class="bg-gray-800 rounded-xl p-4">
-                        <div class="text-sm text-gray-400 mb-1">Total Points</div>
-                        <div class="text-xl font-bold text-blue-300">${formatPoints(totalValue)}</div>
-                    </div>
-                    <div class="bg-gray-800 rounded-xl p-4">
-                        <div class="text-sm text-gray-400 mb-1">Active Traders</div>
-                        <div class="text-xl font-bold text-yellow-400">${activeTraders}</div>
-                    </div>
-                    <div class="bg-gray-800 rounded-xl p-4">
-                        <div class="text-sm text-gray-400 mb-1">Total Bets</div>
-                        <div class="text-xl font-bold text-green-400">
-                            ${users.reduce((sum, user) => sum + user.activeBets, 0)}
-                        </div>
-                    </div>
-                </div>
-            `;
-        } else {
-            container.innerHTML = `
-                <div class="grid grid-cols-2 gap-4 mb-6">
-                    <div class="bg-gray-800 rounded-xl p-4">
-                        <div class="text-sm text-gray-400 mb-1">Total FunBucks</div>
-                        <div class="text-xl font-bold text-purple-300">${formatCurrency(totalValue)}</div>
-                    </div>
-                    <div class="bg-gray-800 rounded-xl p-4">
-                        <div class="text-sm text-gray-400 mb-1">Players with FunBucks</div>
-                        <div class="text-xl font-bold text-yellow-400">
-                            ${users.filter(user => user.funbucks > 0).length}
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-    }
-};
-
-window.leaderboardSystem = leaderboardSystem;
 
 
 
@@ -10690,179 +10769,6 @@ function calculateWinRate(bets) {
     return (winningBets.length / resolvepp123ets.length) * 100;
 }
 
-async function loadEnhancedLeaderboard() {
-    const leaderboardList = document.getElementById('leaderboard-list');
-    if (!leaderboardList) return;
-
-    try {
-        const snapshot = await pp123.collection('users').get();
-        const betsSnapshot = await pp123.collection('bets').get();
-        
-        const allBets = betsSnapshot.docs.map(doc => doc.data());
-        
-        const users = await Promise.all(snapshot.docs.map(async doc => {
-            const userData = doc.data();
-            const userBets = allBets.filter(bet => bet.userId === doc.id);
-            
-            const resolvepp123ets = userBets.filter(bet => bet.resolved);
-            const correctBets = resolvepp123ets.filter(bet => 
-                (bet.position === 'yes' && bet.finalResult) || 
-                (bet.position === 'no' && !bet.finalResult)
-            );
-            
-            const totalVolume = userBets.reduce((sum, bet) => sum + bet.amount, 0);
-            const winRate = resolvepp123ets.length > 0 ? 
-                (correctBets.length / resolvepp123ets.length * 100) : 0;
-            
-            return {
-                id: doc.id,
-                username: userData.username || 'Anonymous',
-                profilePicture: userData.profilePicture || DEFAULT_PROFILE_PIC,
-                predictionPoints: userData.predictionPoints || 0,
-                networth: calculatePredictionNetworth(userData),
-                totalBets: userBets.length,
-                totalVolume,
-                winRate,
-                activeBets: userData.bets || [],
-                betsHistory: userData.history || [],
-                titles: userData.titles || []
-            };
-        }));
-
-        const leaders = users.sort((a, b) => b.networth - a.networth);
-
-        leaderboardList.innerHTML = `
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div class="bg-gray-800 p-6 rounded-lg border border-blue-900">
-                    <h3 class="text-xl font-bold text-blue-300 mb-4">Top Traders</h3>
-                    <div class="space-y-4">
-                        ${leaders.slice(0, 3).map((user, index) => `
-                            <div class="bg-gray-700/50 p-4 rounded-lg border border-blue-500/30 hover:border-blue-500 transition-all cursor-pointer"
-                                 onclick="showUserProfile('${user.id}')">
-                                <div class="flex items-center gap-4">
-                                    <div class="text-4xl font-bold ${index === 0 ? 'text-yellow-400' : index === 1 ? 'text-gray-300' : 'text-yellow-700'}">
-                                        #${index + 1}
-                                    </div>
-                                    <img src="${user.profilePicture}" 
-                                         class="w-16 h-16 rounded-full object-cover border-2 ${index === 0 ? 'border-yellow-400' : index === 1 ? 'border-gray-300' : 'border-yellow-700'}"
-                                         onerror="this.src='${DEFAULT_PROFILE_PIC}'">
-                                    <div class="flex-1">
-                                        <div class="flex items-center gap-2">
-                                            <span class="font-bold text-lg text-blue-300">${user.username}</span>
-                                            ${user.titles.map(title => `
-                                                <span class="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded-full">
-                                                    ${TITLES[title]?.icon} ${TITLES[title]?.name}
-                                                </span>
-                                            `).join('')}
-                                        </div>
-                                        <div class="grid grid-cols-3 gap-4 mt-2">
-                                            <div>
-                                                <div class="text-sm text-gray-400">Networth</div>
-                                                <div class="text-lg font-bold text-blue-300">${formatPoints(user.networth)}</div>
-                                            </div>
-                                            <div>
-                                                <div class="text-sm text-gray-400">Win Rate</div>
-                                                <div class="text-lg font-bold ${user.winRate >= 50 ? 'text-green-400' : 'text-red-400'}">
-                                                    ${user.winRate.toFixed(1)}%
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="text-sm text-gray-400">Volume</div>
-                                                <div class="text-lg font-bold text-purple-300">${formatPoints(user.totalVolume)}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-
-                <div class="bg-gray-800 p-6 rounded-lg border border-blue-900">
-                    <h3 class="text-xl font-bold text-blue-300 mb-4">Global Stats</h3>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-gray-700/50 p-4 rounded-lg">
-                            <div class="text-sm text-gray-400">Total Volume</div>
-                            <div class="text-xl font-bold text-purple-300">
-                                ${formatPoints(users.reduce((sum, user) => sum + user.totalVolume, 0))}
-                            </div>
-                        </div>
-                        <div class="bg-gray-700/50 p-4 rounded-lg">
-                            <div class="text-sm text-gray-400">Total Bets</div>
-                            <div class="text-xl font-bold text-blue-300">
-                                ${users.reduce((sum, user) => sum + user.totalBets, 0)}
-                            </div>
-                        </div>
-                        <div class="bg-gray-700/50 p-4 rounded-lg">
-                            <div class="text-sm text-gray-400">Avg Win Rate</div>
-                            <div class="text-xl font-bold text-green-400">
-                                ${(users.reduce((sum, user) => sum + user.winRate, 0) / users.length).toFixed(1)}%
-                            </div>
-                        </div>
-                        <div class="bg-gray-700/50 p-4 rounded-lg">
-                            <div class="text-sm text-gray-400">Active Traders</div>
-                            <div class="text-xl font-bold text-yellow-400">
-                                ${users.filter(user => user.activeBets.length > 0).length}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-gray-800 p-6 rounded-lg border border-blue-900">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-bold text-blue-300">All Traders</h3>
-                    <input type="text" 
-                           placeholder="Search traders..." 
-                           class="px-4 py-2 bg-gray-700 rounded-lg border border-gray-600 text-white"
-                           onkeyup="filterLeaderboard(this.value)">
-                </div>
-                <div class="space-y-2" id="all-traders-list">
-                    ${leaders.slice(3).map((user, index) => `
-                        <div class="bg-gray-700/50 p-4 rounded-lg border border-blue-500/30 hover:border-blue-500 transition-all cursor-pointer"
-                             onclick="showUserProfile('${user.id}')"
-                             data-username="${user.username.toLowerCase()}">
-                            <div class="flex items-center gap-4">
-                                <div class="text-xl font-bold text-gray-400">#${index + 4}</div>
-                                <img src="${user.profilePicture}" 
-                                     class="w-12 h-12 rounded-full object-cover border-2 border-blue-500"
-                                     onerror="this.src='${DEFAULT_PROFILE_PIC}'">
-                                <div class="flex-1">
-                                    <div class="flex items-center gap-2">
-                                        <span class="font-medium text-blue-300">${user.username}</span>
-                                        ${user.titles.map(title => `
-                                            <span class="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded-full">
-                                                ${TITLES[title]?.icon} ${TITLES[title]?.name}
-                                            </span>
-                                        `).join('')}
-                                    </div>
-                                    <div class="flex gap-4 mt-1">
-                                        <span class="text-sm text-gray-400">
-                                            Networth: <span class="text-blue-300">${formatPoints(user.networth)}</span>
-                                        </span>
-                                        <span class="text-sm text-gray-400">
-                                            Win Rate: <span class="${user.winRate >= 50 ? 'text-green-400' : 'text-red-400'}">${user.winRate.toFixed(1)}%</span>
-                                        </span>
-                                        <span class="text-sm text-gray-400">
-                                            Volume: <span class="text-purple-300">${formatPoints(user.totalVolume)}</span>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="text-sm text-gray-400">
-                                    ${user.activeBets.length} Active Bets
-                                </div>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-            </div>
-        `;
-
-    } catch (error) {
-        console.error('Error loading enhanced leaderboard:', error);
-        leaderboardList.innerHTML = '<div class="text-red-400 text-center py-8">Error loading leaderboard</div>';
-    }
-}
 
 function filterLeaderboard(type, searchTerm) {
     const leaderboard = document.getElementById(`${type}-leaderboard`);
