@@ -12492,7 +12492,7 @@ async function placeBet(marketId, position) {
 
 async function placeMultiOutcomeBet(marketId, outcomeSelected) {
     try {
-        const amount = parseFloat(document.getElementById('multi-bet-amount').value);
+        const amount = parseFloat(document.getElementById('bet-amount').value);
         if (!validateBet(amount)) return;
 
         const marketRef = db.collection('markets').doc(marketId);
@@ -12562,8 +12562,7 @@ async function placeMultiOutcomeBet(marketId, outcomeSelected) {
             type: 'multi'
         });
 
-        const modalElement = document.querySelector('.fixed');
-        if (modalElement) modalElement.remove();
+        document.getElementById('betting-modal').classList.add('hidden');
         
         showSuccessMessage('Bet placed successfully!');
         
