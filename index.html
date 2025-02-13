@@ -239,7 +239,7 @@
                 font-size: 0.875rem;
             }
             .market-filters {
-                padding: 0.5rem;
+                display: none;
             }
 
             .filter-btn {
@@ -1489,8 +1489,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     }
 
     .market-filters {
-        padding: 0.5rem;
-    }
+    display: none;
+}
 
     .filter-btn {
         padding: 0.25rem 0.5rem;
@@ -1609,13 +1609,696 @@ input, button {
     }
 }
 .market-filters {
-    display: block !important;
+    display: none;
 }
 
 .market-filters.home-tab-active {
     display: block !important;
 }
-    </style>
+.bet-button {
+    position: relative;
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    border: 2px solid transparent;
+    backdrop-filter: blur(8px);
+}
+
+.bet-button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+}
+
+.bet-button:hover::before {
+    transform: translateX(100%);
+}
+
+.bet-button.yes {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.9), rgba(5, 150, 105, 0.9));
+    box-shadow: 0 4px 20px -4px rgba(16, 185, 129, 0.5);
+}
+
+.bet-button.yes:hover {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 1), rgba(5, 150, 105, 1));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px -5px rgba(16, 185, 129, 0.6);
+}
+
+.bet-button.no {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.9), rgba(220, 38, 38, 0.9));
+    box-shadow: 0 4px 20px -4px rgba(239, 68, 68, 0.5);
+}
+
+.bet-button.no:hover {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 1), rgba(220, 38, 38, 1));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px -5px rgba(239, 68, 68, 0.6);
+}
+
+.bet-button.multi {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.9), rgba(79, 70, 229, 0.9));
+    box-shadow: 0 4px 20px -4px rgba(99, 102, 241, 0.5);
+}
+
+.bet-button.multi:hover {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 1), rgba(79, 70, 229, 1));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px -5px rgba(99, 102, 241, 0.6);
+}
+
+.bet-price {
+    font-size: 0.875rem;
+    padding: 0.25rem 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 9999px;
+    backdrop-filter: blur(4px);
+}
+
+.bet-button:hover .bet-price {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.bet-icon {
+    font-size: 1.25rem;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.bet-button:active {
+    transform: scale(0.98);
+    animation: pulse 0.3s ease-in-out;
+}
+
+/* Update the market card style to match the new buttons */
+.market-card {
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.95), rgba(17, 24, 39, 0.95));
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    transform: translateY(0);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.market-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+.bet-buttons-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+}
+.market-card .bet-buttons-container {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem !important;
+    padding: 1rem !important;
+    width: 100% !important;
+}
+
+.market-card button.bet-yes,
+.market-card button.bet-no {
+    position: relative !important;
+    padding: 1.25rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.025em !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    overflow: hidden !important;
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.75rem !important;
+    border: none !important;
+    border-radius: 1rem !important;
+    color: white !important;
+    font-size: 1rem !important;
+    cursor: pointer !important;
+}
+
+.market-card button.bet-yes {
+    background: linear-gradient(135deg, rgb(16, 185, 129), rgb(5, 150, 105)) !important;
+    box-shadow: 0 4px 20px -4px rgba(16, 185, 129, 0.5) !important;
+}
+
+.market-card button.bet-no {
+    background: linear-gradient(135deg, rgb(239, 68, 68), rgb(220, 38, 38)) !important;
+    box-shadow: 0 4px 20px -4px rgba(239, 68, 68, 0.5) !important;
+}
+
+.market-card button.bet-yes:hover,
+.market-card button.bet-no:hover {
+    transform: translateY(-2px) !important;
+    filter: brightness(110%) !important;
+}
+
+.market-card button.bet-yes:hover {
+    box-shadow: 0 8px 25px -5px rgba(16, 185, 129, 0.6) !important;
+}
+
+.market-card button.bet-no:hover {
+    box-shadow: 0 8px 25px -5px rgba(239, 68, 68, 0.6) !important;
+}
+
+.market-card .bet-price {
+    background: rgba(255, 255, 255, 0.1) !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 9999px !important;
+    font-size: 0.875rem !important;
+    backdrop-filter: blur(4px) !important;
+}
+
+.market-card .bet-icon {
+    font-size: 1.25rem !important;
+}
+
+@keyframes buttonPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.98); }
+    100% { transform: scale(1); }
+}
+
+.market-card button.bet-yes:active,
+.market-card button.bet-no:active {
+    animation: buttonPulse 0.2s ease-in-out !important;
+    transform: translateY(0) !important;
+}
+
+/* Multi-outcome betting buttons */
+.market-card button[onclick*="showMultiOutcomeBettingModal"] {
+    position: relative !important;
+    padding: 1.25rem !important;
+    font-weight: 600 !important;
+    background: linear-gradient(135deg, rgb(99, 102, 241), rgb(79, 70, 229)) !important;
+    box-shadow: 0 4px 20px -4px rgba(99, 102, 241, 0.5) !important;
+    border: none !important;
+    border-radius: 1rem !important;
+    color: white !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    width: 100% !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.market-card button[onclick*="showMultiOutcomeBettingModal"]:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px -5px rgba(99, 102, 241, 0.6) !important;
+    filter: brightness(110%) !important;
+}
+
+/* Update market card styling */
+.market-card {
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.95), rgba(17, 24, 39, 0.95)) !important;
+    backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(59, 130, 246, 0.2) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.market-card:hover {
+    transform: translateY(-4px) !important;
+    border-color: rgba(59, 130, 246, 0.4) !important;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3) !important;
+}
+.h2h-container {
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.95), rgba(17, 24, 39, 0.95));
+    backdrop-filter: blur(12px);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.h2h-stats-card {
+    background: linear-gradient(165deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.1));
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.h2h-stats-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.1);
+}
+
+.h2h-stats-value {
+    font-size: 1.875rem;
+    font-weight: bold;
+    background: linear-gradient(135deg, #3b82f6, #60a5fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-top: 0.5rem;
+}
+
+.challenge-card {
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(17, 24, 39, 0.9));
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.challenge-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(59, 130, 246, 0.1),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.challenge-card:hover::before {
+    left: 100%;
+}
+
+.challenge-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.h2h-position-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.h2h-position-btn.yes {
+    background: linear-gradient(135deg, rgb(16, 185, 129), rgb(5, 150, 105));
+    color: white;
+    box-shadow: 0 4px 12px -4px rgba(16, 185, 129, 0.5);
+}
+
+.h2h-position-btn.no {
+    background: linear-gradient(135deg, rgb(239, 68, 68), rgb(220, 38, 38));
+    color: white;
+    box-shadow: 0 4px 12px -4px rgba(239, 68, 68, 0.5);
+}
+
+.h2h-position-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(110%);
+}
+
+.h2h-filter {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.h2h-filter:hover {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: rgba(59, 130, 246, 0.3);
+}
+
+.h2h-filter.active {
+    background: linear-gradient(135deg, #3b82f6, #60a5fa);
+    color: white;
+    border-color: transparent;
+}
+
+.h2h-search {
+    background: rgba(30, 41, 59, 0.5);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.h2h-search:focus {
+    border-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+    outline: none;
+}
+
+.bet-amount-badge {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.1));
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 9999px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    color: #60a5fa;
+}
+
+.vs-badge {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(139, 92, 246, 0.1));
+    border: 1px solid rgba(124, 58, 237, 0.2);
+    border-radius: 9999px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    color: #8b5cf6;
+}
+
+.resolved-badge {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 9999px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    color: #10b981;
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.create-challenge-btn {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.create-challenge-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+}
+
+.create-challenge-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.2);
+}
+
+.create-challenge-btn:hover::after {
+    animation: shine 1.5s infinite;
+}
+
+/* Challenge Modal Styles */
+.challenge-modal {
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.98), rgba(17, 24, 39, 0.98));
+    border-radius: 1.5rem;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+.challenge-input {
+    background: rgba(30, 41, 59, 0.5);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+    color: white;
+}
+
+.challenge-input:focus {
+    border-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+    outline: none;
+}
+/* Base Styles */
+body {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    min-height: 100vh;
+    color: #e2e8f0;
+}
+
+/* Header Styles */
+header {
+    background: linear-gradient(to bottom, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.header-balance-badge {
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.8));
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    backdrop-filter: blur(8px);
+    padding: 0.75rem 1.25rem;
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+}
+
+.header-balance-badge:hover {
+    border-color: rgba(59, 130, 246, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Navigation Styles */
+.tab-button {
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.8));
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    padding: 1rem 1.5rem;
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.tab-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+    transition: 0.5s;
+}
+
+.tab-button:hover::before {
+    left: 100%;
+}
+
+.tab-button.selected {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    border-color: transparent;
+    box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+}
+
+/* Market Card Styles */
+.market-card {
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.95), rgba(17, 24, 39, 0.95));
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 1.25rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.market-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+.market-image {
+    height: 200px;
+    object-fit: cover;
+    border-radius: 1rem 1rem 0 0;
+    transition: all 0.3s ease;
+}
+
+.market-card:hover .market-image {
+    transform: scale(1.05);
+}
+
+/* Category Badge Styles */
+.category-badge {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.2));
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: #60a5fa;
+}
+
+/* Filter Button Styles */
+.filter-btn {
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.8));
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+    border-color: rgba(59, 130, 246, 0.4);
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    border-color: transparent;
+    color: white;
+}
+
+/* Search Input Styles */
+.search-input {
+    background: rgba(30, 41, 59, 0.5);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 1rem;
+    padding: 0.75rem 1.25rem;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    border-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+    outline: none;
+}
+
+/* Modal Styles */
+.modal-content {
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.98), rgba(17, 24, 39, 0.98));
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 1.5rem;
+    backdrop-filter: blur(12px);
+}
+
+/* Stats Card Styles */
+.stats-card {
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.8));
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.stats-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.1);
+}
+
+/* Animation Keyframes */
+@keyframes shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(30, 41, 59, 0.5);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(59, 130, 246, 0.5);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(59, 130, 246, 0.7);
+}
+
+/* Toast Notifications */
+.toast-notification {
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.95), rgba(17, 24, 39, 0.95));
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 1rem;
+    padding: 1rem 1.5rem;
+    backdrop-filter: blur(12px);
+    animation: float 0.3s ease-out;
+}
+
+/* Profile Section Styles */
+.profile-card {
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(17, 24, 39, 0.9));
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 1.25rem;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.profile-picture {
+    border: 3px solid rgba(59, 130, 246, 0.4);
+    border-radius: 50%;
+    padding: 3px;
+    background: linear-gradient(145deg, #3b82f6, #2563eb);
+}
+
+/* Leaderboard Styles */
+.leaderboard-entry {
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.8));
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 1rem;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.leaderboard-entry:hover {
+    transform: translateX(4px);
+    border-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.1);
+}
+
+/* Loading States */
+.loading-shimmer {
+    background: linear-gradient(
+        90deg,
+        rgba(30, 41, 59, 0.8) 0%,
+        rgba(59, 130, 246, 0.1) 50%,
+        rgba(30, 41, 59, 0.8) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+</style>
     
 
 </head>
@@ -1736,14 +2419,7 @@ input, button {
         
         
         <nav class="max-w-8xl mx-auto px-8 py-6">
-            <div class="bg-gradient-to-r from-blue-600/80 to-indigo-600/80 border border-blue-400/30 backdrop-blur-sm">
-                <div class="max-w-7xl mx-auto py-3 px-4">
-                    <div class="flex items-center justify-center gap-2">
-                        <span class="text-white font-medium">Vote Waylon Cox for Treasurer!</span>
-                        <span class="text-blue-200">🗳️</span>
-                    </div>
-                </div>
-            </div>
+            
             <div class="bg-gradient-to-r from-blue-900/50 to-purple-900/50 border border-blue-500/30 rounded-lg p-4 mx-auto max-w-7xl my-4 backdrop-blur-sm">
                 <div class="flex justify-between items-center">
                     <div class="flex gap-4">
@@ -1758,6 +2434,10 @@ input, button {
                         <a href="https://forms.gle/m4YSjWXwPRJ8GqgF9" target="_blank"
                            class="text-blue-300 hover:text-blue-400 transition-colors">
                             Report Bug
+                        </a>
+                        <a href="https://forms.gle/Y23M5KeL9cDMpwHAA" target="_blank"
+                           class="text-blue-300 hover:text-blue-400 transition-colors">
+                            Unfair Points/Funbuck Loss
                         </a>
                     </div>
                     <div class="flex gap-4">
@@ -1868,7 +2548,7 @@ input, button {
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
                     </svg>
-                    <span>Head to Head</span>
+                    <span>Head to Head (Funbucks)</span>
                 </button>
                 <button class="tab-button" data-tab="live-games">
                     <div class="relative">
@@ -2201,372 +2881,31 @@ input, button {
                     </div>
                 </div>
             </div>
-            <div id="plinko-container" class="fixed inset-0 bg-black/90 flex items-center justify-center hidden z-50">
-                <div class="bg-gray-900 rounded-xl p-6 w-full max-w-5xl relative">
-                    <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-2xl font-bold text-blue-300">Plinko</h2>
-                        <button onclick="closePlinko()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
-                    </div>
-                    
-                    <div class="flex gap-6">
-                        <div class="flex-1 bg-gray-800 rounded-xl p-4">
-                            <canvas id="plinko-canvas" class="w-full h-[600px] rounded-lg"></canvas>
-                        </div>
-                        
-                        <div class="w-80 space-y-4">
-                            
-                            <div class="bg-gray-800 p-4 rounded-xl">
-                                <div class="text-sm text-gray-400 mb-2">Risk Level</div>
-                                <div class="grid grid-cols-3 gap-2">
-                                    <button onclick="PLINKO.setDifficulty('low')" 
-                                            class="p-2 bg-green-600 hover:bg-green-700 rounded text-white text-sm difficulty-btn"
-                                            data-difficulty="low">Low</button>
-                                    <button onclick="PLINKO.setDifficulty('medium')" 
-                                            class="p-2 bg-yellow-600 hover:bg-yellow-700 rounded text-white text-sm difficulty-btn"
-                                            data-difficulty="medium">Medium</button>
-                                    <button onclick="PLINKO.setDifficulty('high')" 
-                                            class="p-2 bg-red-600 hover:bg-red-700 rounded text-white text-sm difficulty-btn"
-                                            data-difficulty="high">High</button>
-                                </div>
-                            </div>
             
-                            <div class="bg-gray-800 p-4 rounded-xl">
-                                <div class="text-sm text-gray-400 mb-2">Bet Amount</div>
-                                <div class="flex gap-2">
-                                    <input type="number" id="plinko-bet" min="1" value="10" 
-                                           class="w-full p-3 bg-gray-700 rounded-lg text-white border border-gray-600 focus:border-blue-500">
-                                    <button onclick="PLINKO.changeBet('half')" 
-                                            class="w-12 h-12 flex items-center justify-center bg-blue-600 hover:bg-blue-700 rounded-lg text-white text-sm">½</button>
-                                    <button onclick="PLINKO.changeBet('double')" 
-                                            class="w-12 h-12 flex items-center justify-center bg-blue-600 hover:bg-blue-700 rounded-lg text-white text-sm">2×</button>
-                                </div>
-                            </div>
-                            
-                            <div class="bg-gray-800 p-4 rounded-xl">
-                                <div class="text-sm text-gray-400 mb-2">Current Multipliers</div>
-                                <div id="multiplier-grid" class="grid grid-cols-9 gap-1">
-                                    
-                                </div>
-                            </div>
-                            
-                            <button onclick="PLINKO.dropBall()" 
-                                    class="w-full p-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-lg font-bold">
-                                Drop Ball
-                            </button>
-                        </div>
-                    </div>
+                
+            <div class="market-filters">
+                <div class="relative w-full max-w-3xl mx-auto mb-6">
+                    <input type="text" 
+                           id="market-search" 
+                           placeholder="Search markets..." 
+                           class="w-full p-3 pl-10 rounded-full bg-gray-800/50 border border-gray-700 focus:border-blue-500 focus:outline-none backdrop-blur-sm transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" 
+                         class="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" 
+                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+                
+                <div class="flex gap-3 justify-center flex-wrap" id="category-filters">
+                    <button class="filter-btn px-4 py-2 rounded-full text-sm bg-gray-800/50 border border-gray-700 hover:border-blue-500 transition-all active" data-category="all">All</button>
+                    <button class="filter-btn px-4 py-2 rounded-full text-sm bg-gray-800/50 border border-gray-700 hover:border-blue-500 transition-all" data-category="ASB">ASB</button>
+                    <button class="filter-btn px-4 py-2 rounded-full text-sm bg-gray-800/50 border border-gray-700 hover:border-blue-500 transition-all" data-category="Sports">Sports</button>
+                    <button class="filter-btn px-4 py-2 rounded-full text-sm bg-gray-800/50 border border-gray-700 hover:border-blue-500 transition-all" data-category="Clubs">Clubs</button>
+                    <button class="filter-btn px-4 py-2 rounded-full text-sm bg-gray-800/50 border border-gray-700 hover:border-blue-500 transition-all" data-category="Teacher">Teacher</button>
+                    <button class="filter-btn px-4 py-2 rounded-full text-sm bg-gray-800/50 border border-gray-700 hover:border-blue-500 transition-all" data-category="Around Campus">Around Campus</button>
+                    <button class="filter-btn px-4 py-2 rounded-full text-sm bg-gray-800/50 border border-gray-700 hover:border-blue-500 transition-all" data-category="Daily">Daily</button>
                 </div>
             </div>
-            
-                <div id="dragon-tower-container" class="fixed inset-0 bg-black/90 flex items-center justify-center hidden z-50">
-                    <div class="bg-gray-900 rounded-xl p-6 w-full max-w-5xl relative">
-                        <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-2xl font-bold text-blue-300">Dragon Tower</h2>
-                            <button onclick="closeDragonTower()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
-                        </div>
-                        
-                        <div class="flex gap-6">
-                            <div class="flex-1">
-                                <div id="tower-grid" class="grid grid-cols-3 gap-3 bg-gray-800 p-6 rounded-xl">
-                                    
-                                </div>
-                            </div>
-                            
-                            <div class="w-80 space-y-4">
-                                <div class="bg-gray-800 p-4 rounded-xl">
-                                    <div class="text-sm text-gray-400 mb-2">Risk Level</div>
-                                    <div class="grid grid-cols-3 gap-2">
-                                        <button onclick="DRAGON.setDifficulty('low')" 
-                                                class="p-2 bg-green-600 hover:bg-green-700 rounded text-white text-sm difficulty-btn"
-                                                data-difficulty="low">Low</button>
-                                        <button onclick="DRAGON.setDifficulty('medium')" 
-                                                class="p-2 bg-yellow-600 hover:bg-yellow-700 rounded text-white text-sm difficulty-btn"
-                                                data-difficulty="medium">Medium</button>
-                                        <button onclick="DRAGON.setDifficulty('high')" 
-                                                class="p-2 bg-red-600 hover:bg-red-700 rounded text-white text-sm difficulty-btn"
-                                                data-difficulty="high">High</button>
-                                    </div>
-                                </div>
-                
-                                <div class="bg-gray-800 p-4 rounded-xl">
-                                    <div class="text-sm text-gray-400 mb-2">Bet Amount</div>
-                                    <div class="flex gap-2">
-                                        <input type="number" id="tower-bet" min="1" value="10" 
-                                               class="w-full p-3 bg-gray-700 rounded-lg text-white border border-gray-600 focus:border-blue-500">
-                                        <button onclick="DRAGON.changeBet('half')" 
-                                                class="w-12 h-12 flex items-center justify-center bg-blue-600 hover:bg-blue-700 rounded-lg text-white text-sm">½</button>
-                                        <button onclick="DRAGON.changeBet('double')" 
-                                                class="w-12 h-12 flex items-center justify-center bg-blue-600 hover:bg-blue-700 rounded-lg text-white text-sm">2×</button>
-                                    </div>
-                                </div>
-                                
-                                <div class="bg-gray-800 p-4 rounded-xl">
-                                    <div class="text-sm text-gray-400 mb-2">Current Progress</div>
-                                    <div class="flex justify-between items-center">
-                                        <div class="text-2xl font-bold text-green-400" id="tower-multiplier">1.00×</div>
-                                        <div class="text-xl font-bold text-white" id="tower-potential">+$0.00</div>
-                                    </div>
-                                    <div class="mt-2 bg-gray-700 rounded-full h-2">
-                                        <div id="tower-progress" class="bg-green-500 h-full rounded-full transition-all" style="width: 0%"></div>
-                                    </div>
-                                </div>
-                                
-                                <button id="tower-start-btn" onclick="DRAGON.startGame()" 
-                                        class="w-full p-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-lg font-bold">
-                                    Start Game
-                                </button>
-                                
-                                <button id="tower-cashout-btn" onclick="DRAGON.cashout()" 
-                                        class="w-full p-4 bg-green-600 hover:bg-green-700 text-white rounded-xl text-lg font-bold hidden">
-                                    Cash Out
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="dice-container" class="fixed inset-0 bg-black/90 flex items-center justify-center hidden z-50">
-                    <div class="bg-gray-900 rounded-xl p-6 w-full max-w-4xl relative">
-                        <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-2xl font-bold text-blue-300">Dice</h2>
-                            <button onclick="closeDice()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
-                        </div>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <!-- Game Display -->
-                            <div class="bg-gray-800 p-6 rounded-xl">
-                                <div class="text-center mb-8">
-                                    <div id="dice-result" class="text-6xl font-bold text-white mb-4">--</div>
-                                    <div id="dice-target-display" class="text-xl text-gray-400"></div>
-                                </div>
-                                
-                                <div class="space-y-6">
-                                    <div>
-                                        <label class="block text-gray-400 mb-2">Target Number (Higher wins)</label>
-                                        <input type="range" 
-                                               id="dice-target" 
-                                               min="2" 
-                                               max="98" 
-                                               value="50" 
-                                               class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer">
-                                        <div class="flex justify-between mt-2 text-sm text-gray-400">
-                                            <span>2</span>
-                                            <span>50</span>
-                                            <span>98</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div>
-                                        <label class="block text-gray-400 mb-2">Multiplier</label>
-                                        <div id="dice-multiplier" class="text-2xl font-bold text-green-400">2.00x</div>
-                                    </div>
-                                </div>
-                            </div>
-                
-                            <!-- Controls -->
-                            <div class="space-y-4">
-                                <div class="bg-gray-800 p-4 rounded-xl">
-                                    <div class="text-sm text-gray-400 mb-2">Bet Amount</div>
-                                    <div class="flex gap-2">
-                                        <input type="number" id="dice-bet" min="1" value="10" 
-                                               class="w-full p-3 bg-gray-700 rounded-lg text-white border border-gray-600">
-                                        <button onclick="DICE.changeBet('half')" 
-                                                class="w-12 h-12 flex items-center justify-center bg-blue-600 hover:bg-blue-700 rounded-lg text-white text-sm">½</button>
-                                        <button onclick="DICE.changeBet('double')" 
-                                                class="w-12 h-12 flex items-center justify-center bg-blue-600 hover:bg-blue-700 rounded-lg text-white text-sm">2×</button>
-                                    </div>
-                                </div>
-                
-                                <div class="bg-gray-800 p-4 rounded-xl">
-                                    <div class="text-sm text-gray-400 mb-2">Potential Win</div>
-                                    <div id="dice-potential-win" class="text-xl font-bold text-green-400">$0.00</div>
-                                </div>
-                                
-                                <button onclick="DICE.roll()" 
-                                        class="w-full p-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-lg font-bold">
-                                    Roll Dice
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div id="blackjack-container" class="fixed inset-0 bg-black/90 flex items-center justify-center hidden z-50">
-                    <div class="bg-gray-900 rounded-xl p-6 w-full max-w-4xl relative">
-                        <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-2xl font-bold text-blue-300">Blackjack</h2>
-                            <button onclick="closeBlackjack()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
-                        </div>
-                        
-                        <div class="flex gap-6">
-                            <div class="flex-1 bg-green-900/30 rounded-xl p-4">
-                                
-                                <div class="mb-8">
-                                    <div class="text-lg text-gray-300 mb-2">Dealer's Hand</div>
-                                    <div id="dealer-cards" class="flex gap-2 min-h-[140px]"></div>
-                                    <div id="dealer-score" class="text-xl font-bold text-white mt-2">Score: 0</div>
-                                </div>
-                                
-                                
-                                <div>
-                                    <div class="text-lg text-gray-300 mb-2">Your Hand</div>
-                                    <div id="player-cards" class="flex gap-2 min-h-[140px]"></div>
-                                    <div id="player-score" class="text-xl font-bold text-white mt-2">Score: 0</div>
-                                </div>
-                            </div>
-                            
-                            <div class="w-64 space-y-4">
-                                <div class="bg-gray-800 p-4 rounded-xl">
-                                    <div class="text-sm text-gray-400 mb-2">Bet Amount</div>
-                                    <div class="flex gap-2">
-                                        <input type="number" id="blackjack-bet" min="1" value="10" 
-                                               class="w-full p-3 bg-gray-700 rounded-lg text-white border border-gray-600">
-                                        <button onclick="BLACKJACK.changeBet('half')" 
-                                                class="w-12 h-12 flex items-center justify-center bg-blue-600 hover:bg-blue-700 rounded-lg text-white text-sm">½</button>
-                                        <button onclick="BLACKJACK.changeBet('double')" 
-                                                class="w-12 h-12 flex items-center justify-center bg-blue-600 hover:bg-blue-700 rounded-lg text-white text-sm">2×</button>
-</button>
-                                    </div>
-                                </div>
-                                
-                                <div id="blackjack-actions" class="space-y-2">
-                                    <button onclick="BLACKJACK.deal()" id="deal-button"
-                                            class="w-full p-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-lg font-bold">
-                                        Deal
-                                    </button>
-                                    <button onclick="BLACKJACK.hit()" id="hit-button"
-                                            class="w-full p-4 bg-green-600 hover:bg-green-700 text-white rounded-xl text-lg font-bold hidden">
-                                        Hit
-                                    </button>
-                                    <button onclick="BLACKJACK.stand()" id="stand-button"
-                                            class="w-full p-4 bg-yellow-600 hover:bg-yellow-700 text-white rounded-xl text-lg font-bold hidden">
-                                        Stand
-                                    </button>
-                                    
-                                    <button onclick="BLACKJACK.doubleDown()" id="double-button"
-                                    class="w-full p-4 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-lg font-bold hidden">
-                                Double Down
-                            </button>
-                            <button onclick="BLACKJACK.split()" id="split-button"
-                                    class="w-full p-4 bg-pink-600 hover:bg-pink-700 text-white rounded-xl text-lg font-bold hidden">
-                                Split
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div id="mines-container" class="fixed inset-0 bg-black/90 flex items-center justify-center hidden z-50">
-                    <div class="bg-gray-900 rounded-xl p-6 w-full max-w-4xl relative">
-                        <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-2xl font-bold text-blue-300">Mines</h2>
-                            <button onclick="closeMines()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
-                        </div>
-                        
-                        <div class="flex gap-6">
-                            <div class="flex-1 bg-gray-800 p-6 rounded-xl">
-                                <div id="mines-grid" class="grid grid-cols-5 gap-3">
-                                    
-                                </div>
-                            </div>
-                            
-                            <div class="w-64 space-y-4">
-                                <div class="bg-gray-800 p-4 rounded-xl">
-                                    <div class="text-sm text-gray-400 mb-2">Mines Count</div>
-                                    <div class="grid grid-cols-3 gap-2">
-                                        <button onclick="MINES.setMines(3)" 
-                                                class="p-2 bg-blue-600 hover:bg-blue-700 rounded text-white text-sm mines-btn active">
-                                                3
-                                        </button>
-                                        <button onclick="MINES.setMines(5)" 
-                                                class="p-2 bg-blue-600 hover:bg-blue-700 rounded text-white text-sm mines-btn">
-                                                5
-                                        </button>
-                                        <button onclick="MINES.setMines(7)" 
-                                                class="p-2 bg-blue-600 hover:bg-blue-700 rounded text-white text-sm mines-btn">
-                                                7
-                                        </button>
-                                    </div>
-                                </div>
-                
-                                <div class="bg-gray-800 p-4 rounded-xl">
-                                    <div class="text-sm text-gray-400 mb-2">Bet Amount</div>
-                                    <div class="flex gap-2">
-                                        <input type="number" id="mines-bet" min="1" value="10" 
-                                               class="w-full p-3 bg-gray-700 rounded-lg text-white border border-gray-600">
-                                        <button onclick="MINES.changeBet('half')" 
-                                                class="w-12 h-12 flex items-center justify-center bg-blue-600 hover:bg-blue-700 rounded-lg text-white text-sm">½</button>
-                                        <button onclick="MINES.changeBet('double')" 
-                                                class="w-12 h-12 flex items-center justify-center bg-blue-600 hover:bg-blue-700 rounded-lg text-white text-sm">2×</button>
-                                    </div>
-                                </div>
-                
-                                <div class="bg-gray-800 p-4 rounded-xl">
-                                    <div class="text-sm text-gray-400 mb-2">Current Progress</div>
-                                    <div class="flex justify-between items-center">
-                                        <div class="text-2xl font-bold text-green-400" id="mines-multiplier">1.00×</div>
-                                        <div class="text-xl font-bold text-white" id="mines-potential">+$0.00</div>
-                                    </div>
-                                </div>
-                
-                                <button id="mines-start-btn" onclick="MINES.startGame()" 
-                                        class="w-full p-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-lg font-bold">
-                                    Start Game
-                                </button>
-                                
-                                <button id="mines-cashout-btn" onclick="MINES.cashout()" 
-                                        class="w-full p-4 bg-green-600 hover:bg-green-700 text-white rounded-xl text-lg font-bold hidden">
-                                    Cash Out
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            
-            
-                <div class="market-filters hidden" style="margin-bottom: 2rem;">
-                    <!-- <div class="flex justify-center gap-8 mb-6">
-                        <button onclick="showMarkets('all')" 
-                                class="market-btn text-blue-300 hover:text-blue-400 transition-colors">
-                            All Markets
-                        </button>
-                        <button onclick="showMarkets('official')" 
-                                class="market-btn text-gray-400 hover:text-blue-400 transition-colors">
-                            Official Markets
-                        </button>
-                        <button onclick="showMarkets('community')" 
-                                class="market-btn text-gray-400 hover:text-blue-400 transition-colors">
-                            Community Markets
-                        </button>
-                        <button onclick="showMarkets('resolved')" 
-                                class="market-btn text-gray-400 hover:text-blue-400 transition-colors">
-                            Resolved Markets
-                        </button>
-                    </div>
-                 -->
-                
-                    <div class="relative w-full max-w-3xl mx-auto mb-6">
-                        <input type="text" 
-                               id="market-search" 
-                               placeholder="Search markets..." 
-                               class="w-full p-3 pl-10 rounded-full bg-gray-800/50 border border-gray-700 focus:border-blue-500 focus:outline-none backdrop-blur-sm transition-all">
-                        <svg xmlns="http://www.w3.org/2000/svg" 
-                             class="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" 
-                             fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                    </div>
-                
-                    
-                    <div class="flex gap-3 justify-center flex-wrap" id="category-filters">
-                        <button class="filter-btn px-4 py-2 rounded-full text-sm bg-gray-800/50 border border-gray-700 hover:border-blue-500 transition-all active" data-category="all">All</button>
-                        <button class="filter-btn px-4 py-2 rounded-full text-sm bg-gray-800/50 border border-gray-700 hover:border-blue-500 transition-all" data-category="ASB">ASB</button>
-                        <button class="filter-btn px-4 py-2 rounded-full text-sm bg-gray-800/50 border border-gray-700 hover:border-blue-500 transition-all" data-category="Sports">Sports</button>
-                        <button class="filter-btn px-4 py-2 rounded-full text-sm bg-gray-800/50 border border-gray-700 hover:border-blue-500 transition-all" data-category="Clubs">Clubs</button>
-                        <button class="filter-btn px-4 py-2 rounded-full text-sm bg-gray-800/50 border border-gray-700 hover:border-blue-500 transition-all" data-category="Teacher">Teacher</button>
-                        <button class="filter-btn px-4 py-2 rounded-full text-sm bg-gray-800/50 border border-gray-700 hover:border-blue-500 transition-all" data-category="Around Campus">Around Campus</button>
-                        <button class="filter-btn px-4 py-2 rounded-full text-sm bg-gray-800/50 border border-gray-700 hover:border-blue-500 transition-all" data-category="Daily">Daily</button>
-                    </div>
-                </div>
         </nav>
         
         <div id="leaderboard-tab" class="tab-content hidden">
@@ -2860,7 +3199,7 @@ function validateBet(amount) {
 const DEFAULT_PROFILE_PIC = "https://polymarket.com/_next/image?url=https%3A%2F%2Fpolymarket-upload.s3.us-east-2.amazonaws.com%2F31669764_829bfb7d-c27d-4c9a-8b78-dd9135282938_1730892972459.png&w=256&q=100";
 const app = firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
-const pp123 = firebase.firestore();
+const db = firebase.firestore();
 const storage = firebase.storage && firebase.storage();
 
 const provider = new firebase.auth.GoogleAuthProvider();
@@ -2906,7 +3245,7 @@ const adminControls = {
         modal.style.zIndex = '75';
 
         try {
-            const usersSnapshot = await pp123.collection('users').get();
+            const usersSnapshot = await db.collection('users').get();
             
             modal.innerHTML = `
                 <div class="bg-gray-900 rounded-xl p-6 w-full max-w-4xl" style="max-height: 90vh; overflow-y: auto;">
@@ -3009,7 +3348,7 @@ const adminControls = {
 
     async removeTitleFromUser(userId) {
         try {
-            const userDoc = await pp123.collection('users').doc(userId).get();
+            const userDoc = await db.collection('users').doc(userId).get();
             const userData = userDoc.data();
             const titles = userData.titles || [];
 
@@ -3050,7 +3389,7 @@ const adminControls = {
 
     async confirmAddTitle(userId, titleId) {
         try {
-            await pp123.collection('users').doc(userId).update({
+            await db.collection('users').doc(userId).update({
                 titles: firebase.firestore.FieldValue.arrayUnion(titleId)
             });
             
@@ -3064,7 +3403,7 @@ const adminControls = {
 
     async confirmRemoveTitle(userId, titleId) {
         try {
-            await pp123.collection('users').doc(userId).update({
+            await db.collection('users').doc(userId).update({
                 titles: firebase.firestore.FieldValue.arrayRemove(titleId),
                 activeTitle: firebase.firestore.FieldValue.delete()
             });
@@ -3089,8 +3428,8 @@ const adminControls = {
         }
 
         try {
-            await pp123.runTransaction(async (transaction) => {
-                const userQuery = await pp123.collection('users')
+            await db.runTransaction(async (transaction) => {
+                const userQuery = await db.collection('users')
                     .where('username', '==', username)
                     .limit(1)
                     .get();
@@ -3103,7 +3442,7 @@ const adminControls = {
                     funbucks: firebase.firestore.FieldValue.increment(amount)
                 });
 
-                transaction.set(pp123.collection('adminActions').doc(), {
+                transaction.set(db.collection('adminActions').doc(), {
                     type: 'giveMoney',
                     adminId: auth.currentUser.uid,
                     adminName: currentUser.username,
@@ -3216,7 +3555,7 @@ async function grantRichestTitle(userId) {
     if (!currentUser?.isAdmin) return;
     
     try {
-        const userRef = pp123.collection('users').doc(userId);
+        const userRef = db.collection('users').doc(userId);
         await userRef.update({
             titles: firebase.firestore.FieldValue.arrayUnion('richest')
         });
@@ -3237,7 +3576,7 @@ async function removeRichestTitle(userId) {
     if (!currentUser?.isAdmin) return;
     
     try {
-        const userRef = pp123.collection('users').doc(userId);
+        const userRef = db.collection('users').doc(userId);
         await userRef.update({
             titles: firebase.firestore.FieldValue.arrayRemove('richest')
         });
@@ -3259,11 +3598,11 @@ const h2hSystem = {
     currentFilter: 'all',
 
     async initialize() {
-        await this.loapp123ets();
+        await this.loadbets();
         await this.updateStats();
         const searchInput = document.getElementById('h2h-search');
         if (searchInput) {
-            searchInput.addEventListener('input', (e) => this.loapp123ets(e.target.value));
+            searchInput.addEventListener('input', (e) => this.loadbets(e.target.value));
         }
     },
 
@@ -3294,7 +3633,7 @@ const h2hSystem = {
         if (!auth.currentUser) return;
 
         try {
-            const snapshot = await pp123.collection('h2h_bets').get();
+            const snapshot = await db.collection('h2h_bets').get();
             const userBets = snapshot.docs.filter(doc => {
                 const bet = doc.data();
                 return bet.creatorId === auth.currentUser.uid || bet.opponentId === auth.currentUser.uid;
@@ -3335,42 +3674,42 @@ const h2hSystem = {
                 btn.classList.remove('bg-gray-700');
             }
         });
-        this.loapp123ets();
+        this.loadbets();
     },
 
-    async loapp123ets(searchTerm = '') {
+    async loadbets(searchTerm = '') {
         const container = document.getElementById('h2h-bets-container');
         if (!container) return;
 
         try {
-            const snapshot = await pp123.collection('h2h_bets')
+            const snapshot = await db.collection('h2h_bets')
                 .orderBy('createdAt', 'desc')
                 .get();
 
-            let filterepp123ets = snapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
+            let filteredbets = snapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
 
             if (searchTerm) {
-                filterepp123ets = filterepp123ets.filter(bet => 
+                filteredbets = filteredbets.filter(bet => 
                     bet.title.toLowerCase().includes(searchTerm.toLowerCase()));
             }
 
             switch (this.currentFilter) {
                 case 'open':
-                    filterepp123ets = filterepp123ets.filter(bet => !bet.opponentId && !bet.resolved);
+                    filteredbets = filteredbets.filter(bet => !bet.opponentId && !bet.resolved);
                     break;
                 case 'active':
-                    filterepp123ets = filterepp123ets.filter(bet => bet.opponentId && !bet.resolved);
+                    filteredbets = filteredbets.filter(bet => bet.opponentId && !bet.resolved);
                     break;
                 case 'completed':
-                    filterepp123ets = filterepp123ets.filter(bet => bet.resolved);
+                    filteredbets = filteredbets.filter(bet => bet.resolved);
                     break;
                 case 'challenged':
-                    filterepp123ets = filterepp123ets.filter(bet => bet.adminRequired);
+                    filteredbets = filteredbets.filter(bet => bet.adminRequired);
                     break;
             }
 
-            container.innerHTML = filterepp123ets.length ? 
-                filterepp123ets.map(bet => this.createBetCard(bet.id, bet)).join('') :
+            container.innerHTML = filteredbets.length ? 
+                filteredbets.map(bet => this.createBetCard(bet.id, bet)).join('') :
                 '<div class="text-center text-gray-400 py-8">No challenges found</div>';
 
         } catch (error) {
@@ -3440,7 +3779,7 @@ const h2hSystem = {
                 ${bet.adminRequired && isAdmin ? `
                     <div class="mt-4 p-3 bg-red-900/20 rounded-lg">
                         <div class="text-sm text-red-400 mb-2">Admin Review Required</div>
-                        <div class="text-sm text-gray-300">Challenged by: ${bet.challengepp123y?.username}</div>
+                        <div class="text-sm text-gray-300">Challenged by: ${bet.challengedby?.username}</div>
                         <div class="text-sm text-gray-300 mb-2">Reason: ${bet.challengeReason}</div>
                         <div class="flex gap-2">
                             <button onclick="h2hSystem.resolveChallenge('${id}', true)" 
@@ -3472,9 +3811,9 @@ const h2hSystem = {
 
     async acceptBet(betId) {
         try {
-            await pp123.runTransaction(async (transaction) => {
-                const betRef = pp123.collection('h2h_bets').doc(betId);
-                const userRef = pp123.collection('users').doc(auth.currentUser.uid);
+            await db.runTransaction(async (transaction) => {
+                const betRef = db.collection('h2h_bets').doc(betId);
+                const userRef = db.collection('users').doc(auth.currentUser.uid);
 
                 const [betDoc, userDoc] = await Promise.all([
                     transaction.get(betRef),
@@ -3496,8 +3835,8 @@ const h2hSystem = {
             });
 
             showSuccessMessage('Challenge accepted successfully');
-            this.loapp123ets();
-            portfolio.funbucks = (await pp123.collection('users').doc(auth.currentUser.uid).get()).data().funbucks;
+            this.loadbets();
+            portfolio.funbucks = (await db.collection('users').doc(auth.currentUser.uid).get()).data().funbucks;
             updateHeaderDisplay();
         } catch (error) {
             console.error('Error accepting bet:', error);
@@ -3507,8 +3846,8 @@ const h2hSystem = {
 
     async proposeResolution(betId, result) {
         try {
-            await pp123.runTransaction(async (transaction) => {
-                const betRef = pp123.collection('h2h_bets').doc(betId);
+            await db.runTransaction(async (transaction) => {
+                const betRef = db.collection('h2h_bets').doc(betId);
                 const betDoc = await transaction.get(betRef);
                 const bet = betDoc.data();
 
@@ -3526,7 +3865,7 @@ const h2hSystem = {
             });
 
             showSuccessMessage('Resolution proposed successfully');
-            this.loapp123ets();
+            this.loadbets();
         } catch (error) {
             console.error('Error proposing resolution:', error);
             showErrorMessage(error.message);
@@ -3535,8 +3874,8 @@ const h2hSystem = {
 
     async acceptResolution(betId) {
         try {
-            await pp123.runTransaction(async (transaction) => {
-                const betRef = pp123.collection('h2h_bets').doc(betId);
+            await db.runTransaction(async (transaction) => {
+                const betRef = db.collection('h2h_bets').doc(betId);
                 const betDoc = await transaction.get(betRef);
                 const bet = betDoc.data();
 
@@ -3552,7 +3891,7 @@ const h2hSystem = {
                     ? bet.creatorId 
                     : bet.opponentId;
 
-                const winnerRef = pp123.collection('users').doc(winner);
+                const winnerRef = db.collection('users').doc(winner);
                 transaction.update(winnerRef, {
                     funbucks: firebase.firestore.FieldValue.increment(bet.amount * 2)
                 });
@@ -3570,7 +3909,7 @@ const h2hSystem = {
             });
 
             showSuccessMessage('Resolution accepted and winnings distributed');
-            this.loapp123ets();
+            this.loadbets();
         } catch (error) {
             console.error('Error accepting resolution:', error);
             showErrorMessage(error.message);
@@ -3585,22 +3924,22 @@ const h2hSystem = {
         }
 
         try {
-            await pp123.collection('h2h_bets').doc(betId).update({
+            await db.collection('h2h_bets').doc(betId).update({
                 adminRequired: true,
                 challengedAt: firebase.firestore.FieldValue.serverTimestamp(),
                 challengeReason: reason,
-                challengepp123y: {
+                challengedby: {
                     userId: auth.currentUser.uid,
                     username: currentUser.username
                 }
             });
 
             // Notify admins about the challenge
-            const adminsSnapshot = await pp123.collection('users').where('isAdmin', '==', true).get();
-            const batch = pp123.batch();
+            const adminsSnapshot = await db.collection('users').where('isAdmin', '==', true).get();
+            const batch = db.batch();
             
             adminsSnapshot.docs.forEach(adminDoc => {
-                const notificationRef = pp123.collection('notifications').doc();
+                const notificationRef = db.collection('notifications').doc();
                 batch.set(notificationRef, {
                     type: 'challenge',
                     betId: betId,
@@ -3614,7 +3953,7 @@ const h2hSystem = {
 
             await batch.commit();
             showSuccessMessage('Resolution challenged. Waiting for admin review.');
-            this.loapp123ets();
+            this.loadbets();
         } catch (error) {
             console.error('Error challenging resolution:', error);
             showErrorMessage(error.message);
@@ -3628,7 +3967,7 @@ const h2hSystem = {
         }
 
         try {
-            const betRef = pp123.collection('h2h_bets').doc(betId);
+            const betRef = db.collection('h2h_bets').doc(betId);
             const betDoc = await betRef.get();
             const bet = betDoc.data();
 
@@ -3640,8 +3979,8 @@ const h2hSystem = {
                     ? bet.creatorId 
                     : bet.opponentId;
 
-                await pp123.runTransaction(async (transaction) => {
-                    const winnerRef = pp123.collection('users').doc(winner);
+                await db.runTransaction(async (transaction) => {
+                    const winnerRef = db.collection('users').doc(winner);
                     transaction.update(winnerRef, {
                         funbucks: firebase.firestore.FieldValue.increment(bet.amount * 2)
                     });
@@ -3671,7 +4010,7 @@ const h2hSystem = {
                 showSuccessMessage('Challenge rejected, original result stands');
             }
 
-            this.loapp123ets();
+            this.loadbets();
         } catch (error) {
             console.error('Error resolving challenge:', error);
             showErrorMessage(error.message);
@@ -3696,8 +4035,8 @@ h2hSystem.createBet = async function() {
     }
 
     try {
-        await pp123.runTransaction(async (transaction) => {
-            const userRef = pp123.collection('users').doc(auth.currentUser.uid);
+        await db.runTransaction(async (transaction) => {
+            const userRef = db.collection('users').doc(auth.currentUser.uid);
             const userDoc = await transaction.get(userRef);
             
             if (userDoc.data().funbucks < amount) {
@@ -3708,7 +4047,7 @@ h2hSystem.createBet = async function() {
                 funbucks: firebase.firestore.FieldValue.increment(-amount)
             });
 
-            const betDoc = pp123.collection('h2h_bets').doc();
+            const betDoc = db.collection('h2h_bets').doc();
             transaction.set(betDoc, {
                 title,
                 description,
@@ -3725,7 +4064,7 @@ h2hSystem.createBet = async function() {
         updateHeaderDisplay();
         document.getElementById('create-h2h-modal').classList.add('hidden');
         showSuccessMessage('Challenge created successfully');
-        h2hSystem.loapp123ets();
+        h2hSystem.loadbets();
 
     } catch (error) {
         console.error('Error creating bet:', error);
@@ -3741,6 +4080,57 @@ function showCreateH2HModal() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.market-card, .stats-card, .leaderboard-entry');
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-4px)';
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(0)';
+        });
+    });
+
+    // Add active states to navigation
+    const tabs = document.querySelectorAll('.tab-button');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('selected'));
+            tab.classList.add('selected');
+        });
+    });
+
+    // Add loading states to images
+    const images = document.querySelectorAll('.market-image');
+    images.forEach(img => {
+        img.addEventListener('load', () => {
+            img.classList.remove('loading-shimmer');
+        });
+        
+        if (!img.complete) {
+            img.classList.add('loading-shimmer');
+        }
+    });
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-4px)';
+            card.style.borderColor = 'rgba(59, 130, 246, 0.4)';
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(0)';
+            card.style.borderColor = 'rgba(59, 130, 246, 0.2)';
+        });
+    });
+
+    // Add active state to filter buttons
+    const filters = document.querySelectorAll('.h2h-filter');
+    filters.forEach(filter => {
+        filter.addEventListener('click', () => {
+            filters.forEach(f => f.classList.remove('active'));
+            filter.classList.add('active');
+        });
+    });
     const marketFilters = document.querySelector('.market-filters');
     const homeTab = document.getElementById('home-tab');
     if (marketFilters) {
@@ -3769,7 +4159,7 @@ function addSocialButtons() {
 
 document.addEventListener('DOMContentLoaded', addRainButton);
 async function updateTitles(userId) {
-    const userRef = pp123.collection('users').doc(userId);
+    const userRef = db.collection('users').doc(userId);
     const userData = (await userRef.get()).data();
     const unlockedTitles = new Set(userData.titles || []);
     
@@ -3818,7 +4208,7 @@ async function setActiveTitle(titleId) {
     if (!auth.currentUser) return;
     
     try {
-        await pp123.collection('users').doc(auth.currentUser.uid).update({
+        await db.collection('users').doc(auth.currentUser.uid).update({
             activeTitle: titleId
         });
         showSuccessMessage('Title updated successfully!');
@@ -3829,18 +4219,18 @@ async function setActiveTitle(titleId) {
 }
 
 function calculateTotalVolume(userData) {
-    const bets = [...(userData.bets || []), ...(userData.completepp123ets || [])];
+    const bets = [...(userData.bets || []), ...(userData.completedbets || [])];
     return bets.reduce((sum, bet) => sum + bet.amount, 0);
 }
 
 function calculateNoVolume(userData) {
-    const bets = [...(userData.bets || []), ...(userData.completepp123ets || [])];
+    const bets = [...(userData.bets || []), ...(userData.completedbets || [])];
     return bets.filter(bet => bet.position === 'no')
         .reduce((sum, bet) => sum + bet.amount, 0);
 }
 
 function calculateYesVolume(userData) {
-    const bets = [...(userData.bets || []), ...(userData.completepp123ets || [])];
+    const bets = [...(userData.bets || []), ...(userData.completedbets || [])];
     return bets.filter(bet => bet.position === 'yes')
         .reduce((sum, bet) => sum + bet.amount, 0);
 }
@@ -3853,16 +4243,16 @@ function isEarlyUser(userData) {
 
 function hasDiamondHands(userData) {
     const bets = userData.bets || [];
-    let completepp123ets = [];
+    let completedbets = [];
 
     try {
-        completepp123ets = userData.completepp123ets || [];
+        completedbets = userData.completedbets || [];
     } catch (error) {
         console.error('Error accessing completed bets:', error);
         return false;
     }
 
-    return completepp123ets.some(bet => {
+    return completedbets.some(bet => {
         const holdTime = new Date(bet.sellTimestamp) - new Date(bet.timestamp);
         const profit = bet.sellAmount - bet.amount;
         return holdTime >= 24 * 60 * 60 * 1000 && profit > 0;
@@ -3872,14 +4262,14 @@ function hasDiamondHands(userData) {
 function getUniqueMarkets(userData) {
     const allBets = [
         ...(userData.bets || []),
-        ...(userData.completepp123ets || [])
+        ...(userData.completedbets || [])
     ];
     const uniqueMarketIds = new Set(allBets.map(bet => bet.marketId));
     return uniqueMarketIds.size;
 }
 async function updateUserProgress(userId) {
     try {
-        const userRef = pp123.collection('users').doc(userId);
+        const userRef = db.collection('users').doc(userId);
         const userDoc = await userRef.get();
         const userData = userDoc.data();
 
@@ -3898,7 +4288,7 @@ async function updateUserProgress(userId) {
 async function setupRealtimeUpdates() {
     if (!auth.currentUser) return;
 
-    pp123.collection('users').doc(auth.currentUser.uid)
+    db.collection('users').doc(auth.currentUser.uid)
         .onSnapshot((doc) => {
             const userData = doc.data();
             if (!userData) return;
@@ -4103,6 +4493,175 @@ function setupLeaderboardSearch() {
         filterLeaderboard('funbucks', e.target.value);
     });
 }
+
+
+
+function createEnhancedChart(ctx, market) {
+    if (!ctx || !market) return null;
+
+    // Common chart options for both types
+    const commonOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: {
+            mode: 'nearest',
+            axis: 'x',
+            intersect: false
+        },
+        animations: {
+            tension: {
+                duration: 1000,
+                easing: 'linear'
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 1,
+                grid: {
+                    color: 'rgba(226, 232, 240, 0.1)',
+                    drawBorder: false
+                },
+                ticks: {
+                    color: '#E2E8F0',
+                    callback: value => `${(value * 100).toFixed(0)}%`,
+                    font: {
+                        size: 12,
+                        weight: '500'
+                    },
+                    padding: 8
+                }
+            },
+            x: {
+                grid: {
+                    display: false
+                },
+                ticks: {
+                    color: '#E2E8F0',
+                    maxTicksLimit: 8,
+                    font: {
+                        size: 12
+                    },
+                    padding: 8
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                display: market.marketType === 'multi',
+                position: 'top',
+                labels: {
+                    color: '#E2E8F0',
+                    usePointStyle: true,
+                    padding: 15,
+                    font: {
+                        size: 12,
+                        weight: '500'
+                    }
+                }
+            },
+            tooltip: {
+                enabled: true,
+                mode: 'index',
+                intersect: false,
+                backgroundColor: 'rgba(17, 24, 39, 0.95)',
+                titleColor: '#E2E8F0',
+                bodyColor: '#E2E8F0',
+                borderColor: '#4299E1',
+                borderWidth: 1,
+                padding: 12,
+                cornerRadius: 8,
+                titleFont: {
+                    size: 14,
+                    weight: 'bold'
+                },
+                bodyFont: {
+                    size: 13
+                },
+                displayColors: market.marketType === 'multi',
+                callbacks: {
+                    label: function(context) {
+                        const label = context.dataset.label || '';
+                        const value = (context.parsed.y * 100).toFixed(1);
+                        return `${label}: ${value}%`;
+                    }
+                }
+            }
+        }
+    };
+
+    if (market.marketType === 'multi') {
+        // Multi-outcome market chart
+        const colors = [
+            { stroke: '#3B82F6', fill: 'rgba(59, 130, 246, 0.1)' },
+            { stroke: '#8B5CF6', fill: 'rgba(139, 92, 246, 0.1)' },
+            { stroke: '#EC4899', fill: 'rgba(236, 72, 153, 0.1)' },
+            { stroke: '#F59E0B', fill: 'rgba(245, 158, 11, 0.1)' },
+            { stroke: '#10B981', fill: 'rgba(16, 185, 129, 0.1)' }
+        ];
+
+        return new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: market.priceHistory.map(p => formatDate(p.date)),
+                datasets: market.outcomes.map((outcome, index) => ({
+                    label: outcome.name,
+                    data: market.priceHistory.map(p => {
+                        const priceEntry = p.prices?.find(price => price.name === outcome.name);
+                        return priceEntry ? priceEntry.price : null;
+                    }),
+                    borderColor: colors[index % colors.length].stroke,
+                    backgroundColor: colors[index % colors.length].fill,
+                    borderWidth: 2.5,
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 3,
+                    pointHoverRadius: 6,
+                    pointBackgroundColor: colors[index % colors.length].stroke,
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2
+                }))
+            },
+            options: commonOptions
+        });
+    } else {
+        // Binary market chart
+        const gradient = ctx.createLinearGradient(0, 0, 0, ctx.canvas.height);
+        gradient.addColorStop(0, 'rgba(59, 130, 246, 0.2)');
+        gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
+
+        return new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: market.priceHistory.map(p => formatDate(p.date)),
+                datasets: [{
+                    label: 'Probability',
+                    data: market.priceHistory.map(p => p.price),
+                    borderColor: '#4299E1',
+                    backgroundColor: gradient,
+                    borderWidth: 2.5,
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 3,
+                    pointHoverRadius: 6,
+                    pointBackgroundColor: '#4299E1',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2
+                }]
+            },
+            options: {
+                ...commonOptions,
+                plugins: {
+                    ...commonOptions.plugins,
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    }
+}
+
 const standardChartConfig = {
     responsive: true,
     maintainAspectRatio: false,
@@ -4171,7 +4730,7 @@ const isAdmin = async (userId) => {
     if (!userId) return false;
     
     try {
-        const userDoc = await pp123.collection('users').doc(userId).get();
+        const userDoc = await db.collection('users').doc(userId).get();
         return userDoc.exists && userDoc.data().isAdmin === true;
     } catch (error) {
         console.error('Error checking admin status:', error);
@@ -4183,7 +4742,7 @@ async function initializeUser(user) {
     try {
         if (!user) return null;
 
-        const userRef = pp123.collection('users').doc(user.uid);
+        const userRef = db.collection('users').doc(user.uid);
         const userDoc = await userRef.get();
 
         if (!userDoc.exists) {
@@ -4328,7 +4887,7 @@ function showDisputedResolutions() {
 
 async function loadDisputedMarkets() {
     try {
-        const snapshot = await pp123.collection('markets')
+        const snapshot = await db.collection('markets')
             .where('resolved', '==', true)
             .get();
 
@@ -4412,7 +4971,7 @@ async function loadDisputedMarkets() {
         `;
     }
 }
-function addDisputepp123utton() {
+function addDisputedbutton() {
     const adminPanel = document.querySelector('.admin-panel-modal .flex.gap-3');
     if (adminPanel) {
         adminPanel.insertAdjacentHTML('beforeend', `
@@ -4647,7 +5206,7 @@ async function updateMarketPrice(marketId) {
         
         const newPrice = parseFloat(priceSlider.value) / 100;
         
-        await pp123.collection('markets').doc(marketId).update({
+        await db.collection('markets').doc(marketId).update({
             currentPrice: newPrice,
             lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
             priceHistory: firebase.firestore.FieldValue.arrayUnion({
@@ -4701,7 +5260,7 @@ async function showPriceUpdateModal(marketId) {
     }
 
     try {
-        const marketRef = pp123.collection('markets').doc(marketId);
+        const marketRef = db.collection('markets').doc(marketId);
         const marketDoc = await marketRef.get();
         const market = marketDoc.data();
 
@@ -4814,7 +5373,7 @@ const marketCategories = ['All', 'ASB', 'Sports', 'Clubs', 'Teacher', 'Around Ca
 
 async function updateProfile(newUsername, newProfilePic) {
     try {
-        await pp123.collection('users').doc(auth.currentUser.uid).update({
+        await db.collection('users').doc(auth.currentUser.uid).update({
             username: newUsername,
             profilePicture: newProfilePic || DEFAULT_PROFILE_PIC
         });
@@ -4913,9 +5472,9 @@ function showMarketStats() {
 async function loadDetailedStats() {
     try {
         const [marketsSnapshot, betsSnapshot, usersSnapshot] = await Promise.all([
-            pp123.collection('markets').get(),
-            pp123.collection('bets').where('timestamp', '>', Date.now() - 86400000).get(),
-            pp123.collection('users').get()
+            db.collection('markets').get(),
+            db.collection('bets').where('timestamp', '>', Date.now() - 86400000).get(),
+            db.collection('users').get()
         ]);
 
         const stats = {
@@ -4986,7 +5545,7 @@ async function updateStatsUI(basicStats, categories, marketVolumes, userStats) {
             .sort(([,a], [,b]) => b - a)
             .slice(0, 5)
             .map(async ([marketId, volume]) => {
-                const marketDoc = await pp123.collection('markets').doc(marketId).get();
+                const marketDoc = await db.collection('markets').doc(marketId).get();
                 const market = marketDoc.data();
                 if (!market) return '';
 
@@ -5114,7 +5673,7 @@ function showUserManagement() {
 
 async function loadUsers(search = '', sortBy = 'attention') {
     try {
-        const usersSnapshot = await pp123.collection('users').get();
+        const usersSnapshot = await db.collection('users').get();
         const usersList = document.getElementById('users-list');
 
         let users = await Promise.all(usersSnapshot.docs.map(async doc => {
@@ -5213,7 +5772,7 @@ async function loadUsers(search = '', sortBy = 'attention') {
 
 async function viewUserDetails(userId) {
     try {
-        const userDoc = await pp123.collection('users').doc(userId).get();
+        const userDoc = await db.collection('users').doc(userId).get();
         const userData = userDoc.data();
         const networth = await calculateUserNetworthFromData(userData);
         
@@ -5295,7 +5854,7 @@ async function banUser(userId) {
     if (!confirm('Are you sure you want to ban this user?')) return;
 
     try {
-        await pp123.collection('users').doc(userId).update({
+        await db.collection('users').doc(userId).update({
             banned: true,
             bannedAt: firebase.firestore.FieldValue.serverTimestamp()
         });
@@ -5309,7 +5868,7 @@ async function banUser(userId) {
 }
 async function unbanUser(userId) {
     try {
-        await pp123.collection('users').doc(userId).update({
+        await db.collection('users').doc(userId).update({
             banned: false,
             bannedAt: null
         });
@@ -5327,11 +5886,11 @@ document.querySelector('[data-tab="home"]')?.addEventListener('click', () => {
 async function loadMarketStats() {
     try {
         const [marketsSnapshot, betsSnapshot, usersSnapshot] = await Promise.all([
-            pp123.collection('markets').get(),
-            pp123.collection('bets')
+            db.collection('markets').get(),
+            db.collection('bets')
                 .where('timestamp', '>', Date.now() - 86400000)
                 .get(),
-            pp123.collection('users').get()
+            db.collection('users').get()
         ]);
 
         const basicStats = {
@@ -5369,7 +5928,7 @@ async function loadMarketStats() {
         });
 
         for (const userId in userStats) {
-            const userDoc = await pp123.collection('users').doc(userId).get();
+            const userDoc = await db.collection('users').doc(userId).get();
             if (userDoc.exists) {
                 const userData = userDoc.data();
                 userStats[userId].networth = calculateNetworth(userData);
@@ -5385,7 +5944,7 @@ async function loadMarketStats() {
 }
 async function updateMarketStats() {
     try {
-        const marketsSnapshot = await pp123.collection('markets').get();
+        const marketsSnapshot = await db.collection('markets').get();
         const markets = marketsSnapshot.docs.map(doc => doc.data());
 
         const stats = {
@@ -5427,18 +5986,18 @@ async function updateMarketStats() {
 }
 async function checkNegativeBalances() {
     try {
-        const usersSnapshot = await pp123.collection('users')
+        const usersSnapshot = await db.collection('users')
             .where('funbucks', '<', 0)
             .get();
 
         if (!usersSnapshot.empty) {
-            const adminSnapshot = await pp123.collection('users')
+            const adminSnapshot = await db.collection('users')
                 .where('isAdmin', '==', true)
                 .get();
 
             adminSnapshot.docs.forEach(adminDoc => {
                 const adminData = adminDoc.data();
-                pp123.collection('notifications').add({
+                db.collection('notifications').add({
                     userId: adminDoc.id,
                     type: 'negative_balance',
                     message: `${usersSnapshot.size} users have negative balances`,
@@ -5524,7 +6083,7 @@ async function loadAllActivity() {
     if (!activityList) return;
 
     try {
-        const betsSnapshot = await pp123.collection('bets')
+        const betsSnapshot = await db.collection('bets')
             .orderBy('timestamp', 'desc')
             .limit(50)
             .get();
@@ -5579,7 +6138,7 @@ const kingOfHill = {
         try {
             const fiveHoursAgo = Date.now() - (5 * 60 * 60 * 1000);
             
-            const betsSnapshot = await pp123.collection('bets')
+            const betsSnapshot = await db.collection('bets')
                 .where('timestamp', '>', fiveHoursAgo)
                 .get();
 
@@ -5678,14 +6237,14 @@ async function giveMoneyToUser() {
         }
 
         try {
-            const userDoc = await pp123.collection('users')
+            const userDoc = await db.collection('users')
                 .where('username', '==', username)
                 .limit(1)
                 .get();
 
             if (userDoc.empty) throw new Error('User not found');
 
-            await pp123.runTransaction(async (transaction) => {
+            await db.runTransaction(async (transaction) => {
                 const userRef = userDoc.docs[0].ref;
                 transaction.update(userRef, {
                     funbucks: firebase.firestore.FieldValue.increment(amount)
@@ -5802,15 +6361,15 @@ document.head.appendChild(style);
 async function loadAdminStats() {
     try {
         const [usersSnapshot, marketsSnapshot, betsSnapshot, tipSnapshot, rainSnapshot] = await Promise.all([
-            pp123.collection('users').get(),
-            pp123.collection('markets').get(),
-            pp123.collection('bets')
+            db.collection('users').get(),
+            db.collection('markets').get(),
+            db.collection('bets')
                 .where('timestamp', '>', Date.now() - 86400000)
                 .get(),
-            pp123.collection('tips')
+            db.collection('tips')
                 .where('timestamp', '>', Date.now() - 86400000)
                 .get(),
-            pp123.collection('rain')
+            db.collection('rain')
                 .where('timestamp', '>', Date.now() - 86400000)
                 .get()
         ]);
@@ -5873,7 +6432,7 @@ function closeAdminPanel() {
 
 async function showChallengeReview() {
     try {
-        const snapshot = await pp123.collection('markets').get();
+        const snapshot = await db.collection('markets').get();
         
         const challengedMarkets = snapshot.docs.filter(doc => {
             const market = doc.data();
@@ -5892,7 +6451,7 @@ async function showChallengeReview() {
 }
 async function showChallengeReview() {
     try {
-        const snapshot = await pp123.collection('markets').get();
+        const snapshot = await db.collection('markets').get();
         
         const challengedMarkets = snapshot.docs.filter(doc => {
             const market = doc.data();
@@ -5975,11 +6534,11 @@ async function showChallengeReview() {
     }
 }
 
-async function checkAnpp123anNegativeBalance(userId, newBalance) {
+async function checkAndbanNegativeBalance(userId, newBalance) {
     if (newBalance < 0) {
         try {
-            await pp123.runTransaction(async (transaction) => {
-                const userRef = pp123.collection('users').doc(userId);
+            await db.runTransaction(async (transaction) => {
+                const userRef = db.collection('users').doc(userId);
                 const userDoc = await transaction.get(userRef);
                 const userData = userDoc.data();
 
@@ -6001,7 +6560,7 @@ async function checkAnpp123anNegativeBalance(userId, newBalance) {
                     };
 
                     transaction.set(
-                        pp123.collection('bans').doc(), 
+                        db.collection('bans').doc(), 
                         banRecord
                     );
                 }
@@ -6036,7 +6595,7 @@ setInterval(async () => {
         now.getHours() === 9 &&
         now.getMinutes() === 20) {
         
-        const lottery = await pp123.collection('lottery').doc('current').get();
+        const lottery = await db.collection('lottery').doc('current').get();
         const data = lottery.data();
         
         if (data && !data.processed) {
@@ -6048,7 +6607,7 @@ async function acceptChallenge(marketId) {
     if (!confirm('Accept this challenge and flip the current resolution?')) return;
     
     try {
-        const marketRef = pp123.collection('markets').doc(marketId);
+        const marketRef = db.collection('markets').doc(marketId);
         const marketDoc = await marketRef.get();
         const market = marketDoc.data();
         
@@ -6075,7 +6634,7 @@ async function rejectChallenge(marketId) {
     if (!confirm('Reject this challenge and keep the current resolution?')) return;
     
     try {
-        const marketRef = pp123.collection('markets').doc(marketId);
+        const marketRef = db.collection('markets').doc(marketId);
         await marketRef.update({
             challenges: [],
             challengeResolved: true
@@ -6098,7 +6657,7 @@ async function revertMarket(marketId) {
     if (!confirm('Revert this market to its unresolved state?')) return;
     
     try {
-        const marketRef = pp123.collection('markets').doc(marketId);
+        const marketRef = db.collection('markets').doc(marketId);
         const marketDoc = await marketRef.get();
         const market = marketDoc.data();
         
@@ -6130,7 +6689,7 @@ function initializeProfileHandlers() {
             }
 
             try {
-                await pp123.collection('users').doc(auth.currentUser.uid).update({
+                await db.collection('users').doc(auth.currentUser.uid).update({
                     username: newUsername
                 });
                 
@@ -6149,7 +6708,7 @@ async function filterAdminMarkets(search = '', category = 'all') {
     if (!marketsList) return;
 
     const searchLower = search.toLowerCase();
-    const snapshot = await pp123.collection('markets').get();
+    const snapshot = await db.collection('markets').get();
     const filteredMarkets = snapshot.docs.filter(doc => {
         const market = doc.data();
         const matchesSearch = search === '' || 
@@ -6201,7 +6760,7 @@ async function submitMultiPriceUpdate(marketId) {
             throw new Error('Total probability must equal 100%');
         }
 
-        await pp123.collection('markets').doc(marketId).update({
+        await db.collection('markets').doc(marketId).update({
             outcomes: newOutcomes
         });
 
@@ -6215,53 +6774,76 @@ async function submitMultiPriceUpdate(marketId) {
 }
 
 function showResolutionModal(marketId) {
-    const market = markets.find(m => m.id === marketId);
-    if (!market) return;
+    try {
+        db.collection('markets').doc(marketId).get().then(doc => {
+            if (!doc.exists) {
+                showErrorMessage('Market not found');
+                return;
+            }
 
-    const modal = document.createElement('div');
-    modal.className = 'fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[60]';
-    
-    const outcomeButtons = market.marketType === 'binary' ? `
-        <button onclick="resolveMarket('${marketId}', true, 2)"
-                class="p-3 bg-green-600 hover:bg-green-700 text-white rounded-lg">
-            Resolve YES (2 hour challenge)
-        </button>
-        <button onclick="resolveMarket('${marketId}', false, 2)"
-                class="p-3 bg-red-600 hover:bg-red-700 text-white rounded-lg">
-            Resolve NO (2 hour challenge)
-        </button>
-    ` : market.outcomes.map(outcome => `
-        <button onclick="resolveMultiOutcomeMarket('${marketId}', '${outcome.name}')"
-                class="p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
-            Resolve as ${outcome.name}
-        </button>
-    `).join('');
-
-    modal.innerHTML = `
-        <div class="bg-gray-900 rounded-xl p-6 max-w-md w-full">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-bold text-blue-300">Resolve Market</h3>
-                <button onclick="this.closest('.fixed').remove()" 
-                        class="text-gray-400 hover:text-white">×</button>
-            </div>
+            const market = { id: doc.id, ...doc.data() };
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[60]';
             
-            <div class="mb-6">
-                <h4 class="text-white mb-2">${market.title}</h4>
-                <p class="text-gray-400">Select the resolution:</p>
-            </div>
+            if (market.marketType === 'multi') {
+                // Multi-outcome market modal
+                modal.innerHTML = `
+                    <div class="bg-gray-900 rounded-xl p-6 max-w-md w-full">
+                        <h3 class="text-xl font-bold text-blue-300 mb-4">Resolve Multi-Outcome Market</h3>
+                        <div class="mb-4">
+                            <h4 class="text-white mb-2">${market.title}</h4>
+                            <p class="text-gray-400">Select winning outcome:</p>
+                        </div>
+                        <div class="space-y-2">
+                            ${market.outcomes.map(outcome => `
+                                <button onclick="resolveMarket('${market.id}', null, '${outcome.name}')"
+                                        class="w-full p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
+                                    ${outcome.name}
+                                </button>
+                            `).join('')}
+                            <button onclick="this.closest('.fixed').remove()" 
+                                    class="w-full border border-gray-700 text-gray-400 p-4 rounded-lg hover:bg-gray-800">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Binary market modal
+                modal.innerHTML = `
+                    <div class="bg-gray-900 rounded-xl p-6 max-w-md w-full">
+                        <h3 class="text-xl font-bold text-blue-300 mb-4">Resolve Binary Market</h3>
+                        <div class="mb-4">
+                            <h4 class="text-white mb-2">${market.title}</h4>
+                            <p class="text-gray-400">Select resolution:</p>
+                        </div>
+                        <div class="space-y-2">
+                            <button onclick="resolveMarket('${market.id}', true)"
+                                    class="w-full p-3 bg-green-600 hover:bg-green-700 text-white rounded-lg">
+                                Resolve YES
+                            </button>
+                            <button onclick="resolveMarket('${market.id}', false)"
+                                    class="w-full p-3 bg-red-600 hover:bg-red-700 text-white rounded-lg">
+                                Resolve NO
+                            </button>
+                            <button onclick="this.closest('.fixed').remove()" 
+                                    class="w-full border border-gray-700 text-gray-400 p-4 rounded-lg hover:bg-gray-800">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
 
-            <div class="space-y-4">
-                ${outcomeButtons}
-                <button onclick="this.closest('.fixed').remove()" 
-                        class="w-full border border-gray-700 text-gray-400 p-4 rounded-lg hover:bg-gray-800">
-                    Cancel
-                </button>
-            </div>
-        </div>
-    `;
-
-    document.body.appendChild(modal);
+            document.body.appendChild(modal);
+        });
+    } catch (error) {
+        console.error('Error showing resolution modal:', error);
+        showErrorMessage('Error loading market details');
+    }
 }
+
+
 
 async function submitNewPrice(marketId) {
     try {
@@ -6276,7 +6858,7 @@ async function submitNewPrice(marketId) {
         
         const newPrice = parseFloat(slider.value) / 100;
         
-        await pp123.collection('markets').doc(marketId).update({
+        await db.collection('markets').doc(marketId).update({
             currentPrice: newPrice,
             lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
             priceHistory: firebase.firestore.FieldValue.arrayUnion({
@@ -6301,12 +6883,159 @@ async function submitNewPrice(marketId) {
     }
 }
 
+
+async function resolveBinaryMarket(marketId, result) {
+    if (typeof result !== 'boolean') {
+        showErrorMessage('Invalid resolution result');
+        return;
+    }
+
+    try {
+        const marketRef = db.collection('markets').doc(marketId);
+        const marketDoc = await marketRef.get();
+        
+        if (!marketDoc.exists) {
+            showErrorMessage('Market not found');
+            return;
+        }
+
+        const market = marketDoc.data();
+        if (market.resolved) {
+            showErrorMessage('Market is already resolved');
+            return;
+        }
+
+        await db.runTransaction(async (transaction) => {
+            const usersSnapshot = await db.collection('users').get();
+
+            for (const userDoc of usersSnapshot.docs) {
+                const userData = userDoc.data();
+                const bets = userData.bets || [];
+                const marketBets = bets.filter(bet => bet.marketId === marketId);
+                const otherBets = bets.filter(bet => bet.marketId !== marketId);
+
+                if (marketBets.length > 0) {
+                    let payout = 0;
+                    marketBets.forEach(bet => {
+                        if ((bet.position === 'yes' && result === true) || 
+                            (bet.position === 'no' && result === false)) {
+                            payout += bet.shares;
+                        }
+                    });
+
+                    const updatedUser = {
+                        predictionPoints: firebase.firestore.FieldValue.increment(payout),
+                        bets: otherBets
+                    };
+
+                    transaction.update(userDoc.ref, updatedUser);
+                }
+            }
+
+            const resolutionData = {
+                resolved: true,
+                resolvedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                finalResult: result,
+                currentPrice: result ? 1 : 0
+            };
+
+            transaction.update(marketRef, resolutionData);
+        });
+
+        document.querySelector('.fixed')?.remove();
+        showSuccessMessage(`Market resolved as ${result ? 'YES' : 'NO'}`);
+        await updateMarkets();
+        
+    } catch (error) {
+        console.error('Error resolving market:', error);
+        showErrorMessage(error.message);
+    }
+}
+
+async function resolveMultiOutcomeMarket(marketId, winningOutcome) {
+    if (!winningOutcome || typeof winningOutcome !== 'string') {
+        showErrorMessage('Invalid winning outcome');
+        return;
+    }
+
+    try {
+        const marketRef = db.collection('markets').doc(marketId);
+        const marketDoc = await marketRef.get();
+        
+        if (!marketDoc.exists) {
+            showErrorMessage('Market not found');
+            return;
+        }
+
+        const market = marketDoc.data();
+        if (market.resolved) {
+            showErrorMessage('Market is already resolved');
+            return;
+        }
+
+        if (!market.outcomes.some(o => o.name === winningOutcome)) {
+            showErrorMessage('Invalid outcome selected');
+            return;
+        }
+
+        await db.runTransaction(async (transaction) => {
+            const usersSnapshot = await db.collection('users').get();
+
+            for (const userDoc of usersSnapshot.docs) {
+                const userData = userDoc.data();
+                const bets = userData.bets || [];
+                const marketBets = bets.filter(bet => bet.marketId === marketId);
+                const otherBets = bets.filter(bet => bet.marketId !== marketId);
+
+                if (marketBets.length > 0) {
+                    let payout = 0;
+                    marketBets.forEach(bet => {
+                        if (bet.outcome === winningOutcome) {
+                            payout += bet.shares;
+                        }
+                    });
+
+                    const updatedUser = {
+                        predictionPoints: firebase.firestore.FieldValue.increment(payout),
+                        bets: otherBets
+                    };
+
+                    transaction.update(userDoc.ref, updatedUser);
+                }
+            }
+
+            const updatedOutcomes = market.outcomes.map(outcome => ({
+                name: outcome.name,
+                currentPrice: outcome.name === winningOutcome ? 1 : 0
+            }));
+
+            const resolutionData = {
+                resolved: true,
+                resolvedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                winningOutcome: winningOutcome,
+                outcomes: updatedOutcomes
+            };
+
+            transaction.update(marketRef, resolutionData);
+        });
+
+        document.querySelector('.fixed')?.remove();
+        showSuccessMessage(`Market resolved with winner: ${winningOutcome}`);
+        await updateMarkets();
+        
+    } catch (error) {
+        console.error('Error resolving market:', error);
+        showErrorMessage(error.message);
+    }
+}
+
+
 async function submitPriceUpdate(marketId) {
     try {
         const slider = document.getElementById('new-price-slider');
         const newPrice = parseFloat(slider.value) / 100;
 
-        await pp123.collection('markets').doc(marketId).update({
+        await db.collection('markets').doc(marketId).update({
             currentPrice: newPrice,
             lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
             priceHistory: firebase.firestore.FieldValue.arrayUnion({
@@ -6330,8 +7059,8 @@ async function submitResolution(marketId, result) {
         const market = markets.find(m => m.id === marketId);
         if (!market) throw new Error('Market not found');
 
-        await pp123.runTransaction(async (transaction) => {
-            const marketRef = pp123.collection('markets').doc(marketId);
+        await db.runTransaction(async (transaction) => {
+            const marketRef = db.collection('markets').doc(marketId);
             const marketDoc = await transaction.get(marketRef);
 
             if (marketDoc.data().resolved) {
@@ -6360,8 +7089,8 @@ async function submitResolution(marketId, result) {
 
 async function processPayouts(marketId, result) {
     try {
-        const usersSnapshot = await pp123.collection('users').get();
-        const batch = pp123.batch();
+        const usersSnapshot = await db.collection('users').get();
+        const batch = db.batch();
         let payoutCount = 0;
         
         for (const userDoc of usersSnapshot.docs) {
@@ -6371,7 +7100,7 @@ async function processPayouts(marketId, result) {
             
             if (relevantBets.length > 0) {
                 let totalPayout = 0;
-                const updatepp123ets = bets.filter(bet => {
+                const updatedbets = bets.filter(bet => {
                     if (bet.marketId === marketId) {
                         if ((bet.position === 'yes' && result) || 
                             (bet.position === 'no' && !result)) {
@@ -6385,7 +7114,7 @@ async function processPayouts(marketId, result) {
                 if (totalPayout > 0) {
                     batch.update(userDoc.ref, {
                         funbucks: firebase.firestore.FieldValue.increment(totalPayout),
-                        bets: updatepp123ets
+                        bets: updatedbets
                     });
                     payoutCount++;
                 }
@@ -6436,9 +7165,16 @@ function formatCommentTimestamp(timestamp) {
 function initializeOfflineProtection() {
     if (!navigator.onLine) {
         document.querySelectorAll('.bet-yes, .bet-no').forEach(button => {
-            button.disabled = true;
-            button.classList.add('opacity-50');
-        });
+        const isYes = button.classList.contains('bet-yes');
+        const price = button.textContent.match(/\$[\d.]+/)[0];
+        
+        button.className = `bet-button ${isYes ? 'yes' : 'no'}`;
+        button.innerHTML = `
+            <span class="bet-icon">${isYes ? '✓' : '✕'}</span>
+            <span>${isYes ? 'YES' : 'NO'}</span>
+            <span class="bet-price">${price}</span>
+        `;
+    });
     }
 }
 function showQuickPriceUpdate(marketId, currentPrice) {
@@ -6495,7 +7231,7 @@ async function createMarket() {
         const category = document.getElementById('market-category').value;
         const image = document.getElementById('market-image').value;
         const initialPrice = parseInt(document.getElementById('market-price').value) / 100;
-        const suggestepp123y = document.getElementById('suggested-by')?.value;
+        const suggestedby = document.getElementById('suggested-by')?.value;
 
         if (!title || !description || !category || !image) {
             alert('Please fill all fields');
@@ -6503,16 +7239,16 @@ async function createMarket() {
         }
 
         let suggesterData = {};
-        if (marketType === 'community' && suggestepp123y) {
-            const suggesterDoc = await pp123.collection('users')
-                .where('username', '==', suggestepp123y)
+        if (marketType === 'community' && suggestedby) {
+            const suggesterDoc = await db.collection('users')
+                .where('username', '==', suggestedby)
                 .limit(1)
                 .get();
 
             if (!suggesterDoc.empty) {
                 suggesterData = {
-                    suggestepp123y: suggestepp123y,
-                    suggestepp123yProfilePic: suggesterDoc.docs[0].data().profilePicture || DEFAULT_PROFILE_PIC
+                    suggestedby: suggestedby,
+                    suggestedbyProfilePic: suggesterDoc.docs[0].data().profilePicture || DEFAULT_PROFILE_PIC
                 };
             }
         }
@@ -6534,7 +7270,7 @@ async function createMarket() {
             }]
         };
 
-        await pp123.collection('markets').add(marketData);
+        await db.collection('markets').add(marketData);
         document.querySelector('.fixed').remove();
         showSuccessMessage('Market created successfully!');
         await getMarkets();
@@ -6581,7 +7317,7 @@ async function loadAdminMarkets() {
     if (!marketsList) return;
 
     try {
-        const snapshot = await pp123.collection('markets')
+        const snapshot = await db.collection('markets')
             .orderBy('createdAt', 'desc')
             .get();
 
@@ -6622,19 +7358,8 @@ async function loadAdminMarkets() {
                                     class="p-2 bg-blue-600 hover:bg-blue-700 text-white rounded">
                                 Update Price
                             </button>
-                            <button onclick="resolveMarket('${doc.id}')"
-                                    class="p-2 bg-green-600 hover:bg-green-700 text-white rounded">
-                                Resolve
-                            </button>
                         ` : ''}
-                        <button onclick="editMarket('${doc.id}')"
-                                class="p-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded">
-                            Edit
-                        </button>
-                        <button onclick="deleteMarket('${doc.id}')"
-                                class="p-2 bg-red-600 hover:bg-red-700 text-white rounded">
-                            Delete
-                        </button>
+                        
                     </div>
                 </div>
             `;
@@ -6646,63 +7371,192 @@ async function loadAdminMarkets() {
     }
 }
 
-async function resolveMarket(marketId) {
-    if (!currentUser?.isAdmin) return;
 
+
+// <button onclick="resolveMarket('${doc.id}')"
+//                                     class="p-2 bg-green-600 hover:bg-green-700 text-white rounded">
+//                                 Resolve
+//                             </button>
+//                             <button onclick="editMarket('${doc.id}')"
+//                                 class="p-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded">
+//                             Edit
+//                         </button>
+//                         <button onclick="deleteMarket('${doc.id}')"
+//                                 class="p-2 bg-red-600 hover:bg-red-700 text-white rounded">
+//                             Delete
+//                         </button>
+
+function showResolutionModal(marketId) {
     try {
-        const marketRef = pp123.collection('markets').doc(marketId);
+        db.collection('markets').doc(marketId).get().then(doc => {
+            if (!doc.exists) {
+                showErrorMessage('Market not found');
+                return;
+            }
+
+            const market = { id: doc.id, ...doc.data() };
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[60]';
+            
+            if (market.marketType === 'multi') {
+                modal.innerHTML = `
+                    <div class="bg-gray-900 rounded-xl p-6 max-w-md w-full">
+                        <h3 class="text-xl font-bold text-blue-300 mb-4">Resolve Market</h3>
+                        <div class="mb-4">
+                            <h4 class="text-white mb-2">${market.title}</h4>
+                            <p class="text-gray-400">Select winning outcome:</p>
+                        </div>
+                        <div class="space-y-2">
+                            ${market.outcomes.map(outcome => `
+                                <button onclick="resolveMarket('${market.id}', null, '${outcome.name}')"
+                                        class="w-full p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
+                                    ${outcome.name}
+                                </button>
+                            `).join('')}
+                            <button onclick="this.closest('.fixed').remove()" 
+                                    class="w-full border border-gray-700 text-gray-400 p-4 rounded-lg hover:bg-gray-800">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                modal.innerHTML = `
+                    <div class="bg-gray-900 rounded-xl p-6 max-w-md w-full">
+                        <h3 class="text-xl font-bold text-blue-300 mb-4">Resolve Market</h3>
+                        <div class="mb-4">
+                            <h4 class="text-white mb-2">${market.title}</h4>
+                            <p class="text-gray-400">Select resolution:</p>
+                        </div>
+                        <div class="space-y-2">
+                            <button onclick="resolveMarket('${market.id}', true, null)"
+                                    class="w-full p-3 bg-green-600 hover:bg-green-700 text-white rounded-lg">
+                                Resolve YES
+                            </button>
+                            <button onclick="resolveMarket('${market.id}', false, null)"
+                                    class="w-full p-3 bg-red-600 hover:bg-red-700 text-white rounded-lg">
+                                Resolve NO
+                            </button>
+                            <button onclick="this.closest('.fixed').remove()" 
+                                    class="w-full border border-gray-700 text-gray-400 p-4 rounded-lg hover:bg-gray-800">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            document.body.appendChild(modal);
+        });
+    } catch (error) {
+        console.error('Error showing resolution modal:', error);
+        showErrorMessage('Error loading market details');
+    }
+}
+
+async function resolveMarket(marketId, result, winningOutcome) {
+    try {
+        const marketRef = db.collection('markets').doc(marketId);
         const marketDoc = await marketRef.get();
         const market = marketDoc.data();
 
-        const modal = document.createElement('div');
-        modal.className = 'fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center';
-        modal.style.zIndex = '100001';
+        if (!market) {
+            throw new Error('Market not found');
+        }
 
-        modal.innerHTML = `
-            <div class="bg-gray-900 rounded-xl p-6 max-w-md w-full">
-                <h3 class="text-xl font-bold text-blue-300 mb-4">Resolve Market</h3>
-                <div class="space-y-4">
-                    <div class="grid grid-cols-1 gap-3">
-                        <button onclick="confirmResolve('${marketId}', true, 2)"
-                                class="p-3 bg-green-600 hover:bg-green-700 text-white rounded-lg">
-                            Resolve YES (2 hour challenge)
-                        </button>
-                        <button onclick="confirmResolve('${marketId}', true, 24)"
-                                class="p-3 bg-green-600/80 hover:bg-green-700 text-white rounded-lg">
-                            Resolve YES (24 hour challenge)
-                        </button>
-                        <button onclick="confirmResolve('${marketId}', false, 2)"
-                                class="p-3 bg-red-600 hover:bg-red-700 text-white rounded-lg">
-                            Resolve NO (2 hour challenge)
-                        </button>
-                        <button onclick="confirmResolve('${marketId}', false, 24)"
-                                class="p-3 bg-red-600/80 hover:bg-red-700 text-white rounded-lg">
-                            Resolve NO (24 hour challenge)
-                        </button>
-                        ${market.resolved ? `
-                            <button onclick="unresolveMarket('${marketId}')"
-                                    class="p-3 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg">
-                                Revert to Unresolved
-                            </button>
-                        ` : ''}
-                    </div>
-                    <button onclick="this.closest('.fixed').remove()"
-                            class="w-full p-3 border border-gray-700 text-gray-400 rounded-lg hover:bg-gray-800">
-                        Cancel
-                    </button>
-                </div>
-            </div>
-        `;
+        if (market.resolved) {
+            throw new Error('Market already resolved');
+        }
 
-        document.body.appendChild(modal);
+        await db.runTransaction(async (transaction) => {
+            const usersSnapshot = await db.collection('users').get();
+            const updates = [];
+
+            for (const userDoc of usersSnapshot.docs) {
+                const userData = userDoc.data();
+                const bets = userData.bets || [];
+                const marketBets = bets.filter(bet => bet.marketId === marketId);
+                const otherBets = bets.filter(bet => bet.marketId !== marketId);
+
+                if (marketBets.length > 0) {
+                    let payout = 0;
+
+                    if (market.marketType === 'multi') {
+                        marketBets.forEach(bet => {
+                            if (bet.outcome === winningOutcome) {
+                                payout += bet.shares;
+                            }
+                        });
+                    } else {
+                        marketBets.forEach(bet => {
+                            if ((bet.position === 'yes' && result === true) || 
+                                (bet.position === 'no' && result === false)) {
+                                payout += bet.shares;
+                            }
+                        });
+                    }
+
+                    if (payout > 0 || otherBets.length !== bets.length) {
+                        updates.push({
+                            ref: userDoc.ref,
+                            data: {
+                                predictionPoints: firebase.firestore.FieldValue.increment(payout),
+                                bets: otherBets
+                            }
+                        });
+                    }
+                }
+            }
+
+            // Prepare resolution data based on market type
+            let resolutionData;
+            
+            if (market.marketType === 'multi') {
+                // Multi-outcome market resolution
+                const updatedOutcomes = market.outcomes.map(outcome => ({
+                    ...outcome,
+                    currentPrice: outcome.name === winningOutcome ? 1 : 0
+                }));
+
+                resolutionData = {
+                    resolved: true,
+                    resolvedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    winningOutcome: winningOutcome,
+                    outcomes: updatedOutcomes
+                };
+            } else {
+                // Binary market resolution
+                resolutionData = {
+                    resolved: true,
+                    resolvedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    finalResult: result === true, // Ensure boolean
+                    currentPrice: result === true ? 1 : 0
+                };
+            }
+
+            // Execute all updates
+            transaction.update(marketRef, resolutionData);
+            
+            // Process user updates
+            for (const update of updates) {
+                transaction.update(update.ref, update.data);
+            }
+        });
+
+        document.querySelector('.fixed')?.remove();
+        showSuccessMessage(`Market resolved successfully`);
+        await updateMarkets();
+
     } catch (error) {
-        console.error('Error showing resolution modal:', error);
-        showErrorMessage('Failed to show resolution modal');
+        console.error('Error resolving market:', error);
+        showErrorMessage(error.message || 'Failed to resolve market');
+        throw error; // Re-throw to see full error in console
     }
 }
+
 async function unresolveMarket(marketId) {
     try {
-        const marketRef = pp123.collection('markets').doc(marketId);
+        const marketRef = db.collection('markets').doc(marketId);
         const marketDoc = await marketRef.get();
         const market = marketDoc.data();
 
@@ -6726,7 +7580,7 @@ async function unresolveMarket(marketId) {
 }
 async function editMarket(marketId) {
     try {
-        const marketDoc = await pp123.collection('markets').doc(marketId).get();
+        const marketDoc = await db.collection('markets').doc(marketId).get();
         const market = marketDoc.data();
         
         const modal = document.createElement('div');
@@ -6775,8 +7629,8 @@ async function editMarket(marketId) {
 
 async function confirmResolve(marketId, result, challengeHours) {
     try {
-        await pp123.runTransaction(async (transaction) => {
-            const marketRef = pp123.collection('markets').doc(marketId);
+        await db.runTransaction(async (transaction) => {
+            const marketRef = db.collection('markets').doc(marketId);
             const marketDoc = await transaction.get(marketRef);
             const marketData = marketDoc.data();
             
@@ -6808,7 +7662,7 @@ async function confirmResolve(marketId, result, challengeHours) {
 }
 async function keepMarketOpen(marketId) {
     try {
-        const marketRef = pp123.collection('markets').doc(marketId);
+        const marketRef = db.collection('markets').doc(marketId);
         await marketRef.update({
             resolved: false,
             finalResult: null,
@@ -6907,7 +7761,7 @@ async function submitChallenge(event, marketId) {
     const links = form.querySelector('input').value;
     
     try {
-        await pp123.collection('markets').doc(marketId).update({
+        await db.collection('markets').doc(marketId).update({
             challenges: firebase.firestore.FieldValue.arrayUnion({
                 userId: auth.currentUser.uid,
                 username: currentUser.username,
@@ -6926,11 +7780,11 @@ async function submitChallenge(event, marketId) {
 }
 
 async function finalizeResolution(marketId) {
-    const marketDoc = await pp123.collection('markets').doc(marketId).get();
+    const marketDoc = await db.collection('markets').doc(marketId).get();
     const market = marketDoc.data();
     
     if (!market.challenges || market.challenges.length === 0) {
-        await pp123.collection('markets').doc(marketId).update({
+        await db.collection('markets').doc(marketId).update({
             finalized: true
         });
         await processPayouts(marketId, market.finalResult);
@@ -6943,7 +7797,7 @@ async function deleteMarket(marketId) {
     if (!confirm('Are you sure you want to delete this market?')) return;
 
     try {
-        await pp123.collection('markets').doc(marketId).delete();
+        await db.collection('markets').doc(marketId).delete();
         alert('Market deleted successfully!');
         loadAdminMarkets();
     } catch (error) {
@@ -6954,7 +7808,7 @@ async function deleteMarket(marketId) {
 
 async function getMarkets() {
     try {
-        const snapshot = await pp123.collection('markets').orderBy('createdAt', 'desc').get();
+        const snapshot = await db.collection('markets').orderBy('createdAt', 'desc').get();
         
         return snapshot.docs.map(doc => {
             const data = doc.data();
@@ -6979,7 +7833,7 @@ async function handleMarketSuggestion(suggestion) {
     if (!auth.currentUser) return;
 
     try {
-        const userRef = pp123.collection('users').doc(auth.currentUser.uid);
+        const userRef = db.collection('users').doc(auth.currentUser.uid);
         
         await userRef.update({
             hasSuccessfulSuggestion: true,
@@ -6996,7 +7850,7 @@ async function grantCloonerTitle(userId) {
     if (!currentUser?.isAdmin) return;
     
     try {
-        const userRef = pp123.collection('users').doc(userId);
+        const userRef = db.collection('users').doc(userId);
         await userRef.update({
             titles: firebase.firestore.FieldValue.arrayUnion('clooner')
         });
@@ -7150,35 +8004,35 @@ function filterMarketsByCategory(category) {
 
 // class UserDataStore {
 //     constructor() {
-//         this.pp123 = null;
+//         this.db = null;
 //         this.init();
 //     }
 
 //     async init() {
 //         return new Promise((resolve, reject) => {
-//             // const request = indexeddb.open(pp123.name, pp123.version);
+//             // const request = indexeddb.open(db.name, db.version);
 
 //             request.onerror = () => reject(request.error);
 //             request.onsuccess = () => {
-//                 this.pp123 = request.result;
+//                 this.db = request.result;
 //                 resolve();
 //             };
 
 //             request.onupgradeneeded = (event) => {
-//                 const pp123 = event.target.result;
-//                 if (!pp123.objectStoreNames.contains(pp123.store)) {
-//                     pp123.createObjectStore(pp123.store, { keyPath: 'userId' });
+//                 const db = event.target.result;
+//                 if (!db.objectStoreNames.contains(db.store)) {
+//                     db.createObjectStore(db.store, { keyPath: 'userId' });
 //                 }
 //             };
 //         });
 //     }
 
 //     async saveUserData(userId, data) {
-//         if (!this.pp123) await this.init();
+//         if (!this.db) await this.init();
         
 //         return new Promise((resolve, reject) => {
-//             const transaction = this.pp123.transaction([pp123.store], 'readwrite');
-//             const store = transaction.objectStore(pp123.store);
+//             const transaction = this.db.transaction([db.store], 'readwrite');
+//             const store = transaction.objectStore(db.store);
             
 //             const request = store.put({
 //                 userId,
@@ -7192,11 +8046,11 @@ function filterMarketsByCategory(category) {
 //     }
 
 //     async getUserData(userId) {
-//         if (!this.pp123) await this.init();
+//         if (!this.db) await this.init();
 
 //         return new Promise((resolve, reject) => {
-//             const transaction = this.pp123.transaction([pp123.store], 'readonly');
-//             const store = transaction.objectStore(pp123.store);
+//             const transaction = this.db.transaction([db.store], 'readonly');
+//             const store = transaction.objectStore(db.store);
 //             const request = store.get(userId);
 
 //             request.onsuccess = () => resolve(request.result);
@@ -7219,7 +8073,7 @@ async function updateUserData() {
             lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
         };
 
-        await pp123.collection('users').doc(auth.currentUser.uid).set(userData, { merge: true });
+        await db.collection('users').doc(auth.currentUser.uid).set(userData, { merge: true });
         
         portfolio.balance = userData.funbucks;
         portfolio.bets = userData.bets;
@@ -7241,8 +8095,8 @@ async function placeMarketBet(marketId, position, amount) {
         const price = position === 'yes' ? market.currentPrice : (1 - market.currentPrice);
         const shares = amount / price;
 
-        await pp123.runTransaction(async (transaction) => {
-            const userRef = pp123.collection('users').doc(auth.currentUser.uid);
+        await db.runTransaction(async (transaction) => {
+            const userRef = db.collection('users').doc(auth.currentUser.uid);
             const userDoc = await transaction.get(userRef);
             
             if (userDoc.data().predictionPoints < amount) {
@@ -7265,7 +8119,7 @@ async function placeMarketBet(marketId, position, amount) {
                 bets: firebase.firestore.FieldValue.arrayUnion(bet)
             });
 
-            transaction.set(pp123.collection('bets').doc(), {
+            transaction.set(db.collection('bets').doc(), {
                 marketId,
                 position,
                 amount,
@@ -7548,7 +8402,7 @@ function showBanHistory() {
     `;
 
     document.body.appendChild(modal);
-    loapp123anHistory();
+    loadbanHistory();
 
     const style = document.createElement('style');
     style.textContent = `
@@ -7570,9 +8424,9 @@ function showBanHistory() {
     document.head.appendChild(style);
 }
 
-async function loapp123anHistory() {
+async function loadbanHistory() {
     try {
-        const bansSnapshot = await pp123.collection('bans')
+        const bansSnapshot = await db.collection('bans')
             .orderBy('timestamp', 'desc')
             .get();
 
@@ -7623,15 +8477,28 @@ async function loapp123anHistory() {
 }
 window.addEventListener('offline', () => {
     document.querySelectorAll('.bet-yes, .bet-no').forEach(button => {
-        button.disabled = true;
-        button.classList.add('opacity-50');
-    });
-    showErrorMessage('You are offline. Betting is disabled.');
+        const isYes = button.classList.contains('bet-yes');
+        const price = button.textContent.match(/\$[\d.]+/)[0];
+        
+        button.className = `bet-button ${isYes ? 'yes' : 'no'}`;
+        button.innerHTML = `
+            <span class="bet-icon">${isYes ? '✓' : '✕'}</span>
+            <span>${isYes ? 'YES' : 'NO'}</span>
+            <span class="bet-price">${price}</span>
+        `;
+    });rrorMessage('You are offline. Betting is disabled.');
 });
 window.addEventListener('online', () => {
     document.querySelectorAll('.bet-yes, .bet-no').forEach(button => {
-        button.disabled = false;
-        button.classList.remove('opacity-50');
+        const isYes = button.classList.contains('bet-yes');
+        const price = button.textContent.match(/\$[\d.]+/)[0];
+        
+        button.className = `bet-button ${isYes ? 'yes' : 'no'}`;
+        button.innerHTML = `
+            <span class="bet-icon">${isYes ? '✓' : '✕'}</span>
+            <span>${isYes ? 'YES' : 'NO'}</span>
+            <span class="bet-price">${price}</span>
+        `;
     });
     
     if (auth.currentUser) {
@@ -7642,7 +8509,7 @@ async function verifyAccountConsistency() {
     if (!auth.currentUser || !navigator.onLine) return;
 
     try {
-        const userDoc = await pp123.collection('users').doc(auth.currentUser.uid).get();
+        const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
         const userData = userDoc.data();
         
         if (userData.funbucks !== portfolio.balance || 
@@ -8086,28 +8953,46 @@ function createMarketCard(market) {
             </div>
     `;
 
-    if (market.marketType === 'multi') {
-        content += `<div class="grid grid-cols-2 gap-2">`;
-        market.outcomes.forEach(outcome => {
+    if (!market.resolved) {
+        if (market.marketType === 'multi') {
+            content += `<div class="grid grid-cols-2 gap-2">`;
+            market.outcomes.forEach(outcome => {
+                content += `
+                    <button onclick="showMultiOutcomeBettingModal('${market.id}', '${outcome.name}')" 
+                            class="p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
+                        ${outcome.name} (${(outcome.currentPrice * 100).toFixed(1)}%)
+                    </button>
+                `;
+            });
+            content += `</div>`;
+        } else {
             content += `
-                <button onclick="showMultiOutcomeBettingModal('${market.id}', '${outcome.name}')" 
-                        class="p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
-                    ${outcome.name} (${(outcome.currentPrice * 100).toFixed(1)}%)
-                </button>
+                <div class="flex gap-2">
+                    <button onclick="showBettingModal('${market.id}', 'yes')" class="bet-yes w-1/2 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition-colors">
+                        Yes ($${market.currentPrice.toFixed(2)})
+                    </button>
+                    <button onclick="showBettingModal('${market.id}', 'no')" class="bet-no w-1/2 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg transition-colors">
+                        No ($${(1 - market.currentPrice).toFixed(2)})
+                    </button>
+                </div>
             `;
-        });
-        content += `</div>`;
-    } else if (!market.resolved) {
-        content += `
-            <div class="flex gap-2">
-                <button onclick="showBettingModal('${market.id}', 'yes')" class="bet-yes w-1/2 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition-colors">
-                    Yes ($${market.currentPrice.toFixed(2)})
-                </button>
-                <button onclick="showBettingModal('${market.id}', 'no')" class="bet-no w-1/2 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg transition-colors">
-                    No ($${(1 - market.currentPrice).toFixed(2)})
-                </button>
-            </div>
-        `;
+        }
+    } else {
+        if (market.marketType === 'multi') {
+            content += `
+                <div class="text-center p-4 bg-gray-800 rounded-lg">
+                    <div class="text-lg font-bold text-white">Resolved</div>
+                    <div class="text-blue-300">Winner: ${market.winningOutcome}</div>
+                </div>
+            `;
+        } else {
+            content += `
+                <div class="text-center p-4 bg-gray-800 rounded-lg">
+                    <div class="text-lg font-bold text-white">Resolved</div>
+                    <div class="text-blue-300">Result: ${market.finalResult ? 'YES' : 'NO'}</div>
+                </div>
+            `;
+        }
     }
 
     content += `</div>`;
@@ -8134,7 +9019,7 @@ function updateMarketCard(card, market) {
 async function updateMarketCommentCounts() {
     try {
         const marketsToUpdate = markets.map(async market => {
-            const commentsSnapshot = await pp123.collection('markets')
+            const commentsSnapshot = await db.collection('markets')
                 .doc(market.id)
                 .collection('comments')
                 .get();
@@ -8214,7 +9099,7 @@ function showMarketDiscussion(marketId) {
 }
 async function loadPortfolioData() {
     try {
-        const userDoc = await pp123.collection('users').doc(auth.currentUser.uid).get();
+        const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
         const userData = userDoc.data();
         
         portfolio.predictionPoints = userData.predictionPoints || 0;
@@ -8250,7 +9135,7 @@ async function submitComment(marketId) {
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
         };
 
-        await pp123.collection('markets').doc(marketId)
+        await db.collection('markets').doc(marketId)
             .collection('comments').add(comment);
 
         textarea.value = '';
@@ -8265,7 +9150,7 @@ async function postComment(marketId, text) {
     if (!auth.currentUser) return;
     
     try {
-        await pp123.collection('markets')
+        await db.collection('markets')
             .doc(marketId)
             .collection('comments')
             .add({
@@ -8287,7 +9172,7 @@ async function loadComments(marketId) {
     if (!commentsContainer) return;
     
     try {
-        const snapshot = await pp123.collection('markets')
+        const snapshot = await db.collection('markets')
             .doc(marketId)
             .collection('comments')
             .orderBy('timestamp', 'desc')
@@ -8415,7 +9300,7 @@ window.chartManager = {
 
 async function deleteComment(marketId, commentId) {
     try {
-        await pp123.collection('markets')
+        await db.collection('markets')
             .doc(marketId)
             .collection('comments')
             .doc(commentId)
@@ -8434,7 +9319,7 @@ function showEditMarketModal(marketId) {
         adminPanel.style.zIndex = '50';
     }
 
-    const marketDoc = pp123.collection('markets').doc(marketId).get();
+    const marketDoc = db.collection('markets').doc(marketId).get();
     marketDoc.then(doc => {
         const market = doc.data();
         
@@ -8529,7 +9414,7 @@ async function updateMarketDetails(marketId) {
             return;
         }
 
-        await pp123.collection('markets').doc(marketId).update({
+        await db.collection('markets').doc(marketId).update({
             title,
             description,
             category,
@@ -8551,10 +9436,10 @@ async function resetMarketHistory(marketId) {
     if (!confirm('Are you sure you want to reset the market history? This cannot be undone.')) return;
 
     try {
-        const market = await pp123.collection('markets').doc(marketId).get();
+        const market = await db.collection('markets').doc(marketId).get();
         const currentPrice = market.data().currentPrice;
 
-        await pp123.collection('markets').doc(marketId).update({
+        await db.collection('markets').doc(marketId).update({
             priceHistory: [{
                 date: new Date(),
                 price: currentPrice
@@ -8821,8 +9706,8 @@ async function sellBet(betIndex) {
         const currentPrice = bet.position === 'yes' ? market.currentPrice : (1 - market.currentPrice);
         const sellValue = bet.shares * currentPrice;
 
-        await pp123.runTransaction(async (transaction) => {
-            const userRef = pp123.collection('users').doc(auth.currentUser.uid);
+        await db.runTransaction(async (transaction) => {
+            const userRef = db.collection('users').doc(auth.currentUser.uid);
             const userDoc = await transaction.get(userRef);
             const userData = userDoc.data();
             
@@ -8836,11 +9721,11 @@ async function sellBet(betIndex) {
                 throw new Error('Bet has already been sold');
             }
 
-            const updatepp123ets = userData.bets.filter((_, idx) => idx !== betIndex);
+            const updatedbets = userData.bets.filter((_, idx) => idx !== betIndex);
             
             transaction.update(userRef, {
                 funbucks: firebase.firestore.FieldValue.increment(sellValue),
-                bets: updatepp123ets
+                bets: updatedbets
             });
         });
 
@@ -8863,15 +9748,15 @@ async function updateRecentActivity() {
         }
 
         const [betsSnapshot, tipsSnapshot, rainSnapshot] = await Promise.all([
-            pp123.collection('bets')
+            db.collection('bets')
                 .orderBy('timestamp', 'desc')
                 .limit(20)
                 .get(),
-            pp123.collection('tips')
+            db.collection('tips')
                 .orderBy('timestamp', 'desc')
                 .limit(10)
                 .get(),
-            pp123.collection('rain')
+            db.collection('rain')
                 .orderBy('timestamp', 'desc')
                 .limit(10)
                 .get()
@@ -9011,7 +9896,7 @@ async function validateTip(amount) {
   }
 
   try {
-    const userDoc = await pp123.collection('users').doc(auth.currentUser.uid).get();
+    const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
     const userData = userDoc.data();
 
     if (userData.funbucks < amount) {
@@ -9047,8 +9932,8 @@ async function sellPosition(betIndex, percentage) {
             sellValue = Math.floor((sharesToSell * currentPrice) * 1e8) / 1e8;
         }
 
-        await pp123.runTransaction(async (transaction) => {
-            const userRef = pp123.collection('users').doc(auth.currentUser.uid);
+        await db.runTransaction(async (transaction) => {
+            const userRef = db.collection('users').doc(auth.currentUser.uid);
             const remainingShares = percentage === 1 ? 0 : bet.shares * (1 - percentage);
             
             if (remainingShares > 0) {
@@ -9085,7 +9970,7 @@ async function sellPosition(betIndex, percentage) {
                 transactionData.position = bet.position;
             }
 
-            transaction.set(pp123.collection('bets').doc(), transactionData);
+            transaction.set(db.collection('bets').doc(), transactionData);
         });
 
         portfolio.predictionPoints += sellValue;
@@ -9120,7 +10005,7 @@ function createFunBucksGraph() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    pp123.collection('users').doc(auth.currentUser.uid).get().then(doc => {
+    db.collection('users').doc(auth.currentUser.uid).get().then(doc => {
         const userData = doc.data();
         const funbucksHistory = userData.funbucksHistory || [{
             date: new Date().toISOString(),
@@ -9254,8 +10139,8 @@ async function sellPartialPosition(betIndex) {
         const sellValue = sharesToSell * currentPrice;
         const remainingShares = bet.shares - sharesToSell;
         
-        await pp123.runTransaction(async (transaction) => {
-            const userRef = pp123.collection('users').doc(auth.currentUser.uid);
+        await db.runTransaction(async (transaction) => {
+            const userRef = db.collection('users').doc(auth.currentUser.uid);
             
             if (remainingShares > 0) {
                 bet.shares = remainingShares;
@@ -9352,7 +10237,7 @@ document.getElementById('save-profile-picture')?.addEventListener('click', async
     }
 
     try {
-        await pp123.collection('users').doc(auth.currentUser.uid).update({
+        await db.collection('users').doc(auth.currentUser.uid).update({
             profilePicture: newPictureUrl
         });
         
@@ -9365,6 +10250,30 @@ document.getElementById('save-profile-picture')?.addEventListener('click', async
     }
 });
 document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.bet-yes, .bet-no').forEach(button => {
+        const isYes = button.classList.contains('bet-yes');
+        const price = button.textContent.match(/\$[\d.]+/)[0];
+        
+        button.className = `bet-button ${isYes ? 'yes' : 'no'}`;
+        button.innerHTML = `
+            <span class="bet-icon">${isYes ? '✓' : '✕'}</span>
+            <span>${isYes ? 'YES' : 'NO'}</span>
+            <span class="bet-price">${price}</span>
+        `;
+    });
+
+    // Replace multi-outcome bet buttons
+    document.querySelectorAll('[onclick*="showMultiOutcomeBettingModal"]').forEach(button => {
+        const outcome = button.textContent.split('(')[0].trim();
+        const probability = button.textContent.match(/\((.*?)\)/)[1];
+        
+        button.className = 'bet-button multi';
+        button.innerHTML = `
+            <span class="bet-icon">◆</span>
+            <span>${outcome}</span>
+            <span class="bet-price">${probability}</span>
+        `;
+    });
     if (!window.h2hSystem) {
         console.error('H2H system not initialized');
         return;
@@ -9410,7 +10319,7 @@ async function grantOGTitle(userId) {
     if (!currentUser?.isAdmin) return;
     
     try {
-        const userRef = pp123.collection('users').doc(userId);
+        const userRef = db.collection('users').doc(userId);
         await userRef.update({
             titles: firebase.firestore.FieldValue.arrayUnion('og')
         });
@@ -9430,7 +10339,7 @@ async function removeOGTitle(userId) {
     if (!currentUser?.isAdmin) return;
     
     try {
-        const userRef = pp123.collection('users').doc(userId);
+        const userRef = db.collection('users').doc(userId);
         await userRef.update({
             titles: firebase.firestore.FieldValue.arrayRemove('og')
         });
@@ -9452,7 +10361,7 @@ async function updateLeaderboard() {
     const gameLeaderboard = document.getElementById('game-leaderboard');
 
     try {
-        const snapshot = await pp123.collection('users').get();
+        const snapshot = await db.collection('users').get();
 
         const users = await Promise.all(snapshot.docs.map(async doc => {
             const userData = doc.data();
@@ -9533,8 +10442,8 @@ function renderLeaderboard(leaders, type) {
 async function showUserProfile(userId) {
     try {
         const [userDoc, betsSnapshot] = await Promise.all([
-            pp123.collection('users').doc(userId).get(),
-            pp123.collection('bets')
+            db.collection('users').doc(userId).get(),
+            db.collection('bets')
                 .where('userId', '==', userId)
                 .orderBy('timestamp', 'desc')
                 .limit(50)
@@ -10101,7 +11010,7 @@ async function loadUserTitles() {
     if (!auth.currentUser) return;
 
     try {
-        const userRef = pp123.collection('users').doc(auth.currentUser.uid);
+        const userRef = db.collection('users').doc(auth.currentUser.uid);
         const userDoc = await userRef.get();
         const userData = userDoc.data();
         
@@ -10150,7 +11059,7 @@ async function equipTitle(titleId) {
     if (!auth.currentUser) return;
 
     try {
-        await pp123.collection('users').doc(auth.currentUser.uid).update({
+        await db.collection('users').doc(auth.currentUser.uid).update({
             activeTitle: titleId
         });
         showSuccessMessage('Title equipped!');
@@ -10165,7 +11074,7 @@ async function unequipTitle() {
     if (!auth.currentUser) return;
 
     try {
-        await pp123.collection('users').doc(auth.currentUser.uid).update({
+        await db.collection('users').doc(auth.currentUser.uid).update({
             activeTitle: null
         });
         showSuccessMessage('Title unequipped');
@@ -10177,9 +11086,9 @@ async function unequipTitle() {
 }
 
 
-async function recorpp123et(marketId, position, amount, price) {
+async function recordbet(marketId, position, amount, price) {
     try {
-        await pp123.collection('bets').add({
+        await db.collection('bets').add({
             marketId,
             position,
             amount,
@@ -10196,10 +11105,10 @@ async function recorpp123et(marketId, position, amount, price) {
     }
 }
 function calculateDiamondHandsProgress(userData) {
-    const completepp123ets = userData.completepp123ets || [];
+    const completedbets = userData.completedbets || [];
     let longestHold = 0;
 
-    completepp123ets.forEach(bet => {
+    completedbets.forEach(bet => {
         if (bet.sellTimestamp && bet.timestamp) {
             const holdTime = new Date(bet.sellTimestamp) - new Date(bet.timestamp);
             const holdHours = holdTime / (1000 * 60 * 60);
@@ -10242,11 +11151,11 @@ function createActivityItem(bet, market, timeAgo) {
         </div>
     `;
 }
-async function checkAnpp123anHighBalance(userId, newBalance) {
+async function checkAndbanHighBalance(userId, newBalance) {
     if (newBalance > 100000) {
         try {
-            await pp123.runTransaction(async (transaction) => {
-                const userRef = pp123.collection('users').doc(userId);
+            await db.runTransaction(async (transaction) => {
+                const userRef = db.collection('users').doc(userId);
                 const userDoc = await transaction.get(userRef);
                 const userData = userDoc.data();
 
@@ -10258,7 +11167,7 @@ async function checkAnpp123anHighBalance(userId, newBalance) {
                         banType: 'automatic'
                     });
 
-                    transaction.set(pp123.collection('bans').doc(), {
+                    transaction.set(db.collection('bans').doc(), {
                         userId: userId,
                         username: userData.username,
                         balanceAtBan: newBalance,
@@ -10267,12 +11176,12 @@ async function checkAnpp123anHighBalance(userId, newBalance) {
                         reason: 'Balance exceeded 100,000 FunBucks'
                     });
 
-                    const adminSnapshot = await pp123.collection('users')
+                    const adminSnapshot = await db.collection('users')
                         .where('isAdmin', '==', true)
                         .get();
 
                     adminSnapshot.docs.forEach(adminDoc => {
-                        transaction.set(pp123.collection('notifications').doc(), {
+                        transaction.set(db.collection('notifications').doc(), {
                             userId: adminDoc.id,
                             type: 'auto_ban',
                             message: `${userData.username} was automatically banned for exceeding 100,000 FunBucks`,
@@ -10391,8 +11300,8 @@ function updateLiveGamesDisplay() {
 async function processGameWin(amount) {
     try {
         const newBalance = portfolio.funbucks + amount;
-        await pp123.runTransaction(async (transaction) => {
-            const userRef = pp123.collection('users').doc(auth.currentUser.uid);
+        await db.runTransaction(async (transaction) => {
+            const userRef = db.collection('users').doc(auth.currentUser.uid);
             
             transaction.update(userRef, {
                 funbucks: firebase.firestore.FieldValue.increment(amount)
@@ -10413,7 +11322,7 @@ async function updateFunBucksHistory(newBalance) {
     if (!auth.currentUser) return;
 
     try {
-        const userRef = pp123.collection('users').doc(auth.currentUser.uid);
+        const userRef = db.collection('users').doc(auth.currentUser.uid);
         await userRef.update({
             funbucksHistory: firebase.firestore.FieldValue.arrayUnion({
                 date: new Date().toISOString(),
@@ -10426,7 +11335,7 @@ async function updateFunBucksHistory(newBalance) {
 }
 async function recordSell(marketId, position, amount, price) {
     try {
-        await pp123.collection('bets').add({
+        await db.collection('bets').add({
             marketId,
             position,
             amount,
@@ -10459,7 +11368,7 @@ async function handleProfilePictureUpload(input) {
     try {
         const base64 = await convertFileToBase64(file);
         
-        await pp123.collection('users').doc(auth.currentUser.uid).update({
+        await db.collection('users').doc(auth.currentUser.uid).update({
             profilePicture: base64
         });
 
@@ -10518,7 +11427,7 @@ async function compressImage(base64String) {
 }
 async function loadUserData(userId) {
     try {
-        const doc = await pp123.collection('users').doc(userId).get();
+        const doc = await db.collection('users').doc(userId).get();
         
         if (doc.exists) {
             const userData = doc.data();
@@ -10544,7 +11453,7 @@ async function loadUserData(userId) {
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             };
             
-            await pp123.collection('users').doc(userId).set(initialData);
+            await db.collection('users').doc(userId).set(initialData);
             
             portfolio = {
                 balance: initialData.funbucks,
@@ -10563,7 +11472,7 @@ async function updateUserData() {
     if (!auth.currentUser) return;
     
     try {
-        await pp123.collection('users').doc(auth.currentUser.uid).set({
+        await db.collection('users').doc(auth.currentUser.uid).set({
             username: currentUser.username,
             funbucks: portfolio.balance,
             bets: portfolio.bets,
@@ -10583,7 +11492,7 @@ async function updateUsername() {
     if (!newUsername || !auth.currentUser) return;
 
     try {
-        await pp123.collection('users').doc(auth.currentUser.uid).update({
+        await db.collection('users').doc(auth.currentUser.uid).update({
             username: newUsername
         });
         
@@ -10604,7 +11513,7 @@ document.getElementById('save-profile')?.addEventListener('click', async () => {
     }
 
     try {
-        await pp123.collection('users').doc(auth.currentUser.uid).update({
+        await db.collection('users').doc(auth.currentUser.uid).update({
             username: newUsername
         });
         
@@ -10626,8 +11535,8 @@ document.getElementById('save-profile')?.addEventListener('click', async () => {
 async function showUserDetails(userId) {
     try {
         const [userDoc, betsSnapshot] = await Promise.all([
-            pp123.collection('users').doc(userId).get(),
-            pp123.collection('bets')
+            db.collection('users').doc(userId).get(),
+            db.collection('bets')
                 .where('userId', '==', userId)
                 .orderBy('timestamp', 'desc')
                 .limit(50)
@@ -10781,15 +11690,15 @@ function calculateTitleProgress(userData, titleId) {
     }
 }
 function calculateWinRate(bets) {
-    const resolvepp123ets = bets.filter(bet => bet.market?.resolved);
-    if (resolvepp123ets.length === 0) return 0;
+    const resolvedbets = bets.filter(bet => bet.market?.resolved);
+    if (resolvedbets.length === 0) return 0;
 
-    const winningBets = resolvepp123ets.filter(bet => 
+    const winningBets = resolvedbets.filter(bet => 
         (bet.position === 'yes' && bet.market.finalResult) || 
         (bet.position === 'no' && !bet.market.finalResult)
     );
 
-    return (winningBets.length / resolvepp123ets.length) * 100;
+    return (winningBets.length / resolvedbets.length) * 100;
 }
 
 
@@ -10816,7 +11725,7 @@ window.addEventListener('load', () => {
 
 
 async function loadLeaderboardUsers() {
-    const usersSnapshot = await pp123.collection('users').get();
+    const usersSnapshot = await db.collection('users').get();
     const allUsers = await Promise.all(usersSnapshot.docs.map(async doc => {
         const userData = doc.data();
         const networth = await calculateUserNetworthFromData(userData);
@@ -10839,7 +11748,7 @@ async function calculateUserNetworthFromData(userData) {
     const fundsValue = userData.predictionPoints || 0;
     const userBets = userData.bets || [];
     
-    const marketsSnapshot = await pp123.collection('markets').get();
+    const marketsSnapshot = await db.collection('markets').get();
     const marketsData = new Map(marketsSnapshot.docs.map(doc => [doc.id, { id: doc.id, ...doc.data() }]));
     
     const betsValue = userBets.reduce((total, bet) => {
@@ -11062,8 +11971,8 @@ function calculateUserNetworth(userData) {
 //         }
         
 //         try {
-//             await pp123.runTransaction(async (transaction) => {
-//                 const userRef = pp123.collection('users').doc(auth.currentUser.uid);
+//             await db.runTransaction(async (transaction) => {
+//                 const userRef = db.collection('users').doc(auth.currentUser.uid);
 //                 const userDoc = await transaction.get(userRef);
                 
 //                 if (userDoc.data().funbucks < amount) {
@@ -11074,7 +11983,7 @@ function calculateUserNetworth(userData) {
 //                     funbucks: firebase.firestore.FieldValue.increment(-amount)
 //                 });
                 
-//                 transaction.set(pp123.collection('real_market_bets').doc(), {
+//                 transaction.set(db.collection('real_market_bets').doc(), {
 //                     userId: auth.currentUser.uid,
 //                     username: currentUser.username,
 //                     market: this.currentBet.market,
@@ -11169,7 +12078,7 @@ async function updateMultiOutcomePrices(marketId) {
     }
 
     try {
-        const marketRef = pp123.collection('markets').doc(marketId);
+        const marketRef = db.collection('markets').doc(marketId);
         const marketDoc = await marketRef.get();
         const market = marketDoc.data();
 
@@ -11408,7 +12317,7 @@ async function createMultiOutcomeMarket() {
             }] : []
         };
 
-        await pp123.collection('markets').add(marketData);
+        await db.collection('markets').add(marketData);
         document.querySelector('.fixed').remove();
         showSuccessMessage('Market created successfully!');
         await getMarkets();
@@ -11421,7 +12330,7 @@ async function createMultiOutcomeMarket() {
 
 
 function showMultiOutcomeBettingModal(marketId, outcome) {
-    pp123.collection('markets').doc(marketId).get().then(function(marketDoc) {
+    db.collection('markets').doc(marketId).get().then(function(marketDoc) {
         if (!marketDoc.exists) {
             showErrorMessage('Market not found');
             return;
@@ -11434,50 +12343,62 @@ function showMultiOutcomeBettingModal(marketId, outcome) {
             return;
         }
 
-        const modal = document.createElement('div');
-        modal.className = 'fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50';
+        const modal = document.getElementById('betting-modal');
+        if (!modal) return;
+
+        modal.classList.remove('hidden');
         
-        modal.innerHTML = `
-            <div class="bg-gray-900 rounded-xl p-6 max-w-md w-full">
-                <h3 class="text-xl font-bold text-blue-300 mb-4">Place Bet</h3>
-                <div class="space-y-4">
-                    <div class="flex gap-4 items-center mb-4">
-                        <img src="${market.image}" class="w-24 h-24 rounded-lg object-cover border border-gray-700">
-                        <div class="flex-1">
-                            <div class="text-lg font-medium text-white mb-2">${market.title}</div>
-                            <div class="text-sm text-gray-400">Selected: ${outcome}</div>
-                            <div class="text-sm text-blue-300">Current Odds: ${(selectedOutcome.currentPrice * 100).toFixed(1)}%</div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-gray-400 mb-2">Bet Amount</label>
-                        <div class="flex gap-2">
-                            <input type="number" id="multi-bet-amount" min="1" value="10" 
-                                   class="w-full p-3 rounded-lg bg-gray-800 border border-gray-700">
-                            <button onclick="adjustMultiBetAmount('half')" 
-                                    class="px-3 bg-blue-600 text-white rounded-lg">½</button>
-                            <button onclick="adjustMultiBetAmount('double')" 
-                                    class="px-3 bg-blue-600 text-white rounded-lg">2×</button>
-                        </div>
-                        <div class="text-sm text-gray-400 mt-1">Available: ${formatPoints(portfolio.predictionPoints)}</div>
-                    </div>
-
-                    <div class="flex gap-3">
-                        <button onclick="placeMultiOutcomeBet('${marketId}', '${outcome}')" 
-                                class="flex-1 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg">
-                            Confirm Bet
-                        </button>
-                        <button onclick="this.closest('.fixed').remove()" 
-                                class="flex-1 border border-gray-700 text-gray-400 p-3 rounded-lg hover:bg-gray-800">
-                            Cancel
-                        </button>
-                    </div>
+        const marketInfo = document.getElementById('modal-market-info');
+        marketInfo.innerHTML = `
+            <div class="flex gap-4 items-center mb-4">
+                <img src="${market.image}" class="w-24 h-24 rounded-lg object-cover border border-gray-700">
+                <div class="flex-1">
+                    <div class="font-medium text-white text-lg">${market.title}</div>
+                    <div class="text-sm text-gray-400 mt-1">Outcome: ${outcome}</div>
+                    <div class="text-sm text-blue-300 mt-1">Probability: ${(selectedOutcome.currentPrice * 100).toFixed(1)}%</div>
+                    <div class="text-sm text-blue-300">Available: ${formatPoints(portfolio.predictionPoints)}</div>
                 </div>
             </div>
         `;
+        
+        const betAmount = document.getElementById('bet-amount');
+        betAmount.value = Math.min(10, portfolio.predictionPoints);
+        betAmount.max = portfolio.predictionPoints;
 
-        document.body.appendChild(modal);
+        document.getElementById('available-points').textContent = formatPoints(portfolio.predictionPoints);
+
+        const updateBetDetails = () => {
+            const amount = parseFloat(betAmount.value) || 0;
+            const shares = amount / selectedOutcome.currentPrice;
+            document.getElementById('bet-details').innerHTML = `
+                <div class="flex justify-between mb-2">
+                    <span class="text-gray-400">Entry Price:</span>
+                    <span class="text-white">${(selectedOutcome.currentPrice * 100).toFixed(1)}%</span>
+                </div>
+                <div class="flex justify-between mb-2">
+                    <span class="text-gray-400">Shares:</span>
+                    <span class="text-white">${shares.toFixed(2)}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Potential Payout:</span>
+                    <span class="text-green-400">${formatPoints(shares)}</span>
+                </div>
+            `;
+        };
+        
+        betAmount.oninput = updateBetDetails;
+        updateBetDetails();
+        
+        const confirmBtn = document.getElementById('confirm-bet');
+        const cancelBtn = document.getElementById('cancel-bet');
+        
+        if (confirmBtn) {
+            confirmBtn.onclick = () => placeMultiOutcomeBet(marketId, outcome);
+        }
+        
+        if (cancelBtn) {
+            cancelBtn.onclick = () => modal.classList.add('hidden');
+        }
     }).catch(function(error) {
         console.error('Error loading market:', error);
         showErrorMessage('Error loading market');
@@ -11489,7 +12410,7 @@ async function placeBet(marketId, position) {
         const amount = parseFloat(document.getElementById('bet-amount').value);
         if (!validateBet(amount)) return;
 
-        const marketRef = pp123.collection('markets').doc(marketId);
+        const marketRef = db.collection('markets').doc(marketId);
         const marketDoc = await marketRef.get();
         
         if (!marketDoc.exists) throw new Error('Market not found');
@@ -11499,8 +12420,8 @@ async function placeBet(marketId, position) {
         const price = position === 'yes' ? market.currentPrice : (1 - market.currentPrice);
         const shares = amount / price;
 
-        await pp123.runTransaction(async (transaction) => {
-            const userRef = pp123.collection('users').doc(auth.currentUser.uid);
+        await db.runTransaction(async (transaction) => {
+            const userRef = db.collection('users').doc(auth.currentUser.uid);
             const userDoc = await transaction.get(userRef);
             
             if (userDoc.data().predictionPoints < amount) {
@@ -11524,7 +12445,7 @@ async function placeBet(marketId, position) {
                 bets: firebase.firestore.FieldValue.arrayUnion(bet)
             });
 
-            transaction.set(pp123.collection('bets').doc(), {
+            transaction.set(db.collection('bets').doc(), {
                 marketId,
                 position,
                 amount,
@@ -11574,7 +12495,7 @@ async function placeMultiOutcomeBet(marketId, outcomeSelected) {
         const amount = parseFloat(document.getElementById('multi-bet-amount').value);
         if (!validateBet(amount)) return;
 
-        const marketRef = pp123.collection('markets').doc(marketId);
+        const marketRef = db.collection('markets').doc(marketId);
         const marketDoc = await marketRef.get();
         
         if (!marketDoc.exists) throw new Error('Market not found');
@@ -11586,8 +12507,8 @@ async function placeMultiOutcomeBet(marketId, outcomeSelected) {
 
         const shares = amount / selectedOutcome.currentPrice;
 
-        await pp123.runTransaction(async (transaction) => {
-            const userRef = pp123.collection('users').doc(auth.currentUser.uid);
+        await db.runTransaction(async (transaction) => {
+            const userRef = db.collection('users').doc(auth.currentUser.uid);
             const userDoc = await transaction.get(userRef);
             
             if (userDoc.data().predictionPoints < amount) {
@@ -11611,7 +12532,7 @@ async function placeMultiOutcomeBet(marketId, outcomeSelected) {
                 bets: firebase.firestore.FieldValue.arrayUnion(bet)
             });
 
-            transaction.set(pp123.collection('bets').doc(), {
+            transaction.set(db.collection('bets').doc(), {
                 marketId,
                 outcome: outcomeSelected,
                 amount,
@@ -11661,7 +12582,7 @@ async function placeMultiOutcomeBet(marketId, outcomeSelected) {
 
 async function resolveMultiOutcomeMarket(marketId, winningOutcome) {
     try {
-        const marketRef = pp123.collection('markets').doc(marketId);
+        const marketRef = db.collection('markets').doc(marketId);
         const marketDoc = await marketRef.get();
         const market = marketDoc.data();
 
@@ -11674,8 +12595,8 @@ async function resolveMultiOutcomeMarket(marketId, winningOutcome) {
             throw new Error('Invalid outcome');
         }
 
-        await pp123.runTransaction(async (transaction) => {
-            const betsSnapshot = await pp123.collection('users')
+        await db.runTransaction(async (transaction) => {
+            const betsSnapshot = await db.collection('users')
                 .where('bets', 'array-contains', { marketId })
                 .get();
 
@@ -11684,7 +12605,7 @@ async function resolveMultiOutcomeMarket(marketId, winningOutcome) {
                 const relevantBets = userData.bets.filter(bet => bet.marketId === marketId);
                 
                 let totalPayout = 0;
-                const updatepp123ets = userData.bets.filter(bet => {
+                const updatedbets = userData.bets.filter(bet => {
                     if (bet.marketId === marketId) {
                         if (bet.outcome === winningOutcome) {
                             totalPayout += bet.shares;
@@ -11697,7 +12618,7 @@ async function resolveMultiOutcomeMarket(marketId, winningOutcome) {
                 if (totalPayout > 0) {
                     transaction.update(doc.ref, {
                         predictionPoints: firebase.firestore.FieldValue.increment(totalPayout),
-                        bets: updatepp123ets
+                        bets: updatedbets
                     });
                 }
             });
@@ -11733,8 +12654,65 @@ function adjustMultiBetAmount(type) {
 
 
 
-
 document.addEventListener('DOMContentLoaded', () => {
+    // Show market filters initially if home tab is active
+    const homeTab = document.getElementById('home-tab');
+    const marketFilters = document.querySelector('.market-filters');
+    if (homeTab && !homeTab.classList.contains('hidden')) {
+        document.body.classList.add('home-tab-active');
+    }
+
+    // Update tab click handlers
+    document.querySelectorAll('.tab-button').forEach(button => {
+        button.addEventListener('click', async () => {
+            const tabName = button.getAttribute('data-tab');
+            
+            // Remove selected state from all buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Add selected state to clicked button
+            button.classList.add('selected');
+            
+            // Hide all tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+
+            // Show selected tab content
+            const tabContent = document.getElementById(`${tabName}-tab`);
+            if (tabContent) {
+                tabContent.classList.remove('hidden');
+                
+                // Toggle home-tab-active class on body
+                if (tabName === 'home') {
+                    document.body.classList.add('home-tab-active');
+                } else {
+                    document.body.classList.remove('home-tab-active');
+                }
+                
+                // Handle specific tab initialization
+                switch(tabName) {
+                    case 'home':
+                        await updateMarkets();
+                        await updateRecentActivity();
+                        break;
+                    case 'portfolio':
+                        await updatePortfolioDisplays();
+                        break;
+                    case 'leaderboard':
+                        await updateLeaderboard();
+                        break;
+                    case 'profile':
+                        await loadProfileData();
+                        break;
+                }
+            }
+        });
+    });
+
+    // Initialize market search and filters
     const marketSearch = document.getElementById('market-search');
     if (marketSearch) {
         marketSearch.addEventListener('input', filterMarkets);
@@ -11755,21 +12733,17 @@ document.addEventListener('DOMContentLoaded', () => {
             filterMarkets();
         });
     });
-    updateHeaderDisplay();
-    const tabButtons = document.querySelectorAll('[data-tab]');
-    tabButtons.forEach(button => {
-        button.addEventListener('click', async () => {
-            const tabName = button.getAttribute('data-tab');
-            if (tabName === 'live-games') {
-                await loadLeaderboards();
-                updateFunbucksDisplay();
-            } else if (tabName === 'leaderboard') {
-                await loadLeaderboards();
-            }
-        });
-    });
-    
 });
+
+chartManager.createChart = function(ctx, market) {
+    if (!ctx || !ctx.canvas || !market) return null;
+    const chartId = ctx.canvas.id;
+    this.destroyChart(chartId);
+    
+    const chart = createEnhancedChart(ctx, market);
+    this.instances.set(chartId, chart);
+    return chart;
+};
 </script>
 </body>
 </html>
