@@ -2855,53 +2855,142 @@ header {
                         </div>
             
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <!-- <button onclick="showPlinkoGame()" 
+                                    class="p-6 bg-gray-800 rounded-xl border border-purple-500/20 hover:border-purple-500/40 transition-all">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 rounded-lg bg-purple-600 flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <circle cx="6" cy="6" r="1" stroke-width="2"/>
+                                            <circle cx="12" cy="6" r="1" stroke-width="2"/>
+                                            <circle cx="18" cy="6" r="1" stroke-width="2"/>
+                                            
+                                            <circle cx="9" cy="10" r="1" stroke-width="2"/>
+                                            <circle cx="15" cy="10" r="1" stroke-width="2"/>
+                                            
+                                            <circle cx="6" cy="14" r="1" stroke-width="2"/>
+                                            <circle cx="12" cy="14" r="1" stroke-width="2"/>
+                                            <circle cx="18" cy="14" r="1" stroke-width="2"/>
+                                            
+                                            <circle cx="12" cy="3" r="1.5" stroke-width="2"/>
+                                        
+                                            <line x1="3" y1="20" x2="21" y2="20" stroke-width="2"/>
+                                            <line x1="6" y1="20" x2="6" y2="17" stroke-width="2"/>
+                                            <line x1="12" y1="20" x2="12" y2="17" stroke-width="2"/>
+                                            <line x1="18" y1="20" x2="18" y2="17" stroke-width="2"/>
+                                        </svg>
+                                        
+                                    </div>
+                                    <div class="text-left">
+                                        <div class="text-lg font-bold text-white">Plinko</div>
+                                        <div class="text-sm text-gray-400">Max Win: 10x</div>
+                                    </div>
+                                </div>
+                            </button> -->
                             <button onclick="" 
                                     class="p-6 bg-gray-800 rounded-xl border border-purple-500/20 hover:border-purple-500/40 transition-all">
                                 <div class="flex items-center gap-3">
                                     <div class="w-12 h-12 rounded-lg bg-purple-600 flex items-center justify-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                            <circle cx="6" cy="6" r="1" stroke-width="2"/>
+                                            <circle cx="12" cy="6" r="1" stroke-width="2"/>
+                                            <circle cx="18" cy="6" r="1" stroke-width="2"/>
+                                            
+                                            <circle cx="9" cy="10" r="1" stroke-width="2"/>
+                                            <circle cx="15" cy="10" r="1" stroke-width="2"/>
+                                            
+                                            <circle cx="6" cy="14" r="1" stroke-width="2"/>
+                                            <circle cx="12" cy="14" r="1" stroke-width="2"/>
+                                            <circle cx="18" cy="14" r="1" stroke-width="2"/>
+                                            
+                                            <circle cx="12" cy="3" r="1.5" stroke-width="2"/>
+                                        
+                                            <line x1="3" y1="20" x2="21" y2="20" stroke-width="2"/>
+                                            <line x1="6" y1="20" x2="6" y2="17" stroke-width="2"/>
+                                            <line x1="12" y1="20" x2="12" y2="17" stroke-width="2"/>
+                                            <line x1="18" y1="20" x2="18" y2="17" stroke-width="2"/>
                                         </svg>
+                                        
                                     </div>
                                     <div class="text-left">
                                         <div class="text-lg font-bold text-white">Plinko</div>
-                                        <div id="countdown" class="text-sm text-gray-400">Loading Countdown...</div>
+                                        <div class="countdown" id="countdown1"></div>
                                     </div>
                                 </div>
                             </button>
-                        </div>
-                        <script>
-                            const targetDate = new Date('February 19, 2025 08:40:00').getTime();
-                        
-                            const countdownInterval = setInterval(function() {
-                                const now = new Date().getTime();
-                                const distance = targetDate - now;
-                        
-                                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                        
-                                document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-                        
-                                if (distance < 0) {
-                                    clearInterval(countdownInterval);
-                                    document.getElementById("countdown").innerHTML = "EXPIRED";
-                                }
-                            }, 1000);
-                        </script>
+                            <button onclick="showCoinFlipGame()" 
+                                class="p-6 bg-gray-800 rounded-xl border border-purple-500/20 hover:border-purple-500/40 transition-all">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-lg bg-purple-600 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <circle cx="12" cy="12" r="7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                    </svg>                                    
+                                </div>
+                                <div class="text-left">
+                                    <div class="text-lg font-bold text-white">Coin Toss</div>
+                                    <div class="text-sm text-gray-400">Max Win: 2x</div>
+                                </div>
+                            </div>
+                        </button>
+                        <button onclick="showCrashGame()" 
+                                class="p-6 bg-gray-800 rounded-xl border border-purple-500/20 hover:border-purple-500/40 transition-all">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-lg bg-purple-600 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19c-1 1-2 3-2 3s2-1 3-2m5 0c1 1 3 2 3 2s-1-2-2-3M10 13l2 2 2-2m0-4a2 2 0 11-4 0c0-2 2-5 2-5s2 3 2 5zM4 14s-1 4 4 4m12-4s1 4-4 4"/>
+                                    </svg>
+                                                                     
+                                </div>
+                                <div class="text-left">
+                                    <div class="text-lg font-bold text-white">Crash</div>
+                                    <div class="text-sm text-gray-400">Max Win: INFINITY</div>
+                                </div>
+                            </div>
+                        </button>
+                        <!-- <button onclick="showBlackjackGame()" 
+                                class="p-6 bg-gray-800 rounded-xl border border-purple-500/20 hover:border-purple-500/40 transition-all">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-lg bg-purple-600 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <rect x="5" y="3" width="14" height="18" rx="2" stroke-width="2"/>
+                                        <path d="M12 10s-2-2-3-2-2 1-2 2 2 3 5 5c3-2 5-4 5-5s-1-2-2-2-3 2-3 2z" stroke-width="2"/>
+                                    </svg>                                                                      
+                                </div>
+                                <div class="text-left">
+                                    <div class="text-lg font-bold text-white">Blackjack</div>
+                                    <div class="text-sm text-gray-400">Max Win: 3x</div>
+                                </div>
+                            </div>
+                        </button> -->
+                        <button onclick="" 
+                                class="p-6 bg-gray-800 rounded-xl border border-purple-500/20 hover:border-purple-500/40 transition-all">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-lg bg-purple-600 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <rect x="5" y="3" width="14" height="18" rx="2" stroke-width="2"/>
+                                        <path d="M12 10s-2-2-3-2-2 1-2 2 2 3 5 5c3-2 5-4 5-5s-1-2-2-2-3 2-3 2z" stroke-width="2"/>
+                                    </svg>                                                                      
+                                </div>
+                                <div class="text-left">
+                                    <div class="text-lg font-bold text-white">Blackjack</div>
+                                    
+                                    <div class="countdown" id="countdown2"></div>
+                                </div>
+                            </div>
+                        </button>    
                     </div>
+                    </div>
+                </div>
             
                     <div id="game-container" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[60]">
                         <div class="bg-gray-900 rounded-xl p-6 w-full max-w-4xl">
                             <div class="flex justify-between items-center mb-6">
                                 <div class="flex items-center gap-4">
                                     <div id="current-game-icon" class="w-10 h-10 rounded-lg bg-purple-600 flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/>
                                         </svg>
                                     </div>
-                                    <h2 id="current-game-title" class="text-2xl font-bold text-purple-300">Plinko</h2>
+                                    <h2 id="current-game-title" class="text-2xl font-bold text-purple-300">Live Games</h2>
                                 </div>
                                 <button onclick="hideGameModal()" class="text-gray-400 hover:text-white">×</button>
                             </div>
@@ -3183,6 +3272,39 @@ header {
     </div>
 
 <script>
+   function startCountdown(elementId) {
+            function updateCountdown() {
+                const targetDate = new Date();
+                targetDate.setFullYear(2025);
+                targetDate.setMonth(1);
+                targetDate.setDate(20);
+                targetDate.setHours(8);
+                targetDate.setMinutes(40);
+                targetDate.setSeconds(0);
+                targetDate.setMilliseconds(0);
+
+                const now = new Date();
+                const diff = targetDate - now;
+
+                if (diff <= 0) {
+                    document.getElementById(elementId).innerText = "Time's up!";
+                    return;
+                }
+
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                document.getElementById(elementId).innerText =
+                    `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }
+
+            setInterval(updateCountdown, 1000);
+            updateCountdown();
+        }
+        startCountdown("countdown1");
+        startCountdown("countdown2");
 const firebaseConfig = {
     apiKey: "AIzaSyADfvM5G6E17VatDCZGt5WfyhrU2kJl2c0",
     authDomain: "polyclone-charlito.firebaseapp.com",
@@ -12983,29 +13105,43 @@ function showPlinkoGame() {
         },
 
         setupPins() {
-            this.pins = [];
-            const rows = 7;  // 7 rows make the classic triangle
-            const pinSize = 4;
-            const spacing = 40;
+        this.pins = [];
+        const rows = 8;
+        const baseWidth = 800;
+        const baseHeight = 600;
+        
+        const pinSize = Math.min(this.width, this.height) * 0.006;
+        const verticalSpacing = this.height * 0.09;
+        const triangleHeight = verticalSpacing * (rows - 1);
+        const startY = (this.height - triangleHeight) * 0.3;
+        
+        const slots = difficulties[this.currentDifficulty].multipliers.length;
+        const horizontalSpacing = this.width / (slots - 1);
+        
+        for (let row = 0; row < rows; row++) {
+            const pinsInRow = row + 1;
+            const rowWidth = horizontalSpacing * (pinsInRow - 1);
+            const startX = (this.width - rowWidth) / 2;
             
-            // Start with middle pin and expand outward each row
-            for (let row = 0; row < rows; row++) {
-                const pinsInRow = row + 1;
-                
-                // Calculate starting position for pins in this row
-                // Each pin should align with the spaces between multiplier slots
-                const startOffset = -((row) * spacing / 2); 
-                
-                for (let pin = 0; pin < pinsInRow; pin++) {
-                    this.pins.push({
-                        x: (this.width / 2) + startOffset + (pin * spacing),
-                        y: 80 + (row * spacing),  // Start higher up
-                        radius: pinSize,
-                        glow: 0
-                    });
-                }
+            for (let pin = 0; pin < pinsInRow; pin++) {
+                this.pins.push({
+                    x: startX + (pin * horizontalSpacing),
+                    y: startY + (row * verticalSpacing),
+                    radius: pinSize,
+                    glow: 0
+                });
             }
-        },
+        }
+        
+        const finalRowY = startY + (rows - 1) * verticalSpacing;
+        const slotHeight = this.height - finalRowY - 40;
+        
+        this.slotConfig = {
+            y: finalRowY + slotHeight * 0.4,
+            height: slotHeight * 0.6,
+            spacing: this.width / slots
+        };
+    },
 
         drawBoard() {
             this.ctx.clearRect(0, 0, this.width, this.height);
@@ -13198,46 +13334,28 @@ function showPlinkoGame() {
             input.value = Math.max(1, Math.floor(currentBet * multiplier));
         },
 
-        async dropBall() {
-            const betInput = document.getElementById('plinko-bet');
-            const betAmount = Math.floor(parseFloat(betInput.value));
-            
-            if (!betAmount || betAmount < 1 || betAmount > portfolio.funbucks) {
-                showErrorMessage('Invalid bet amount');
-                return;
-            }
-
-            try {
-                await db.runTransaction(async (transaction) => {
-                    const userRef = db.collection('users').doc(auth.currentUser.uid);
-                    const userDoc = await transaction.get(userRef);
-                    
-                    if (userDoc.data().funbucks < betAmount) {
-                        throw new Error('Insufficient funds');
-                    }
-                    
-                    transaction.update(userRef, {
-                        funbucks: firebase.firestore.FieldValue.increment(-betAmount)
-                    });
-                });
-
-                portfolio.funbucks -= betAmount;
-                this.currentBet = betAmount;
-                this.updateDisplay();
-
-                // Create new ball at center with minimal initial velocity
-                this.balls.push({
-                    x: this.width / 2,  // Exactly center
-                    y: 20,              // Start near top
-                    vx: 0,              // No initial horizontal velocity
-                    vy: 0,              // Start with no vertical velocity
-                    landed: false
-                });
-
-            } catch (error) {
-                showErrorMessage(error.message || 'Failed to drop ball');
-            }
+        dropBall() {
+        const betInput = document.getElementById('plinko-bet');
+        const betAmount = Math.floor(parseFloat(betInput.value));
+        
+        if (!betAmount || betAmount < 1 || betAmount > portfolio.funbucks) {
+            showErrorMessage('Invalid bet amount');
+            return;
         }
+
+        portfolio.funbucks -= betAmount;
+        this.currentBet = betAmount;
+        this.updateDisplay();
+
+        const centerOffset = ((Math.random() * 2 - 1) * this.width * 0.05);
+        this.balls.push({
+            x: this.width / 2 + centerOffset,
+            y: 20,
+            vx: centerOffset * -0.1,
+            vy: 0,
+            landed: false
+        });
+    }
     };
 
     window.plinkoGame = plinkoGame;
@@ -13255,27 +13373,989 @@ function handlePinCollision(ball, pin) {
     const dy = ball.y - pin.y;
     const distance = Math.sqrt(dx * dx + dy * dy);
     
-    if (distance < 10) {  // Ball radius + pin radius
+    if (distance < 10) {
+        const centerBias = (this.width / 2 - ball.x) * 0.003;
         const angle = Math.atan2(dy, dx);
         const normalX = Math.cos(angle);
         const normalY = Math.sin(angle);
         
-        // Position ball just outside pin
         ball.x = pin.x + normalX * 10;
         ball.y = pin.y + normalY * 10;
         
-        // Calculate reflection with minimal randomness
         const dotProduct = ball.vx * normalX + ball.vy * normalY;
-        ball.vx = (ball.vx - 2 * dotProduct * normalX) * 0.6;
+        ball.vx = (ball.vx - 2 * dotProduct * normalX) * 0.6 + centerBias;
         ball.vy = (ball.vy - 2 * dotProduct * normalY) * 0.6;
         
-        // Add very slight randomness to prevent straight drops
-        ball.vx += (Math.random() - 0.5) * 0.2;  // Reduced random factor
+        ball.vx += (Math.random() - 0.5) * 0.15;
         
         pin.glow = 1;
         this.createParticle(ball.x, ball.y);
     }
 }
+
+
+
+const CoinFlipGame = {
+    canvas: null,
+    ctx: null,
+    width: 800,
+    height: 600,
+    currentBet: 0,
+    flipping: false,
+    coinRotation: 0,
+    coinRotationSpeed: 0,
+    coinScale: 1,
+    finalResult: null,
+    particleSystem: [],
+    suspenseTime: 0,
+
+    init() {
+        this.canvas = document.getElementById('coin-canvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.resize();
+        window.addEventListener('resize', () => this.resize());
+        this.animate();
+        this.updateDisplay();
+    },
+
+    resize() {
+        const container = this.canvas.parentElement;
+        const rect = container.getBoundingClientRect();
+        this.width = rect.width;
+        this.height = rect.height;
+        this.canvas.width = this.width;
+        this.canvas.height = this.height;
+    },
+
+    drawCoin() {
+        this.ctx.save();
+        this.ctx.translate(this.width / 2, this.height / 2);
+        this.ctx.scale(this.coinScale, Math.abs(Math.cos(this.coinRotation) * this.coinScale));
+        
+        // Outer glow
+        const glowGradient = this.ctx.createRadialGradient(0, 0, 80, 0, 0, 120);
+        glowGradient.addColorStop(0, 'rgba(255, 215, 0, 0.3)');
+        glowGradient.addColorStop(1, 'rgba(255, 215, 0, 0)');
+        this.ctx.fillStyle = glowGradient;
+        this.ctx.beginPath();
+        this.ctx.arc(0, 0, 120, 0, Math.PI * 2);
+        this.ctx.fill();
+
+        // Main coin body
+        const gradient = this.ctx.createRadialGradient(0, 0, 0, 0, 0, 100);
+        gradient.addColorStop(0, '#FFD700');
+        gradient.addColorStop(0.8, '#DAA520');
+        gradient.addColorStop(1, '#B8860B');
+        
+        this.ctx.fillStyle = gradient;
+        this.ctx.beginPath();
+        this.ctx.arc(0, 0, 100, 0, Math.PI * 2);
+        this.ctx.fill();
+
+        // Side being shown (Heads or Tails)
+        if (Math.cos(this.coinRotation) > 0) {
+            // Heads
+            this.ctx.fillStyle = '#B8860B';
+            this.ctx.font = 'bold 60px Arial';
+            this.ctx.textAlign = 'center';
+            this.ctx.textBaseline = 'middle';
+            this.ctx.fillText('H', 0, 0);
+        } else {
+            // Tails
+            this.ctx.fillStyle = '#B8860B';
+            this.ctx.font = 'bold 60px Arial';
+            this.ctx.textAlign = 'center';
+            this.ctx.textBaseline = 'middle';
+            this.ctx.fillText('T', 0, 0);
+        }
+
+        this.ctx.restore();
+    },
+
+    createParticles(count, color) {
+        for (let i = 0; i < count; i++) {
+            this.particleSystem.push({
+                x: this.width / 2,
+                y: this.height / 2,
+                vx: (Math.random() - 0.5) * 20,
+                vy: (Math.random() - 0.5) * 20,
+                size: Math.random() * 8 + 4,
+                color: color,
+                alpha: 1,
+                rotation: Math.random() * Math.PI * 2
+            });
+        }
+    },
+
+    updateParticles() {
+        this.particleSystem = this.particleSystem.filter(particle => {
+            particle.x += particle.vx;
+            particle.y += particle.vy;
+            particle.vy += 0.2;
+            particle.alpha *= 0.95;
+            particle.rotation += 0.1;
+            
+            this.ctx.save();
+            this.ctx.translate(particle.x, particle.y);
+            this.ctx.rotate(particle.rotation);
+            this.ctx.fillStyle = `rgba(${particle.color}, ${particle.alpha})`;
+            this.ctx.fillRect(-particle.size/2, -particle.size/2, particle.size, particle.size);
+            this.ctx.restore();
+
+            return particle.alpha > 0.1;
+        });
+    },
+
+    animate() {
+        this.ctx.clearRect(0, 0, this.width, this.height);
+
+        if (this.flipping) {
+            this.suspenseTime += 1;
+            
+            if (this.suspenseTime < 60) {
+                this.coinRotationSpeed = Math.min(this.coinRotationSpeed + 0.2, 1);
+                this.coinScale = 1 + Math.sin(this.suspenseTime * 0.1) * 0.1;
+            } else if (this.suspenseTime < 120) {
+                this.coinRotationSpeed = 1;
+                this.coinScale = 1.1 + Math.sin(this.suspenseTime * 0.1) * 0.1;
+                if (Math.random() < 0.1) this.createParticles(5, '255, 215, 0');
+            } else {
+                this.coinRotationSpeed *= 0.98;
+                this.coinScale = Math.max(1, this.coinScale * 0.99);
+                
+                if (this.coinRotationSpeed < 0.01) {
+                    this.flipping = false;
+                    this.coinRotationSpeed = 0;
+                    this.createParticles(30, '255, 215, 0');
+                    this.processResult();
+                }
+            }
+            
+            this.coinRotation += this.coinRotationSpeed;
+        }
+
+        this.drawCoin();
+        this.updateParticles();
+        requestAnimationFrame(() => this.animate());
+    },
+
+    updateDisplay() {
+        const balance = document.getElementById('coin-balance');
+        if (balance) {
+            balance.textContent = `${portfolio.funbucks} FunBucks`;
+        }
+    },
+
+    adjustBet(multiplier) {
+        const input = document.getElementById('coin-bet');
+        const currentBet = parseFloat(input.value) || 0;
+        input.value = Math.max(1, Math.floor(currentBet * multiplier));
+    },
+
+    async flipCoin(choice) {
+        const betInput = document.getElementById('coin-bet');
+        const betAmount = Math.floor(parseFloat(betInput.value));
+        
+        if (!betAmount || betAmount < 1 || betAmount > portfolio.funbucks) {
+            showErrorMessage('Invalid bet amount');
+            return;
+        }
+
+        if (this.flipping) return;
+
+        try {
+            await db.runTransaction(async (transaction) => {
+                const userRef = db.collection('users').doc(auth.currentUser.uid);
+                const userDoc = await transaction.get(userRef);
+                
+                if (userDoc.data().funbucks < betAmount) {
+                    throw new Error('Insufficient funds');
+                }
+                
+                transaction.update(userRef, {
+                    funbucks: firebase.firestore.FieldValue.increment(-betAmount)
+                });
+            });
+
+            portfolio.funbucks -= betAmount;
+            this.currentBet = betAmount;
+            this.updateDisplay();
+
+            this.flipping = true;
+            this.suspenseTime = 0;
+            this.coinRotationSpeed = 0.5;
+            this.finalResult = choice === 'heads';
+
+            // Add extra rotations to ensure we land on the right side
+            const currentSide = Math.cos(this.coinRotation) > 0;
+            const rotationsNeeded = Math.floor(Math.random() * 5) + 10;
+            this.targetRotation = this.coinRotation + (Math.PI * rotationsNeeded);
+            
+            if ((rotationsNeeded % 2 === 0) !== (currentSide === this.finalResult)) {
+                this.targetRotation += Math.PI;
+            }
+
+        } catch (error) {
+            showErrorMessage(error.message || 'Failed to start coin flip');
+        }
+    },
+
+    async processResult() {
+        const finalSide = Math.cos(this.coinRotation) > 0 ? 'heads' : 'tails';
+        const won = (finalSide === 'heads' && this.finalResult) || 
+                   (finalSide === 'tails' && !this.finalResult);
+        
+        if (won) {
+            const winAmount = this.currentBet * 2;
+            portfolio.funbucks += winAmount;
+            
+            await db.collection('users').doc(auth.currentUser.uid).update({
+                funbucks: firebase.firestore.FieldValue.increment(winAmount)
+            });
+            
+            const effects = document.getElementById('coin-effects');
+            const win = document.createElement('div');
+            win.className = 'absolute inset-0 flex items-center justify-center text-4xl font-bold text-green-400';
+            win.style.animation = 'float-up 1s ease-out forwards';
+            win.textContent = `+${formatCurrency(winAmount)}`;
+            effects.appendChild(win);
+            setTimeout(() => win.remove(), 1000);
+        }
+        
+        this.updateDisplay();
+    }
+};
+
+window.CoinFlipGame = CoinFlipGame;
+
+
+
+
+function showCoinFlipGame() {
+    const gameContainer = document.getElementById('game-container');
+    const gameContent = document.getElementById('current-game-content');
+    
+    gameContent.innerHTML = `
+        <div class="w-full h-full bg-[#0F1629] flex">
+            <div class="flex-1 relative">
+                <canvas id="coin-canvas"></canvas>
+                <div id="coin-effects"></div>
+            </div>
+            <div class="w-80 bg-[#1C2333] p-6 flex flex-col">
+                <div class="mb-8">
+                    <div class="text-gray-400 text-sm mb-2">Balance</div>
+                    <div id="coin-balance" class="text-2xl font-bold text-violet-400"></div>
+                </div>
+
+                <div class="mb-8">
+                    <div class="text-gray-400 text-sm mb-2">Bet Amount</div>
+                    <div class="flex items-center gap-2">
+                        <input type="number" id="coin-bet" value="10" min="1" 
+                               class="flex-1 px-4 py-2 bg-[#141926] rounded-lg text-white border border-gray-700">
+                        <button onclick="CoinFlipGame.adjustBet(0.5)" 
+                                class="w-12 h-10 bg-[#141926] text-white rounded-lg hover:bg-[#1C2333] transition-colors">½</button>
+                        <button onclick="CoinFlipGame.adjustBet(2)" 
+                                class="w-12 h-10 bg-[#141926] text-white rounded-lg hover:bg-[#1C2333] transition-colors">2×</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="CoinFlipGame.flipCoin('heads')" 
+                            class="w-full bg-green-600 text-white p-3 rounded-lg hover:bg-green-700 transition-colors">
+                        Heads
+                    </button>
+                    <button onclick="CoinFlipGame.flipCoin('tails')" 
+                            class="w-full bg-red-600 text-white p-3 rounded-lg hover:bg-red-700 transition-colors">
+                        Tails
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    gameContainer.classList.remove('hidden');
+    CoinFlipGame.init();
+}
+
+
+
+
+
+
+const CrashGame = {
+    canvas: null,
+    ctx: null,
+    width: 800,
+    height: 600,
+    multiplier: 1.00,
+    isPlaying: false,
+    hasPlaced: false,
+    hasCashed: false,
+    currentBet: 0,
+    gameStartTime: 0,
+    crashPoint: 0,
+    particles: [],
+    gameHistory: [],
+    waitingForBets: true,
+    betTimeout: null,
+
+    init() {
+        this.canvas = document.getElementById('crash-canvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.resize();
+        window.addEventListener('resize', () => this.resize());
+        this.animate();
+        this.updateDisplay();
+        this.generateHistory();
+        this.waitForBets();
+    },
+
+    resize() {
+        const container = this.canvas.parentElement;
+        const rect = container.getBoundingClientRect();
+        this.width = rect.width;
+        this.height = rect.height;
+        this.canvas.width = this.width;
+        this.canvas.height = this.height;
+    },
+
+    generateCrashPoint() {
+        const e = Math.random();
+        // Cap at 100x max
+        return Math.min(100, Math.max(1.00, (0.99 / (1 - e))));
+    },
+
+    calculateMultiplier(elapsed) {
+        // Ensures we start exactly at 1.00
+        if (elapsed <= 0) return 1.00;
+        
+        const baseSpeed = 0.2;  // Adjusted for smoother start
+        const acceleration = 1.15; 
+        const multiplier = 1 + (baseSpeed * (Math.pow(acceleration, elapsed) - 1));
+        
+        // Cap at 100x
+        return Math.min(100, multiplier);
+    },
+
+    generateHistory() {
+        this.gameHistory = [];
+        for (let i = 0; i < 10; i++) {
+            this.gameHistory.push(this.generateCrashPoint().toFixed(2));
+        }
+        this.updateHistory();
+    },
+
+    waitForBets() {
+        this.waitingForBets = true;
+        this.isPlaying = false;
+        this.multiplier = 1.00;
+        this.hasPlaced = false;
+        this.hasCashed = false;
+        clearTimeout(this.betTimeout);
+        
+        this.ctx.clearRect(0, 0, this.width, this.height);
+        this.ctx.fillStyle = '#fff';
+        this.ctx.font = 'bold 32px Arial';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText('Waiting for bets...', this.width / 2, this.height / 2);
+    },
+
+    startNewGame() {
+        if (this.waitingForBets) {
+            this.betTimeout = setTimeout(() => {
+                this.waitingForBets = false;
+                this.isPlaying = true;
+                this.multiplier = 1.00; // Explicitly set to 1.00
+                this.gameStartTime = Date.now();
+                this.crashPoint = this.generateCrashPoint();
+            }, 3000);
+
+            let countdown = 3;
+            const countdownInterval = setInterval(() => {
+                if (countdown > 0) {
+                    this.ctx.clearRect(0, 0, this.width, this.height);
+                    this.ctx.fillStyle = '#fff';
+                    this.ctx.font = 'bold 32px Arial';
+                    this.ctx.textAlign = 'center';
+                    this.ctx.fillText(`Starting in ${countdown}...`, this.width / 2, this.height / 2);
+                    countdown--;
+                } else {
+                    clearInterval(countdownInterval);
+                }
+            }, 1000);
+        }
+    },
+
+    drawGraph() {
+        this.ctx.clearRect(0, 0, this.width, this.height);
+        
+        // Grid
+        this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+        this.ctx.lineWidth = 1;
+        
+        for (let i = 0; i < 5; i++) {
+            const y = this.height - (i * this.height / 4);
+            this.ctx.beginPath();
+            this.ctx.moveTo(0, y);
+            this.ctx.lineTo(this.width, y);
+            this.ctx.stroke();
+            
+            this.ctx.fillStyle = '#9CA3AF';
+            this.ctx.font = '12px Arial';
+            // Adjusted grid labels
+            this.ctx.fillText((i * 25).toFixed(2) + 'x', 10, y - 10);
+        }
+
+        // Multiplier curve
+        this.ctx.beginPath();
+        this.ctx.strokeStyle = this.hasCashed ? '#60A5FA' : '#60A5FA';
+        this.ctx.lineWidth = 3;
+        
+        const startX = 0;
+        // Adjusted scaling for better visualization up to 100x
+        const endX = this.width * (this.multiplier - 1) / 100;
+        const startY = this.height;
+        const endY = this.height - (this.height * (this.multiplier - 1) / 100);
+        
+        this.ctx.moveTo(startX, startY);
+        this.ctx.bezierCurveTo(
+            startX + (endX - startX) * 0.5, startY,
+            startX + (endX - startX) * 0.5, endY,
+            endX, endY
+        );
+        this.ctx.stroke();
+
+        // Current multiplier
+        this.ctx.fillStyle = this.hasCashed ? '#60A5FA' : '#fff';
+        this.ctx.font = 'bold 48px Arial';
+        this.ctx.textAlign = 'center';
+        // Force two decimal places
+        this.ctx.fillText(this.multiplier.toFixed(2) + 'x', this.width / 2, this.height / 2);
+    },
+
+    createExplosion() {
+        for (let i = 0; i < 50; i++) {
+            this.particles.push({
+                x: this.width / 2,
+                y: this.height / 2,
+                vx: (Math.random() - 0.5) * 20,
+                vy: (Math.random() - 0.5) * 20,
+                size: Math.random() * 6 + 2,
+                color: '255, 59, 59',
+                alpha: 1
+            });
+        }
+    },
+
+    updateParticles() {
+        this.particles = this.particles.filter(particle => {
+            particle.x += particle.vx;
+            particle.y += particle.vy;
+            particle.vy += 0.2;
+            particle.alpha *= 0.95;
+            
+            this.ctx.fillStyle = `rgba(${particle.color}, ${particle.alpha})`;
+            this.ctx.fillRect(particle.x, particle.y, particle.size, particle.size);
+            
+            return particle.alpha > 0.1;
+        });
+    },
+
+    animate() {
+        if (this.isPlaying && !this.waitingForBets) {
+            const elapsed = (Date.now() - this.gameStartTime) / 1000;
+            // Ensure we start exactly at 1.00
+            this.multiplier = this.calculateMultiplier(elapsed);
+            
+            if (this.multiplier >= this.crashPoint || this.multiplier >= 100) {
+                this.crash();
+            }
+        }
+        
+        if (!this.waitingForBets) {
+            this.drawGraph();
+        }
+        this.updateParticles();
+        requestAnimationFrame(() => this.animate());
+    },
+
+    adjustBet(multiplier) {
+        const input = document.getElementById('crash-bet');
+        const currentBet = parseFloat(input.value) || 0;
+        input.value = Math.max(1, Math.floor(currentBet * multiplier));
+    },
+
+    updateDisplay() {
+        const balance = document.getElementById('crash-balance');
+        if (balance) {
+            balance.textContent = `${portfolio.funbucks} FunBucks`;
+        }
+    },
+
+    updateHistory() {
+        const history = document.getElementById('crash-history');
+        if (history) {
+            history.innerHTML = this.gameHistory.map(point => `
+                <div class="px-3 py-1 rounded ${parseFloat(point) >= 2 ? 'text-green-400' : 'text-red-400'}">
+                    ${point}x
+                </div>
+            `).join('');
+        }
+    },
+
+    async placeBet() {
+        if (this.isPlaying || this.hasPlaced) return;
+        
+        const betInput = document.getElementById('crash-bet');
+        const betAmount = Math.floor(parseFloat(betInput.value));
+        
+        if (!betAmount || betAmount < 1 || betAmount > portfolio.funbucks) {
+            showErrorMessage('Invalid bet amount');
+            return;
+        }
+
+        try {
+            await db.runTransaction(async (transaction) => {
+                const userRef = db.collection('users').doc(auth.currentUser.uid);
+                const userDoc = await transaction.get(userRef);
+                
+                if (userDoc.data().funbucks < betAmount) {
+                    throw new Error('Insufficient funds');
+                }
+                
+                transaction.update(userRef, {
+                    funbucks: firebase.firestore.FieldValue.increment(-betAmount)
+                });
+            });
+
+            portfolio.funbucks -= betAmount;
+            this.currentBet = betAmount;
+            this.hasPlaced = true;
+            this.updateDisplay();
+            
+            if (this.waitingForBets) {
+                this.startNewGame();
+            }
+
+        } catch (error) {
+            showErrorMessage(error.message || 'Failed to place bet');
+        }
+    },
+
+    async cashOut() {
+        if (!this.isPlaying || !this.hasPlaced || this.hasCashed) return;
+        
+        const winAmount = Math.floor(this.currentBet * this.multiplier);
+        
+        try {
+            await db.runTransaction(async (transaction) => {
+                const userRef = db.collection('users').doc(auth.currentUser.uid);
+                
+                transaction.update(userRef, {
+                    funbucks: firebase.firestore.FieldValue.increment(winAmount)
+                });
+            });
+
+            portfolio.funbucks += winAmount;
+            this.hasCashed = true;
+            this.updateDisplay();
+            
+            const effects = document.getElementById('crash-effects');
+            const win = document.createElement('div');
+            win.className = 'absolute inset-0 flex items-center justify-center text-4xl font-bold text-green-400';
+            win.style.animation = 'float-up 1s ease-out forwards';
+            win.textContent = `+${formatCurrency(winAmount)}`;
+            effects.appendChild(win);
+            setTimeout(() => win.remove(), 1000);
+
+        } catch (error) {
+            showErrorMessage(error.message || 'Failed to cash out');
+        }
+    },
+
+    crash() {
+        this.isPlaying = false;
+        this.createExplosion();
+        
+        this.gameHistory.unshift(this.multiplier.toFixed(2));
+        if (this.gameHistory.length > 10) {
+            this.gameHistory.pop();
+        }
+        this.updateHistory();
+        
+        setTimeout(() => {
+            this.waitForBets();
+        }, 2000);
+    }
+};
+
+window.CrashGame = CrashGame;
+
+function showCrashGame() {
+    const gameContainer = document.getElementById('game-container');
+    const gameContent = document.getElementById('current-game-content');
+    
+    gameContent.innerHTML = `
+        <div class="w-full h-full bg-[#0F1629] flex">
+            <div class="flex-1 relative">
+                <canvas id="crash-canvas"></canvas>
+                <div id="crash-effects"></div>
+            </div>
+            <div class="w-80 bg-[#1C2333] p-6 flex flex-col">
+                <div class="mb-8">
+                    <div class="text-gray-400 text-sm mb-2">Balance</div>
+                    <div id="crash-balance" class="text-2xl font-bold text-violet-400"></div>
+                </div>
+
+                <div class="mb-8">
+                    <div class="text-gray-400 text-sm mb-2">Bet Amount</div>
+                    <div class="flex items-center gap-2">
+                        <input type="number" id="crash-bet" value="10" min="1" 
+                               class="flex-1 px-4 py-2 bg-[#141926] rounded-lg text-white border border-gray-700">
+                        <button onclick="CrashGame.adjustBet(0.5)" 
+                                class="w-12 h-10 bg-[#141926] text-white rounded-lg hover:bg-[#1C2333] transition-colors">½</button>
+                        <button onclick="CrashGame.adjustBet(2)" 
+                                class="w-12 h-10 bg-[#141926] text-white rounded-lg hover:bg-[#1C2333] transition-colors">2×</button>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <div class="text-gray-400 text-sm mb-2">Game History</div>
+                    <div id="crash-history" class="flex flex-wrap gap-2"></div>
+                </div>
+
+                <div class="mt-auto grid grid-cols-2 gap-4">
+                    <button onclick="CrashGame.placeBet()" 
+                            class="w-full bg-green-600 text-white p-3 rounded-lg hover:bg-green-700 transition-colors">
+                        Place Bet
+                    </button>
+                    <button onclick="CrashGame.cashOut()" 
+                            class="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition-colors">
+                        Cash Out
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    gameContainer.classList.remove('hidden');
+    CrashGame.init();
+}
+
+
+
+const BlackjackGame = {
+    deck: [],
+    playerHands: [[]],
+    dealerHand: [],
+    currentBet: 0,
+    currentHandIndex: 0,
+    gameState: 'betting',
+    elements: null,
+
+    init() {
+        // Wait for elements to be in DOM
+        setTimeout(() => {
+            this.elements = {
+                dealerHand: document.querySelector('.dealer-hand'),
+                playerHands: document.querySelector('.player-hands'),
+                buttons: {
+                    hit: document.getElementById('hit-button'),
+                    stand: document.getElementById('stand-button'),
+                    double: document.getElementById('double-button'),
+                    split: document.getElementById('split-button')
+                },
+                displays: {
+                    balance: document.querySelector('.balance'),
+                    currentBet: document.querySelector('.current-bet'),
+                    effects: document.getElementById('blackjack-effects')
+                }
+            };
+            
+            this.setupGame();
+            this.shuffle();
+            this.updateDisplay();
+        }, 0);
+    },
+
+    setupGame() {
+        if (!this.elements) return;
+        this.updateControls();
+    },
+
+    updateDisplay() {
+        if (!this.elements) return;
+
+        // Update dealer's hand
+        if (this.elements.dealerHand) {
+            this.elements.dealerHand.innerHTML = this.dealerHand.map(card => this.renderCard(card)).join('');
+        }
+
+        // Update player's hands
+        if (this.elements.playerHands) {
+            this.elements.playerHands.innerHTML = this.playerHands.map((hand, index) => `
+                <div class="flex gap-2 ${index === this.currentHandIndex ? 'border-2 border-blue-500 p-2 rounded' : ''}">
+                    ${hand.map(card => this.renderCard(card)).join('')}
+                    <div class="text-white">
+                        Value: ${this.getHandValue(hand)}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Update displays
+        if (this.elements.displays.currentBet) {
+            this.elements.displays.currentBet.textContent = `Current Bet: ${formatCurrency(this.currentBet)}`;
+        }
+        if (this.elements.displays.balance) {
+            this.elements.displays.balance.textContent = `Balance: ${formatCurrency(portfolio.funbucks)}`;
+        }
+    },
+
+    updateControls() {
+        if (!this.elements?.buttons) return;
+        
+        const currentHand = this.playerHands[this.currentHandIndex];
+        const canAct = this.gameState === 'playing';
+        
+        Object.entries(this.elements.buttons).forEach(([action, button]) => {
+            if (button) {
+                switch(action) {
+                    case 'hit':
+                    case 'stand':
+                        button.disabled = !canAct;
+                        break;
+                    case 'double':
+                        button.disabled = !canAct || 
+                            currentHand.length !== 2 || 
+                            portfolio.funbucks < this.currentBet;
+                        break;
+                    case 'split':
+                        button.disabled = !canAct || 
+                            currentHand.length !== 2 || 
+                            this.getCardValue(currentHand[0]) !== this.getCardValue(currentHand[1]) ||
+                            portfolio.funbucks < this.currentBet;
+                        break;
+                }
+            }
+        });
+    },
+
+    showWinAnimation(amount) {
+        if (!this.elements?.displays.effects) return;
+        
+        const win = document.createElement('div');
+        win.className = 'absolute inset-0 flex items-center justify-center text-4xl font-bold text-green-400';
+        win.style.animation = 'float-up 1s ease-out forwards';
+        win.textContent = `+${formatCurrency(amount)}`;
+        this.elements.displays.effects.appendChild(win);
+        setTimeout(() => win.remove(), 1000);
+    },
+
+    // ... [rest of the BlackjackGame code remains the same] ...
+};
+
+function showBlackjackGame() {
+    const gameContainer = document.getElementById('game-container');
+    const gameContent = document.getElementById('current-game-content');
+    
+    if (!gameContainer || !gameContent) return;
+    
+    gameContent.innerHTML = `
+        <div class="w-full h-full bg-green-800 flex">
+            <div class="flex-1 relative p-4">
+                <div id="blackjack-container" class="h-full flex flex-col">
+                    <div class="dealer-section mb-8">
+                        <h3 class="text-white text-xl mb-4">Dealer's Hand</h3>
+                        <div class="dealer-hand flex gap-2"></div>
+                    </div>
+                    
+                    <div class="player-section mt-auto">
+                        <h3 class="text-white text-xl mb-4">Your Hand</h3>
+                        <div class="player-hands flex flex-col gap-4"></div>
+                    </div>
+                    
+                    <div id="blackjack-effects" class="absolute inset-0 pointer-events-none"></div>
+                </div>
+            </div>
+            
+            <div class="w-80 bg-green-900 p-6 flex flex-col">
+                <div class="mb-8">
+                    <div class="text-gray-300 text-sm mb-2">Your Balance</div>
+                    <div class="balance text-2xl font-bold text-green-400"></div>
+                </div>
+
+                <div class="mb-8">
+                    <div class="text-gray-300 text-sm mb-2">Current Bet</div>
+                    <div class="current-bet text-xl font-bold text-yellow-400">0</div>
+                    
+                    <div class="grid grid-cols-4 gap-2 mt-4">
+                        <button onclick="BlackjackGame.placeBet(10)" 
+                                class="bg-green-700 text-white p-2 rounded hover:bg-green-600">
+                            10
+                        </button>
+                        <button onclick="BlackjackGame.placeBet(25)" 
+                                class="bg-green-700 text-white p-2 rounded hover:bg-green-600">
+                            25
+                        </button>
+                        <button onclick="BlackjackGame.placeBet(50)" 
+                                class="bg-green-700 text-white p-2 rounded hover:bg-green-600">
+                            50
+                        </button>
+                        <button onclick="BlackjackGame.placeBet(100)" 
+                                class="bg-green-700 text-white p-2 rounded hover:bg-green-600">
+                            100
+                        </button>
+                    </div>
+                </div>
+
+                <div class="game-actions space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <button id="hit-button"
+                                onclick="BlackjackGame.hit()" 
+                                class="bg-blue-600 text-white p-3 rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                            Hit
+                        </button>
+                        <button id="stand-button"
+                                onclick="BlackjackGame.stand()" 
+                                class="bg-red-600 text-white p-3 rounded hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                            Stand
+                        </button>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <button id="double-button"
+                                onclick="BlackjackGame.double()" 
+                                class="bg-purple-600 text-white p-3 rounded hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                            Double
+                        </button>
+                        <button id="split-button"
+                                onclick="BlackjackGame.split()" 
+                                class="bg-yellow-600 text-white p-3 rounded hover:bg-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                            Split
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <div class="text-gray-300 text-sm mb-2">Game Rules</div>
+                    <div class="text-gray-400 text-sm space-y-2">
+                        <p>• Dealer stands on 17</p>
+                        <p>• Blackjack pays 3:2</p>
+                        <p>• Double down on any first two cards</p>
+                        <p>• Split identical cards</p>
+                        <p>• No insurance</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    gameContainer.classList.remove('hidden');
+    BlackjackGame.init();
+}
+
+window.BlackjackGame = BlackjackGame;
+
+
+function showBlackjackGame() {
+    const gameContainer = document.getElementById('game-container');
+    const gameContent = document.getElementById('current-game-content');
+    
+    gameContent.innerHTML = `
+        <div class="w-full h-full bg-green-800 flex">
+            <div class="flex-1 relative p-4">
+                <div id="blackjack-container" class="h-full flex flex-col">
+                    <div class="dealer-section mb-8">
+                        <h3 class="text-white text-xl mb-4">Dealer's Hand</h3>
+                        <div class="dealer-hand flex gap-2"></div>
+                    </div>
+                    
+                    <div class="player-section mt-auto">
+                        <h3 class="text-white text-xl mb-4">Your Hand</h3>
+                        <div class="player-hands flex flex-col gap-4"></div>
+                    </div>
+                    
+                    <div id="blackjack-effects" class="absolute inset-0 pointer-events-none"></div>
+                </div>
+            </div>
+            
+            <div class="w-80 bg-green-900 p-6 flex flex-col">
+                <div class="mb-8">
+                    <div class="text-gray-300 text-sm mb-2">Balance</div>
+                    <div class="balance text-2xl font-bold text-green-400"></div>
+                </div>
+
+                <div class="mb-8">
+                    <div class="text-gray-300 text-sm mb-2">Current Bet</div>
+                    <div class="current-bet text-xl font-bold text-yellow-400">0</div>
+                    
+                    <div class="grid grid-cols-4 gap-2 mt-4">
+                        <button onclick="BlackjackGame.placeBet(10)" 
+                                class="bg-green-700 text-white p-2 rounded hover:bg-green-600">
+                            10
+                        </button>
+                        <button onclick="BlackjackGame.placeBet(25)" 
+                                class="bg-green-700 text-white p-2 rounded hover:bg-green-600">
+                            25
+                        </button>
+                        <button onclick="BlackjackGame.placeBet(50)" 
+                                class="bg-green-700 text-white p-2 rounded hover:bg-green-600">
+                            50
+                        </button>
+                        <button onclick="BlackjackGame.placeBet(100)" 
+                                class="bg-green-700 text-white p-2 rounded hover:bg-green-600">
+                            100
+                        </button>
+                    </div>
+                </div>
+
+                <div class="game-actions space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <button id="hit-button"
+                                onclick="BlackjackGame.hit()" 
+                                class="bg-blue-600 text-white p-3 rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                            Hit
+                        </button>
+                        <button id="stand-button"
+                                onclick="BlackjackGame.stand()" 
+                                class="bg-red-600 text-white p-3 rounded hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                            Stand
+                        </button>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <button id="double-button"
+                                onclick="BlackjackGame.double()" 
+                                class="bg-purple-600 text-white p-3 rounded hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                            Double
+                        </button>
+                        <button id="split-button"
+                                onclick="BlackjackGame.split()" 
+                                class="bg-yellow-600 text-white p-3 rounded hover:bg-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                            Split
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <div class="text-gray-300 text-sm mb-2">Game Rules</div>
+                    <div class="text-gray-400 text-sm space-y-2">
+                        <p>• Dealer stands on 17</p>
+                        <p>• Blackjack pays 3:2</p>
+                        <p>• Double down on any first two cards</p>
+                        <p>• Split identical cards</p>
+                        <p>• No insurance</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    gameContainer.classList.remove('hidden');
+    BlackjackGame.init();
+}
+
 
 document.querySelector('[data-tab="live-games"]')?.addEventListener('click', () => {
     const funbucksDisplay = document.getElementById('live-games-funbucks');
