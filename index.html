@@ -13553,77 +13553,79 @@ const CoinFlipGame = {
     },
 
     async flipCoin(choice) {
-        const betInput = document.getElementById('coin-bet');
-        const betAmount = Math.floor(parseFloat(betInput.value));
-        
-        if (!betAmount || betAmount < 1 || betAmount > portfolio.funbucks) {
-            showErrorMessage('Invalid bet amount');
-            return;
-        }
+    const betInput = document.getElementById('coin-bet');
+    const betAmount = Math.floor(parseFloat(betInput.value));
+    
+    if (!betAmount || betAmount < 1 || betAmount > portfolio.funbucks) {
+        showErrorMessage('Invalid bet amount');
+        return;
+    }
 
-        if (this.flipping) return;
+    if (this.flipping) return;
 
-        try {
-            await db.runTransaction(async (transaction) => {
-                const userRef = db.collection('users').doc(auth.currentUser.uid);
-                const userDoc = await transaction.get(userRef);
-                
-                if (userDoc.data().funbucks < betAmount) {
-                    throw new Error('Insufficient funds');
-                }
-                
-                transaction.update(userRef, {
-                    funbucks: firebase.firestore.FieldValue.increment(-betAmount)
-                });
-            });
-
-            portfolio.funbucks -= betAmount;
-            this.currentBet = betAmount;
-            this.updateDisplay();
-
-            this.flipping = true;
-            this.suspenseTime = 0;
-            this.coinRotationSpeed = 0.5;
-            this.finalResult = choice === 'heads';
-
-            // Add extra rotations to ensure we land on the right side
-            const currentSide = Math.cos(this.coinRotation) > 0;
-            const rotationsNeeded = Math.floor(Math.random() * 5) + 10;
-            this.targetRotation = this.coinRotation + (Math.PI * rotationsNeeded);
+    try {
+        await db.runTransaction(async (transaction) => {
+            const userRef = db.collection('users').doc(auth.currentUser.uid);
+            const userDoc = await transaction.get(userRef);
             
-            if ((rotationsNeeded % 2 === 0) !== (currentSide === this.finalResult)) {
-                this.targetRotation += Math.PI;
+            if (userDoc.data().funbucks < betAmount) {
+                throw new Error('Insufficient funds');
             }
+            
+            transaction.update(userRef, {
+                funbucks: firebase.firestore.FieldValue.increment(-betAmount)
+            });
+        });
 
-        } catch (error) {
-            showErrorMessage(error.message || 'Failed to start coin flip');
+        portfolio.funbucks -= betAmount;
+        this.currentBet = betAmount;
+        this.updateDisplay();
+
+        this.flipping = true;
+        this.suspenseTime = 0;
+        this.coinRotationSpeed = 0.5;
+        
+        // Generate a truly random result independent of the player's choice
+        this.finalResult = Math.random() < 0.5;
+
+        // Random number of rotations (10-15)
+        const rotationsNeeded = Math.floor(Math.random() * 6) + 10;
+        const currentSide = Math.cos(this.coinRotation) > 0;
+        this.targetRotation = this.coinRotation + (Math.PI * rotationsNeeded);
+        
+        // Adjust final rotation to match random result
+        if ((rotationsNeeded % 2 === 0) !== (currentSide === this.finalResult)) {
+            this.targetRotation += Math.PI;
         }
-    },
+
+    } catch (error) {
+        showErrorMessage(error.message || 'Failed to start coin flip');
+    }
+},
 
     async processResult() {
-        const finalSide = Math.cos(this.coinRotation) > 0 ? 'heads' : 'tails';
-        const won = (finalSide === 'heads' && this.finalResult) || 
-                   (finalSide === 'tails' && !this.finalResult);
+    // Use the randomly generated result from flipCoin
+    const won = (this.finalResult && choice === 'heads') || (!this.finalResult && choice === 'tails');
+    
+    if (won) {
+        const winAmount = this.currentBet * 2;
+        portfolio.funbucks += winAmount;
         
-        if (won) {
-            const winAmount = this.currentBet * 2;
-            portfolio.funbucks += winAmount;
-            
-            await db.collection('users').doc(auth.currentUser.uid).update({
-                funbucks: firebase.firestore.FieldValue.increment(winAmount)
-            });
-            
-            const effects = document.getElementById('coin-effects');
-            const win = document.createElement('div');
-            win.className = 'absolute inset-0 flex items-center justify-center text-4xl font-bold text-green-400';
-            win.style.animation = 'float-up 1s ease-out forwards';
-            win.textContent = `+${formatCurrency(winAmount)}`;
-            effects.appendChild(win);
-            setTimeout(() => win.remove(), 1000);
-        }
+        await db.collection('users').doc(auth.currentUser.uid).update({
+            funbucks: firebase.firestore.FieldValue.increment(winAmount)
+        });
         
-        this.updateDisplay();
+        const effects = document.getElementById('coin-effects');
+        const win = document.createElement('div');
+        win.className = 'absolute inset-0 flex items-center justify-center text-4xl font-bold text-green-400';
+        win.style.animation = 'float-up 1s ease-out forwards';
+        win.textContent = `+${formatCurrency(winAmount)}`;
+        effects.appendChild(win);
+        setTimeout(() => win.remove(), 1000);
     }
+    
+    this.updateDisplay();
+}
 };
 
 window.CoinFlipGame = CoinFlipGame;
