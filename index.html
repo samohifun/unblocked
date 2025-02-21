@@ -10334,6 +10334,10 @@ async function validateTip(amount) {
 }
 
 async function sellPosition(betIndex, percentage) {
+    if (!navigator.onLine) {
+        return;
+    }
+
     try {
         const bet = portfolio.bets[betIndex];
         const market = markets.find(m => m.id === bet.marketId);
@@ -10342,7 +10346,6 @@ async function sellPosition(betIndex, percentage) {
         let currentPrice, sellValue;
         const sharesToSell = bet.shares * percentage;
 
-        // Handle different market types
         if (bet.type === 'multi') {
             const outcome = market.outcomes?.find(o => o.name === bet.outcome);
             if (!outcome) throw new Error('Outcome not found');
@@ -10355,6 +10358,16 @@ async function sellPosition(betIndex, percentage) {
 
         await db.runTransaction(async (transaction) => {
             const userRef = db.collection('users').doc(auth.currentUser.uid);
+            const userDoc = await transaction.get(userRef);
+            const userData = userDoc.data();
+            const betExists = userData.bets.some(b => 
+                b.marketId === bet.marketId && 
+                b.shares === bet.shares && 
+                (b.type === 'multi' ? b.outcome === bet.outcome : b.position === bet.position)
+            );
+
+            if (!betExists) throw new Error('Bet already sold');
+
             const remainingShares = percentage === 1 ? 0 : bet.shares * (1 - percentage);
             
             if (remainingShares > 0) {
@@ -10370,7 +10383,6 @@ async function sellPosition(betIndex, percentage) {
                 });
             }
 
-            // Create transaction record based on market type
             const transactionData = {
                 marketId: market.id,
                 amount: sellValue,
@@ -10383,7 +10395,6 @@ async function sellPosition(betIndex, percentage) {
                 marketImage: market.image || ''
             };
 
-            // Add type-specific fields
             if (bet.type === 'multi') {
                 transactionData.type = 'multi';
                 transactionData.outcome = bet.outcome;
@@ -10409,7 +10420,6 @@ async function sellPosition(betIndex, percentage) {
         await updateRecentActivity();
 
     } catch (error) {
-        console.error('Error selling position:', error);
         showErrorMessage(error.message || 'Error selling position');
     }
 }
