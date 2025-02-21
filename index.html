@@ -2298,7 +2298,94 @@ header {
     0% { background-position: -200% 0; }
     100% { background-position: 200% 0; }
 }
+.reward-day {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
 
+.reward-day::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, transparent, rgba(168, 85, 247, 0.1), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+}
+
+.reward-day:hover::before {
+    transform: translateX(100%);
+}
+
+.reward-day.active {
+    transform: translateY(-2px);
+}
+
+.reward-day.claimed::after {
+    content: '✓';
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: rgb(34, 197, 94);
+    font-size: 1.2em;
+}
+
+.celebration-particle {
+    position: absolute;
+    animation: float-up 2s ease-out forwards;
+}
+
+@keyframes float-up {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-200px) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+@keyframes bounce-in {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+#next-reward-timer {
+    font-family: 'Courier New', monospace;
+    text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+}
+
+.reward-flash {
+    animation: reward-flash 0.5s ease-out;
+}
+
+@keyframes reward-flash {
+    0% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+    50% {
+        transform: scale(1.1);
+        filter: brightness(1.5);
+    }
+    100% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+}
 </style>
     
 
@@ -2446,7 +2533,7 @@ header {
                            class="text-blue-300 hover:text-blue-400 transition-colors">
                             ToS
                         </a>
-                        <a href="changelog.html" target="_blank" 
+                        <a href="https://polymarket.com/profile/0x7c3db723f1d4d8cb9c550095203b686cb11e5c6b?tab=positions" target="_blank" 
                            class="text-blue-300 hover:text-blue-400 transition-colors">
                             Changelog
                         </a>
@@ -2845,23 +2932,146 @@ header {
             </div>
             
             <div id="live-games-tab" class="tab-content hidden">
-                <div>working on bugs...</div>
-                </div>
-            
-                    <div id="game-container" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[60]">
-                        <div class="bg-gray-900 rounded-xl p-6 w-full max-w-4xl">
-                            <div class="flex justify-between items-center mb-6">
-                                <div class="flex items-center gap-4">
-                                    <div id="current-game-icon" class="w-10 h-10 rounded-lg bg-purple-600 flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/>
+                <div class="max-w-6xl mx-auto">
+                    <!-- Daily Rewards Section -->
+                    <div class="market-card p-6 rounded-lg mb-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h2 class="text-2xl font-bold text-purple-300">Daily Rewards - Week 1</h2>
+                                <p class="text-gray-400 text-sm">Rewards available every school day at 8:40 AM</p>
+                            </div>
+                            <div id="next-reward-timer" class="text-xl font-mono text-purple-400 bg-purple-900/20 px-4 py-2 rounded-lg">
+                                Loading...
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-5 gap-4 mb-6">
+                            <!-- Monday -->
+                            <div class="reward-day bg-gray-800 p-4 rounded-lg border border-gray-700 text-center">
+                                <div class="text-3xl mb-2">🌅</div>
+                                <div class="text-sm text-gray-400 mb-1">Monday</div>
+                                <div class="text-purple-400 font-bold">100 FB</div>
+                                <div class="text-xs text-gray-500">Monday Motivation!</div>
+                            </div>
+                            <!-- Tuesday -->
+                            <div class="reward-day bg-gray-800 p-4 rounded-lg border border-gray-700 text-center">
+                                <div class="text-3xl mb-2">📚</div>
+                                <div class="text-sm text-gray-400 mb-1">Tuesday</div>
+                                <div class="text-purple-400 font-bold">200 FB</div>
+                                <div class="text-xs text-gray-500">Tuesday Boost!</div>
+                            </div>
+                            <!-- Wednesday -->
+                            <div class="reward-day bg-gray-800 p-4 rounded-lg border border-gray-700 text-center">
+                                <div class="text-3xl mb-2">🌟</div>
+                                <div class="text-sm text-gray-400 mb-1">Wednesday</div>
+                                <div class="text-purple-400 font-bold">300 FB</div>
+                                <div class="text-xs text-gray-500">Halfway There!</div>
+                            </div>
+                            <!-- Thursday -->
+                            <div class="reward-day bg-gray-800 p-4 rounded-lg border border-gray-700 text-center">
+                                <div class="text-3xl mb-2">🎯</div>
+                                <div class="text-sm text-gray-400 mb-1">Thursday</div>
+                                <div class="text-purple-400 font-bold">400 FB</div>
+                                <div class="text-xs text-gray-500">Almost Friday!</div>
+                            </div>
+                            <!-- Friday -->
+                            <div class="reward-day bg-gray-800 p-4 rounded-lg border border-gray-700 text-center">
+                                <div class="text-3xl mb-2">🎉</div>
+                                <div class="text-sm text-gray-400 mb-1">Friday</div>
+                                <div class="text-purple-400 font-bold">1000 FB</div>
+                                <div class="text-xs text-gray-500">Weekend Ready!</div>
+                            </div>
+                        </div>
+
+                        <button id="claim-reward-btn" 
+                                class="w-full bg-purple-600 text-white p-3 rounded-lg hover:bg-purple-700 
+                                    transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                disabled>
+                            Come back at 8:40 AM
+                        </button>
+                    </div>
+
+                    <!-- Games Section -->
+                    <div class="market-card p-6 rounded-lg mb-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-2xl font-bold text-purple-300">Live Games</h2>
+                            <div class="text-xl font-bold text-purple-400">
+                                <span id="live-games-funbucks"></span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <!-- Plinko -->
+                            <button onclick="" 
+                                    class="p-6 bg-gray-800 rounded-xl border border-purple-500/20 hover:border-purple-500/40 transition-all">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 rounded-lg bg-purple-600 flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <circle cx="6" cy="6" r="1" stroke-width="2"/>
+                                            <circle cx="12" cy="6" r="1" stroke-width="2"/>
+                                            <circle cx="18" cy="6" r="1" stroke-width="2"/>
+                                            <circle cx="9" cy="10" r="1" stroke-width="2"/>
+                                            <circle cx="15" cy="10" r="1" stroke-width="2"/>
+                                            <circle cx="6" cy="14" r="1" stroke-width="2"/>
+                                            <circle cx="12" cy="14" r="1" stroke-width="2"/>
+                                            <circle cx="18" cy="14" r="1" stroke-width="2"/>
                                         </svg>
                                     </div>
-                                    <h2 id="current-game-title" class="text-2xl font-bold text-purple-300">Live Games</h2>
+                                    <div class="text-left">
+                                        <div class="text-lg font-bold text-white">Plinko</div>
+                                        <div class="text-sm text-gray-400">Physics system not working properly, fixing monday</div>
+                                    </div>
                                 </div>
-                                <button onclick="hideGameModal()" class="text-gray-400 hover:text-white">×</button>
-                            </div>
-                            <div id="current-game-content"></div>
+                            </button>
+                            
+                            <!-- Decision Day -->
+                            <button onclick="showCoinFlipGame()" 
+                                class="p-6 bg-gray-800 rounded-xl border border-purple-500/20 hover:border-purple-500/40 transition-all">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 rounded-lg bg-purple-600 flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <circle cx="12" cy="12" r="7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                        </svg>                                    
+                                    </div>
+                                    <div class="text-left">
+                                        <div class="text-lg font-bold text-white">Decision Day</div>
+                                        <div class="text-sm text-gray-400">Max Win: 2x</div>
+                                    </div>
+                                </div>
+                            </button>
+
+                            <!-- Crash -->
+                            <button onclick="" 
+                                    class="p-6 bg-gray-800 rounded-xl border border-purple-500/20 hover:border-purple-500/40 transition-all">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 rounded-lg bg-purple-600 flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                        </svg>
+                                    </div>
+                                    <div class="text-left">
+                                        <div class="text-lg font-bold text-white">Crash</div>
+                                        <div class="text-sm text-gray-400">fixing bugs with Funbucks coming as NaN</div>
+                                    </div>
+                                </div>
+                            </button>
+
+                            <!-- Blackjack -->
+                            <button onclick="showBlackjackGame()" 
+                                    class="p-6 bg-gray-800 rounded-xl border border-purple-500/20 hover:border-purple-500/40 transition-all">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 rounded-lg bg-purple-600 flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <rect x="5" y="3" width="14" height="18" rx="2" stroke-width="2"/>
+                                            <path d="M12 10s-2-2-3-2-2 1-2 2 2 3 5 5c3-2 5-4 5-5s-1-2-2-2-3 2-3 2z" stroke-width="2"/>
+                                        </svg>                                                                      
+                                    </div>
+                                    <div class="text-left">
+                                        <div class="text-lg font-bold text-white">Blackjack</div>
+                                        <div class="text-sm text-gray-400">you can play but there is a glitch where it takes 3x the money you put in so anything you put in is lost, fixing on Monday</div>
+                                    </div>
+                                </div>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -4270,6 +4480,7 @@ async function updateUserProgress(userId) {
         console.error('Error updating user progress:', error);
     }
 }
+
 function setupRealtimeUpdates() {
     if (!auth.currentUser) return;
 
@@ -4283,18 +4494,8 @@ function setupRealtimeUpdates() {
             portfolio.bets = userData.bets || [];
             
             updateHeaderDisplay();
-            updateFunbucksDisplay();
-            updatePortfolioDisplays();
-        });
-
-    db.collection('markets')
-        .orderBy('createdAt', 'desc')
-        .onSnapshot((snapshot) => {
-            markets = snapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data()
-            }));
-            updateMarkets();
+            updateFunBucksHistory(portfolio.funbucks);
+            loadLeaderboards();
         });
 }
 function updateFunbucksDisplay() {
@@ -5389,6 +5590,197 @@ function showNewMarketForm() {
     showMultiOutcomeMarketForm();
 }
 
+async function processFunbucksChange(amount) {
+    try {
+        const userRef = db.collection('users').doc(auth.currentUser.uid);
+        await db.runTransaction(async (transaction) => {
+            const userDoc = await transaction.get(userRef);
+            const currentFunbucks = userDoc.data().funbucks || 0;
+            const newBalance = currentFunbucks + amount;
+            
+            if (newBalance < 0) {
+                throw new Error('Insufficient funds');
+            }
+
+            transaction.update(userRef, {
+                funbucks: newBalance
+            });
+
+            portfolio.funbucks = newBalance;
+        });
+
+        updateHeaderDisplay();
+        updateFunBucksHistory(portfolio.funbucks);
+        loadLeaderboards();
+
+    } catch (error) {
+        console.error('Error processing funbucks change:', error);
+        showErrorMessage(error.message || 'Error processing transaction');
+        throw error;
+    }
+}
+const updateGameFunctions = () => {
+    if (window.CrashGame) {
+        const originalCrashPlaceBet = window.CrashGame.placeBet;
+        window.CrashGame.placeBet = async function(amount) {
+            await processFunbucksChange(-amount);
+            if (originalCrashPlaceBet) originalCrashPlaceBet.call(this, amount);
+        };
+    }
+
+    if (window.CoinFlipGame) {
+        const originalCoinPlaceBet = window.CoinFlipGame.placeBet;
+        window.CoinFlipGame.placeBet = async function(amount) {
+            await processFunbucksChange(-amount);
+            if (originalCoinPlaceBet) originalCoinPlaceBet.call(this, amount);
+        };
+    }
+
+    if (window.BlackjackGame) {
+        const originalBlackjackPlaceBet = window.BlackjackGame.placeBet;
+        window.BlackjackGame.placeBet = async function(amount) {
+            await processFunbucksChange(-amount);
+            if (originalBlackjackPlaceBet) originalBlackjackPlaceBet.call(this, amount);
+        };
+    }
+};
+document.addEventListener('DOMContentLoaded', updateGameFunctions);
+if (window.BlackjackGame) {
+    window.BlackjackGame.determineWinner = async function() {
+        const dealerValue = this.getHandValue(this.dealerHand);
+        let totalWinnings = 0;
+        
+        for (const hand of this.playerHands) {
+            const playerValue = this.getHandValue(hand);
+            
+            if (playerValue > 21) {
+                this.showGameResult('BUST!', false);
+            } else if (playerValue <= 21) {
+                if (dealerValue > 21) {
+                    totalWinnings += this.currentBet * 2;
+                    this.showGameResult('DEALER BUST - YOU WIN!', true);
+                } else if (playerValue > dealerValue) {
+                    if (playerValue === 21 && hand.length === 2) {
+                        totalWinnings += this.currentBet * 2.5;
+                        this.showGameResult('BLACKJACK!', true);
+                    } else {
+                        totalWinnings += this.currentBet * 2;
+                        this.showGameResult('YOU WIN!', true);
+                    }
+                } else if (playerValue === dealerValue) {
+                    totalWinnings += this.currentBet;
+                    this.showGameResult('PUSH', true);
+                } else {
+                    this.showGameResult('DEALER WINS', false);
+                }
+            }
+        }
+        
+        if (totalWinnings > 0) {
+            await processFunbucksChange(totalWinnings);
+            this.showWinAnimation(totalWinnings);
+        }
+        
+        this.gameState = 'betting';
+        this.currentBet = 0;
+        this.updateDisplay();
+        this.updateControls();
+        setTimeout(() => this.setupGame(), 2000);
+    };
+}
+
+if (window.CrashGame) {
+    window.CrashGame.cashOut = async function() {
+        if (!this.isPlaying || !this.hasPlaced || this.hasCashed) return;
+        
+        const winAmount = Math.floor(this.currentBet * this.multiplier);
+        await processFunbucksChange(winAmount);
+        this.hasCashed = true;
+        this.updateDisplay();
+        
+        const effects = document.getElementById('crash-effects');
+        if (effects) {
+            const win = document.createElement('div');
+            win.className = 'absolute inset-0 flex items-center justify-center text-4xl font-bold text-green-400';
+            win.style.animation = 'float-up 1s ease-out forwards';
+            win.textContent = `+${formatCurrency(winAmount)}`;
+            effects.appendChild(win);
+            setTimeout(() => win.remove(), 1000);
+        }
+    };
+}
+
+if (window.CoinFlipGame) {
+    window.CoinFlipGame.decide = async function() {
+        if (this.deciding) return;
+
+        const betInput = document.getElementById('coin-bet');
+        const betAmount = Math.floor(parseFloat(betInput.value));
+        
+        if (!betAmount || betAmount < 1 || betAmount > portfolio.funbucks) {
+            showErrorMessage('Invalid bet amount');
+            return;
+        }
+
+        this.deciding = true;
+        await processFunbucksChange(-betAmount);
+        this.updateDisplay();
+
+        const vikingElement = document.getElementById('viking-decision');
+        const decisionText = document.getElementById('decision-text');
+        
+        if (vikingElement) vikingElement.textContent = '⚔️';
+        if (decisionText) decisionText.textContent = 'Deciding...';
+        
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        const win = Math.random() < 0.5;
+        
+        if (win) {
+            if (vikingElement) vikingElement.textContent = '👍';
+            if (decisionText) decisionText.textContent = 'YES!';
+            const winAmount = betAmount * 2;
+            await processFunbucksChange(winAmount);
+            
+            const effects = document.getElementById('coin-effects');
+            if (effects) {
+                const winDisplay = document.createElement('div');
+                winDisplay.className = 'absolute inset-0 flex items-center justify-center text-4xl font-bold text-green-400';
+                winDisplay.style.animation = 'float-up 1s ease-out forwards';
+                winDisplay.textContent = `+${formatCurrency(winAmount)}`;
+                effects.appendChild(winDisplay);
+                setTimeout(() => winDisplay.remove(), 1000);
+            }
+        } else {
+            if (vikingElement) vikingElement.textContent = '👎';
+            if (decisionText) decisionText.textContent = 'NO!';
+        }
+
+        this.updateDisplay();
+        this.deciding = false;
+    };
+}
+function modifyGameFunctions() {
+    const games = ['CrashGame', 'CoinFlipGame', 'BlackjackGame'];
+    
+    games.forEach(game => {
+        if (window[game]) {
+            const originalPlaceBet = window[game].placeBet;
+            window[game].placeBet = async function(amount) {
+                await processFunbucksChange(-amount);
+                if (originalPlaceBet) originalPlaceBet.call(this, amount);
+            };
+
+            const originalWin = window[game].processWin;
+            window[game].processWin = async function(amount) {
+                await processFunbucksChange(amount);
+                if (originalWin) originalWin.call(this, amount);
+            };
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', modifyGameFunctions);
 
 
 function showMarketStats() {
@@ -9830,37 +10222,6 @@ async function sellBet(betIndex) {
     }
 }
 
-function setupRealtimeUpdates() {
-    if (!auth.currentUser) return;
-
-    // Listen for user data changes
-    db.collection('users').doc(auth.currentUser.uid)
-        .onSnapshot((doc) => {
-            const userData = doc.data();
-            if (!userData) return;
-
-            portfolio.predictionPoints = userData.predictionPoints || 0;
-            portfolio.funbucks = userData.funbucks || 0;
-            portfolio.bets = userData.bets || [];
-            
-            updateHeaderDisplay();
-            updateFunbucksDisplay();
-            updatePortfolioDisplays();
-        });
-
-    // Listen for market changes
-    db.collection('markets')
-        .orderBy('createdAt', 'desc')
-        .onSnapshot((snapshot) => {
-            markets = snapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data()
-            }));
-            updateMarkets();
-        });
-}
-
-// Fixed updateRecentActivity function
 async function updateRecentActivity() {
     try {
         if (!markets || markets.length === 0) {
@@ -10067,12 +10428,8 @@ function createFunBucksGraph() {
 
     db.collection('users').doc(auth.currentUser.uid).get().then(doc => {
         const userData = doc.data();
-        const funbucksHistory = userData.funbucksHistory || [{
-            date: new Date().toISOString(),
-            value: userData.funbucks
-        }];
+        const funbucksHistory = (userData.funbucksHistory || []).slice(-30);
 
-        // Destroy existing chart if it exists
         if (window.funbucksChart) {
             window.funbucksChart.destroy();
         }
@@ -10098,7 +10455,7 @@ function createFunBucksGraph() {
                     tooltip: {
                         ...standardChartConfig.plugins.tooltip,
                         callbacks: {
-                            label: (context) => `FunBucks: ${formatCurrency(context.raw, 'funbucks')}`
+                            label: (context) => `FunBucks: ${formatCurrency(context.raw)}`
                         }
                     }
                 }
@@ -10106,6 +10463,7 @@ function createFunBucksGraph() {
         });
     });
 }
+
 
 
 function showSellConfirmation(betIndex) {
@@ -11348,50 +11706,74 @@ function updateLiveGamesDisplay() {
     container.innerHTML = `
         <div class="bg-gray-800 p-6 rounded-lg">
             <h3 class="text-xl font-bold text-purple-300 mb-4">My FunBucks</h3>
-            <div class="text-3xl font-bold text-purple-400 mb-4">${formatCurrency(portfolio.funbucks, 'funbucks')}</div>
+            <div class="text-3xl font-bold text-purple-400 mb-4">${formatCurrency(portfolio.funbucks)}</div>
             <div class="h-64">
                 <canvas id="funbucks-chart"></canvas>
             </div>
         </div>
     `;
 
-    createFunBucksGraph();
+    setTimeout(createFunBucksGraph, 0);
 }
 async function processGameWin(amount) {
     try {
-        const newBalance = portfolio.funbucks + amount;
         await db.runTransaction(async (transaction) => {
             const userRef = db.collection('users').doc(auth.currentUser.uid);
-            
             transaction.update(userRef, {
                 funbucks: firebase.firestore.FieldValue.increment(amount)
             });
         });
 
-        portfolio.funbucks = newBalance;
-        await updateFunBucksHistory(newBalance);
-        await updateHeaderDisplay();
-        await updateLiveGamesDisplay();
-        updatePortfolioDisplays();
+        portfolio.funbucks += amount;
+        updateHeaderDisplay();
+        updateFunBucksHistory(portfolio.funbucks);
+        loadLeaderboards();
+
     } catch (error) {
         console.error('Error processing game win:', error);
         showErrorMessage('Error processing win');
     }
 }
-async function updateFunBucksHistory(newBalance) {
-    if (!auth.currentUser) return;
-
+async function processGameLoss(amount) {
     try {
-        const userRef = db.collection('users').doc(auth.currentUser.uid);
-        await userRef.update({
-            funbucksHistory: firebase.firestore.FieldValue.arrayUnion({
-                date: new Date().toISOString(),
-                value: newBalance
-            })
+        await db.runTransaction(async (transaction) => {
+            const userRef = db.collection('users').doc(auth.currentUser.uid);
+            transaction.update(userRef, {
+                funbucks: firebase.firestore.FieldValue.increment(-amount)
+            });
         });
+
+        portfolio.funbucks -= amount;
+        updateHeaderDisplay();
+        updateFunBucksHistory(portfolio.funbucks);
+        loadLeaderboards();
+
     } catch (error) {
-        console.error('Error updating funbucks history:', error);
+        console.error('Error processing game loss:', error);
+        showErrorMessage('Error processing loss');
     }
+}
+
+function updateFunBucksHistory(newBalance) {
+    if (!auth.currentUser || !newBalance) return;
+    
+    const userRef = db.collection('users').doc(auth.currentUser.uid);
+    const now = new Date();
+    
+    userRef.get().then(doc => {
+        const userData = doc.data();
+        const history = userData.funbucksHistory || [];
+        const lastEntry = history[history.length - 1];
+        
+        if (!lastEntry || now - new Date(lastEntry.date) > 300000) {
+            userRef.update({
+                funbucksHistory: firebase.firestore.FieldValue.arrayUnion({
+                    date: now.toISOString(),
+                    value: newBalance
+                })
+            });
+        }
+    });
 }
 async function recordSell(marketId, position, amount, price) {
     try {
@@ -12808,394 +13190,6 @@ chartManager.createChart = function(ctx, market) {
 
 
 
-function showPlinkoGame() {
-    const gameContainer = document.getElementById('game-container');
-    const gameContent = document.getElementById('current-game-content');
-    
-    const difficulties = {
-        easy: {
-            name: 'Easy',
-            color: '#10B981',
-            multipliers: [3, 2, 1.5, 1.2, 1, 1.2, 1.5, 2, 3]
-        },
-        medium: {
-            name: 'Medium',
-            color: '#3B82F6',
-            multipliers: [10, 5, 3, 2, 1, 2, 3, 5, 10]
-        },
-        hard: {
-            name: 'Hard',
-            color: '#7C3AED',
-            multipliers: [25, 10, 5, 2, 1, 2, 5, 10, 25]
-        }
-    };
-    
-    gameContent.innerHTML = `
-        <div class="w-full h-full bg-[#0F1629] flex">
-            <div class="flex-1 relative">
-                <canvas id="plinko-canvas"></canvas>
-                <div id="plinko-effects"></div>
-            </div>
-            <div class="w-80 bg-[#1C2333] p-6 flex flex-col">
-                <div class="mb-8">
-                    <div class="text-gray-400 text-sm mb-2">Balance</div>
-                    <div id="plinko-balance" class="text-2xl font-bold text-violet-400"></div>
-                </div>
-
-                <div class="mb-8">
-                    <div class="text-gray-400 text-sm mb-4">Difficulty</div>
-                    <div class="grid grid-cols-3 gap-2">
-                        ${Object.entries(difficulties).map(([key, diff]) => `
-                            <button data-difficulty="${key}" 
-                                    class="difficulty-btn p-2 rounded-lg text-white text-sm font-medium transition-all"
-                                    style="background-color: ${diff.color}">
-                                ${diff.name}
-                            </button>
-                        `).join('')}
-                    </div>
-                </div>
-
-                <div class="mb-8">
-                    <div class="text-gray-400 text-sm mb-2">Bet Amount</div>
-                    <div class="flex items-center gap-2">
-                        <input type="number" id="plinko-bet" value="10" min="1" 
-                               class="flex-1 px-4 py-2 bg-[#141926] rounded-lg text-white border border-gray-700">
-                        <button onclick="plinkoGame.adjustBet(0.5)" 
-                                class="w-12 h-10 bg-[#141926] text-white rounded-lg hover:bg-[#1C2333] transition-colors">½</button>
-                        <button onclick="plinkoGame.adjustBet(2)" 
-                                class="w-12 h-10 bg-[#141926] text-white rounded-lg hover:bg-[#1C2333] transition-colors">2×</button>
-                    </div>
-                </div>
-
-                <button onclick="plinkoGame.dropBall()" 
-                        class="mt-auto w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition-colors">
-                    Drop Ball
-                </button>
-            </div>
-        </div>
-    `;
-
-    if (!document.getElementById('plinko-styles')) {
-        const style = document.createElement('style');
-        style.id = 'plinko-styles';
-        style.textContent = `
-            @keyframes float-up {
-                0% { transform: translateY(0) scale(1); opacity: 1; }
-                100% { transform: translateY(-100px) scale(0); opacity: 0; }
-            }
-            .plinko-particle {
-                position: absolute;
-                pointer-events: none;
-                animation: float-up 1s ease-out forwards;
-            }
-        `;
-        document.head.appendChild(style);
-    }
-
-    gameContainer.classList.remove('hidden');
-
-    const plinkoGame = {
-        canvas: null,
-        ctx: null,
-        currentDifficulty: 'medium',
-        balls: [],
-        pins: [],
-        currentBet: 0,
-        dropping: false,
-        width: 800,
-        height: 600,
-
-        init() {
-            this.canvas = document.getElementById('plinko-canvas');
-            this.ctx = this.canvas.getContext('2d');
-            this.resize();
-            window.addEventListener('resize', () => this.resize());
-            this.setupPins();
-            this.updateDisplay();
-            this.setupDifficultyButtons();
-            this.animate();
-        },
-
-        setupDifficultyButtons() {
-            document.querySelectorAll('.difficulty-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.difficulty-btn').forEach(b => 
-                        b.style.opacity = '0.7');
-                    btn.style.opacity = '1';
-                    this.currentDifficulty = btn.dataset.difficulty;
-                });
-            });
-            document.querySelector('[data-difficulty="medium"]').style.opacity = '1';
-        },
-
-        resize() {
-            const container = this.canvas.parentElement;
-            const rect = container.getBoundingClientRect();
-            this.width = rect.width;
-            this.height = rect.height;
-            this.canvas.width = this.width;
-            this.canvas.height = this.height;
-            this.setupPins();
-        },
-
-        setupPins() {
-        this.pins = [];
-        const rows = 8;
-        const baseWidth = 800;
-        const baseHeight = 600;
-        
-        const pinSize = Math.min(this.width, this.height) * 0.006;
-        const verticalSpacing = this.height * 0.09;
-        const triangleHeight = verticalSpacing * (rows - 1);
-        const startY = (this.height - triangleHeight) * 0.3;
-        
-        const slots = difficulties[this.currentDifficulty].multipliers.length;
-        const horizontalSpacing = this.width / (slots - 1);
-        
-        for (let row = 0; row < rows; row++) {
-            const pinsInRow = row + 1;
-            const rowWidth = horizontalSpacing * (pinsInRow - 1);
-            const startX = (this.width - rowWidth) / 2;
-            
-            for (let pin = 0; pin < pinsInRow; pin++) {
-                this.pins.push({
-                    x: startX + (pin * horizontalSpacing),
-                    y: startY + (row * verticalSpacing),
-                    radius: pinSize,
-                    glow: 0
-                });
-            }
-        }
-        
-        const finalRowY = startY + (rows - 1) * verticalSpacing;
-        const slotHeight = this.height - finalRowY - 40;
-        
-        this.slotConfig = {
-            y: finalRowY + slotHeight * 0.4,
-            height: slotHeight * 0.6,
-            spacing: this.width / slots
-        };
-    },
-
-        drawBoard() {
-            this.ctx.clearRect(0, 0, this.width, this.height);
-            
-            // Draw multiplier slots
-            const slots = difficulties[this.currentDifficulty].multipliers;
-            const slotWidth = this.width / slots.length;
-            const slotY = this.height - 60;
-            
-            slots.forEach((mult, i) => {
-                const x = i * slotWidth;
-                const gradient = this.ctx.createLinearGradient(x, slotY, x, slotY + 40);
-                const color = this.getMultiplierColor(mult);
-                gradient.addColorStop(0, color);
-                gradient.addColorStop(1, this.adjustColor(color, -20));
-                
-                this.ctx.fillStyle = gradient;
-                this.roundRect(x + 2, slotY, slotWidth - 4, 40, 8);
-                
-                this.ctx.fillStyle = '#fff';
-                this.ctx.font = 'bold 16px sans-serif';
-                this.ctx.textAlign = 'center';
-                this.ctx.fillText(mult + 'x', x + slotWidth/2, slotY + 25);
-            });
-
-            // Draw pins
-            this.pins.forEach(pin => {
-                if (pin.glow > 0) {
-                    const gradient = this.ctx.createRadialGradient(
-                        pin.x, pin.y, 0,
-                        pin.x, pin.y, pin.radius * 4
-                    );
-                    gradient.addColorStop(0, `rgba(79, 209, 197, ${pin.glow})`);
-                    gradient.addColorStop(1, 'rgba(79, 209, 197, 0)');
-                    
-                    this.ctx.beginPath();
-                    this.ctx.arc(pin.x, pin.y, pin.radius * 4, 0, Math.PI * 2);
-                    this.ctx.fillStyle = gradient;
-                    this.ctx.fill();
-                    
-                    pin.glow *= 0.95;
-                }
-
-                this.ctx.beginPath();
-                this.ctx.arc(pin.x, pin.y, pin.radius, 0, Math.PI * 2);
-                this.ctx.fillStyle = '#4FD1C5';
-                this.ctx.fill();
-            });
-
-            // Draw balls
-            this.balls.forEach(ball => {
-                const gradient = this.ctx.createRadialGradient(
-                    ball.x, ball.y, 0,
-                    ball.x, ball.y, 8
-                );
-                gradient.addColorStop(0, '#60A5FA');
-                gradient.addColorStop(1, '#3B82F6');
-                
-                this.ctx.beginPath();
-                this.ctx.arc(ball.x, ball.y, 6, 0, Math.PI * 2);
-                this.ctx.fillStyle = gradient;
-                this.ctx.fill();
-            });
-        },
-
-        roundRect(x, y, width, height, radius) {
-            this.ctx.beginPath();
-            this.ctx.moveTo(x + radius, y);
-            this.ctx.arcTo(x + width, y, x + width, y + height, radius);
-            this.ctx.arcTo(x + width, y + height, x, y + height, radius);
-            this.ctx.arcTo(x, y + height, x, y, radius);
-            this.ctx.arcTo(x, y, x + width, y, radius);
-            this.ctx.closePath();
-            this.ctx.fill();
-        },
-
-        getMultiplierColor(mult) {
-            const diff = difficulties[this.currentDifficulty];
-            return diff.color;
-        },
-
-        adjustColor(color, amount) {
-            const hex = color.replace('#', '');
-            const num = parseInt(hex, 16);
-            const r = Math.min(255, Math.max(0, (num >> 16) + amount));
-            const g = Math.min(255, Math.max(0, ((num >> 8) & 0x00FF) + amount));
-            const b = Math.min(255, Math.max(0, (num & 0x0000FF) + amount));
-            return `#${(r << 16 | g << 8 | b).toString(16).padStart(6, '0')}`;
-        },
-
-        createParticle(x, y) {
-            const particle = document.createElement('div');
-            particle.className = 'plinko-particle';
-            particle.style.left = `${x}px`;
-            particle.style.top = `${y}px`;
-            particle.style.width = '8px';
-            particle.style.height = '8px';
-            particle.style.backgroundColor = '#4FD1C5';
-            particle.style.borderRadius = '50%';
-            document.getElementById('plinko-effects').appendChild(particle);
-            setTimeout(() => particle.remove(), 1000);
-        },
-
-        animate() {
-            this.balls = this.balls.filter(ball => !ball.landed);
-            
-            this.balls.forEach(ball => {
-                ball.vy += 0.2;  // Gravity
-                ball.x += ball.vx;
-                ball.y += ball.vy;
-
-                // Wall collisions
-                if (ball.x < 6) {
-                    ball.x = 6;
-                    ball.vx *= -0.6;
-                }
-                if (ball.x > this.width - 6) {
-                    ball.x = this.width - 6;
-                    ball.vx *= -0.6;
-                }
-
-                // Pin collisions
-                this.pins.forEach(pin => {
-                    const dx = ball.x - pin.x;
-                    const dy = ball.y - pin.y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (distance < 10) {
-                        const angle = Math.atan2(dy, dx);
-                        const normalX = Math.cos(angle);
-                        const normalY = Math.sin(angle);
-                        
-                        ball.x = pin.x + normalX * 10;
-                        ball.y = pin.y + normalY * 10;
-                        
-                        const dotProduct = ball.vx * normalX + ball.vy * normalY;
-                        ball.vx = (ball.vx - 2 * dotProduct * normalX) * 0.6;
-                        ball.vy = (ball.vy - 2 * dotProduct * normalY) * 0.6;
-                        
-                        ball.vx += (Math.random() - 0.5) * 0.5;
-                        
-                        pin.glow = 1;
-                        this.createParticle(ball.x, ball.y);
-                    }
-                });
-
-                // Check for landing
-                if (ball.y > this.height - 70) {
-                    const slots = difficulties[this.currentDifficulty].multipliers;
-                    const slot = Math.floor(ball.x / (this.width / slots.length));
-                    if (slot >= 0 && slot < slots.length) {
-                        const winAmount = this.currentBet * slots[slot];
-                        this.processWin(winAmount);
-                    }
-                    ball.landed = true;
-                }
-            });
-
-            this.drawBoard();
-            requestAnimationFrame(() => this.animate());
-        },
-
-        async processWin(amount) {
-            portfolio.funbucks += amount;
-            await db.collection('users').doc(auth.currentUser.uid).update({
-                funbucks: firebase.firestore.FieldValue.increment(amount)
-            });
-            
-            const effects = document.getElementById('plinko-effects');
-            const win = document.createElement('div');
-            win.className = 'absolute inset-0 flex items-center justify-center text-4xl font-bold text-green-400';
-            win.style.animation = 'float-up 1s ease-out forwards';
-            win.textContent = `+${formatCurrency(amount)}`;
-            effects.appendChild(win);
-            setTimeout(() => win.remove(), 1000);
-            
-            this.updateDisplay();
-        },
-
-        updateDisplay() {
-            const balance = document.getElementById('plinko-balance');
-            if (balance) {
-                balance.textContent = `${portfolio.funbucks} FunBucks`;
-            }
-        },
-
-        adjustBet(multiplier) {
-            const input = document.getElementById('plinko-bet');
-            const currentBet = parseFloat(input.value) || 0;
-            input.value = Math.max(1, Math.floor(currentBet * multiplier));
-        },
-
-        dropBall() {
-        const betInput = document.getElementById('plinko-bet');
-        const betAmount = Math.floor(parseFloat(betInput.value));
-        
-        if (!betAmount || betAmount < 1 || betAmount > portfolio.funbucks) {
-            showErrorMessage('Invalid bet amount');
-            return;
-        }
-
-        portfolio.funbucks -= betAmount;
-        this.currentBet = betAmount;
-        this.updateDisplay();
-
-        const centerOffset = ((Math.random() * 2 - 1) * this.width * 0.05);
-        this.balls.push({
-            x: this.width / 2 + centerOffset,
-            y: 20,
-            vx: centerOffset * -0.1,
-            vy: 0,
-            landed: false
-        });
-    }
-    };
-
-    window.plinkoGame = plinkoGame;
-    plinkoGame.init();
-}
-
 function hideGameModal() {
     const gameContainer = document.getElementById('game-container');
     if (gameContainer) {
@@ -13262,7 +13256,7 @@ const CoinFlipGame = {
         }
 
         this.deciding = true;
-        portfolio.funbucks -= betAmount;
+        await processFunbucksChange(-betAmount);
         this.updateDisplay();
 
         const vikingElement = document.getElementById('viking-decision');
@@ -13279,7 +13273,7 @@ const CoinFlipGame = {
             vikingElement.textContent = '👍';
             decisionText.textContent = 'YES!';
             const winAmount = betAmount * 2;
-            portfolio.funbucks += winAmount;
+            await processFunbucksChange(winAmount);
             
             const effects = document.getElementById('coin-effects');
             const winDisplay = document.createElement('div');
@@ -13299,46 +13293,6 @@ const CoinFlipGame = {
 };
 
 
-function showCoinFlipGame() {
-    const gameContainer = document.getElementById('game-container');
-    const gameContent = document.getElementById('current-game-content');
-    
-    gameContent.innerHTML = `
-        <div class="w-full h-full bg-[#0F1629] flex">
-            <div class="flex-1 relative flex flex-col items-center justify-center">
-                <div class="text-8xl mb-8" id="viking-decision">⚔️</div>
-                <div class="text-4xl font-bold text-white mb-12" id="decision-text">Awaiting Decision</div>
-                <div id="coin-effects"></div>
-            </div>
-            <div class="w-80 bg-[#1C2333] p-6 flex flex-col">
-                <div class="mb-8">
-                    <div class="text-gray-400 text-sm mb-2">Balance</div>
-                    <div id="coin-balance" class="text-2xl font-bold text-violet-400"></div>
-                </div>
-
-                <div class="mb-8">
-                    <div class="text-gray-400 text-sm mb-2">Bet Amount</div>
-                    <div class="flex items-center gap-2">
-                        <input type="number" id="coin-bet" value="10" min="1" 
-                               class="flex-1 px-4 py-2 bg-[#141926] rounded-lg text-white border border-gray-700">
-                        <button onclick="CoinFlipGame.adjustBet(0.5)" 
-                                class="w-12 h-10 bg-[#141926] text-white rounded-lg hover:bg-[#1C2333] transition-colors">½</button>
-                        <button onclick="CoinFlipGame.adjustBet(2)" 
-                                class="w-12 h-10 bg-[#141926] text-white rounded-lg hover:bg-[#1C2333] transition-colors">2×</button>
-                    </div>
-                </div>
-
-                <button onclick="CoinFlipGame.decide()" 
-                        class="mt-auto w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition-colors">
-                    Decide
-                </button>
-            </div>
-        </div>
-    `;
-
-    gameContainer.classList.remove('hidden');
-    CoinFlipGame.init();
-}
 
 
 window.CoinFlipGame = CoinFlipGame;
@@ -13398,7 +13352,7 @@ const CrashGame = {
         const multiplier = 1 + (0.5 * elapsed);
 
         return Math.min(100, multiplier);
-        },
+    },
 
     generateHistory() {
         this.gameHistory = [];
@@ -13406,6 +13360,21 @@ const CrashGame = {
             this.gameHistory.push(this.generateCrashPoint().toFixed(2));
         }
         this.updateHistory();
+    },
+
+    cleanup() {
+        clearInterval(this.updateInterval);
+        this.multiplier = 1.00;
+        this.isPlaying = false;
+        this.hasPlaced = false;
+        this.hasCashed = false;
+        this.currentBet = 0;
+        this.gameStartTime = 0;
+        this.crashPoint = 0;
+        this.particles = [];
+        this.gameHistory = [];
+        this.waitingForBets = true;
+        clearTimeout(this.betTimeout);
     },
 
     waitForBets() {
@@ -13540,7 +13509,7 @@ const CrashGame = {
     updateDisplay() {
         const balance = document.getElementById('crash-balance');
         if (balance) {
-            balance.textContent = `${portfolio.funbucks} FunBucks`;
+            balance.textContent = `${Math.floor(portfolio.funbucks)} FunBucks`;
         }
     },
 
@@ -13559,28 +13528,25 @@ const CrashGame = {
         if (this.isPlaying || this.hasPlaced) return;
         
         const betInput = document.getElementById('crash-bet');
-        const betAmount = Math.floor(parseFloat(betInput.value));
+        const betAmount = Math.floor(Number(betInput.value));
         
-        if (!betAmount || betAmount < 1 || betAmount > portfolio.funbucks) {
+        if (isNaN(betAmount) || betAmount < 1) {
             showErrorMessage('Invalid bet amount');
             return;
         }
 
+        if (betAmount > portfolio.funbucks) {
+            showErrorMessage('Insufficient FunBucks');
+            return;
+        }
+
         try {
-            await db.runTransaction(async (transaction) => {
-                const userRef = db.collection('users').doc(auth.currentUser.uid);
-                const userDoc = await transaction.get(userRef);
-                
-                if (userDoc.data().funbucks < betAmount) {
-                    throw new Error('Insufficient funds');
-                }
-                
-                transaction.update(userRef, {
-                    funbucks: firebase.firestore.FieldValue.increment(-betAmount)
-                });
+            const userRef = db.collection('users').doc(auth.currentUser.uid);
+            await userRef.update({
+                funbucks: firebase.firestore.FieldValue.increment(-betAmount)
             });
 
-            portfolio.funbucks -= betAmount;
+            portfolio.funbucks = Math.max(0, portfolio.funbucks - betAmount);
             this.currentBet = betAmount;
             this.hasPlaced = true;
             this.updateDisplay();
@@ -13588,9 +13554,10 @@ const CrashGame = {
             if (this.waitingForBets) {
                 this.startNewGame();
             }
-
         } catch (error) {
-            showErrorMessage(error.message || 'Failed to place bet');
+            this.hasPlaced = false;
+            this.currentBet = 0;
+            showErrorMessage('Failed to place bet');
         }
     },
 
@@ -13600,15 +13567,11 @@ const CrashGame = {
         const winAmount = Math.floor(this.currentBet * this.multiplier);
         
         try {
-            await db.runTransaction(async (transaction) => {
-                const userRef = db.collection('users').doc(auth.currentUser.uid);
-                
-                transaction.update(userRef, {
-                    funbucks: firebase.firestore.FieldValue.increment(winAmount)
-                });
+            portfolio.funbucks += winAmount;
+            await db.collection('users').doc(auth.currentUser.uid).update({
+                funbucks: portfolio.funbucks
             });
 
-            portfolio.funbucks += winAmount;
             this.hasCashed = true;
             this.updateDisplay();
             
@@ -13619,9 +13582,9 @@ const CrashGame = {
             win.textContent = `+${formatCurrency(winAmount)}`;
             effects.appendChild(win);
             setTimeout(() => win.remove(), 1000);
-
         } catch (error) {
-            showErrorMessage(error.message || 'Failed to cash out');
+            portfolio.funbucks -= winAmount;
+            showErrorMessage('Error processing win');
         }
     },
 
@@ -13643,57 +13606,6 @@ const CrashGame = {
 
 window.CrashGame = CrashGame;
 
-function showCrashGame() {
-    const gameContainer = document.getElementById('game-container');
-    const gameContent = document.getElementById('current-game-content');
-    
-    gameContent.innerHTML = `
-        <div class="w-full h-full bg-[#0F1629] flex">
-            <div class="flex-1 relative">
-                <canvas id="crash-canvas"></canvas>
-                <div id="crash-effects"></div>
-            </div>
-            <div class="w-80 bg-[#1C2333] p-6 flex flex-col">
-                <div class="mb-8">
-                    <div class="text-gray-400 text-sm mb-2">Balance</div>
-                    <div id="crash-balance" class="text-2xl font-bold text-violet-400"></div>
-                </div>
-
-                <div class="mb-8">
-                    <div class="text-gray-400 text-sm mb-2">Bet Amount</div>
-                    <div class="flex items-center gap-2">
-                        <input type="number" id="crash-bet" value="10" min="1" 
-                               class="flex-1 px-4 py-2 bg-[#141926] rounded-lg text-white border border-gray-700">
-                        <button onclick="CrashGame.adjustBet(0.5)" 
-                                class="w-12 h-10 bg-[#141926] text-white rounded-lg hover:bg-[#1C2333] transition-colors">½</button>
-                        <button onclick="CrashGame.adjustBet(2)" 
-                                class="w-12 h-10 bg-[#141926] text-white rounded-lg hover:bg-[#1C2333] transition-colors">2×</button>
-                    </div>
-                </div>
-
-                <div class="mb-8">
-                    <div class="text-gray-400 text-sm mb-2">Game History</div>
-                    <div id="crash-history" class="flex flex-wrap gap-2"></div>
-                </div>
-
-                <div class="mt-auto grid grid-cols-2 gap-4">
-                    <button onclick="CrashGame.placeBet()" 
-                            class="w-full bg-green-600 text-white p-3 rounded-lg hover:bg-green-700 transition-colors">
-                        Place Bet
-                    </button>
-                    <button onclick="CrashGame.cashOut()" 
-                            class="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition-colors">
-                        Cash Out
-                    </button>
-                </div>
-            </div>
-        </div>
-    `;
-
-    gameContainer.classList.remove('hidden');
-    CrashGame.init();
-}
-
 
 
 const BlackjackGame = {
@@ -13714,6 +13626,12 @@ const BlackjackGame = {
         this.shuffle();
         this.updateDisplay();
         this.updateControls();
+
+        const betButtons = document.querySelectorAll('[onclick*="BlackjackGame.placeBet"]');
+        betButtons.forEach(button => {
+            button.disabled = false;
+            button.classList.remove('opacity-50', 'cursor-not-allowed');
+        });
     },
 
     init() {
@@ -13917,17 +13835,61 @@ const BlackjackGame = {
         return this.deck.pop();
     },
 
-    placeBet(amount) {
-        if (this.gameState !== 'betting' || amount > portfolio.funbucks) {
+    cleanup() {
+        this.deck = [];
+        this.playerHands = [[]];
+        this.dealerHand = [];
+        this.currentBet = 0;
+        this.currentHandIndex = 0;
+        this.gameState = 'betting';
+        this.elements = null;
+    },
+
+    async placeBet(amount) {
+        if (this.gameState !== 'betting') return;
+        
+        const betAmount = Math.floor(Number(amount));
+        
+        if (isNaN(betAmount) || betAmount < 1) {
+            showErrorMessage('Invalid bet amount');
             return;
         }
 
-        this.currentBet = amount;
-        portfolio.funbucks -= amount;
-        this.gameState = 'playing';
-        this.dealInitialCards();
-        this.updateDisplay();
-        this.updateControls();
+        if (betAmount > portfolio.funbucks) {
+            showErrorMessage('Insufficient FunBucks');
+            return;
+        }
+
+        try {
+            await db.runTransaction(async (transaction) => {
+                const userRef = db.collection('users').doc(auth.currentUser.uid);
+                const userDoc = await transaction.get(userRef);
+                const currentFunbucks = userDoc.data().funbucks;
+
+                if (currentFunbucks < betAmount) {
+                    throw new Error('Insufficient funds');
+                }
+
+                transaction.update(userRef, {
+                    funbucks: currentFunbucks - betAmount
+                });
+
+                portfolio.funbucks = currentFunbucks - betAmount;
+                this.currentBet = betAmount;
+                this.gameState = 'playing';
+            });
+
+            this.dealInitialCards();
+            this.updateDisplay();
+            this.updateControls();
+
+            const betButtons = document.querySelectorAll('[onclick*="BlackjackGame.placeBet"]');
+            betButtons.forEach(button => {
+                button.disabled = true;
+            });
+        } catch (error) {
+            showErrorMessage('Failed to place bet');
+        }
     },
 
     dealInitialCards() {
@@ -13971,20 +13933,29 @@ const BlackjackGame = {
             this.playerHands[this.currentHandIndex].length !== 2 || 
             portfolio.funbucks < this.currentBet) return;
 
-        portfolio.funbucks -= this.currentBet;
-        this.currentBet *= 2;
-        
-        const currentHand = this.playerHands[this.currentHandIndex];
-        currentHand.push(this.dealCard());
-        
-        if (this.currentHandIndex < this.playerHands.length - 1) {
-            this.currentHandIndex++;
-        } else {
-            this.finishDealerTurn();
+        try {
+            const userRef = db.collection('users').doc(auth.currentUser.uid);
+            userRef.update({
+                funbucks: firebase.firestore.FieldValue.increment(-this.currentBet)
+            });
+
+            portfolio.funbucks = Math.max(0, portfolio.funbucks - this.currentBet);
+            this.currentBet *= 2;
+            
+            const currentHand = this.playerHands[this.currentHandIndex];
+            currentHand.push(this.dealCard());
+            
+            if (this.currentHandIndex < this.playerHands.length - 1) {
+                this.currentHandIndex++;
+            } else {
+                this.finishDealerTurn();
+            }
+            
+            this.updateDisplay();
+            this.updateControls();
+        } catch (error) {
+            showErrorMessage('Failed to double down');
         }
-        
-        this.updateDisplay();
-        this.updateControls();
     },
 
     finishDealerTurn() {
@@ -14035,28 +14006,30 @@ const BlackjackGame = {
             
             if (playerValue > 21) {
                 this.showGameResult('BUST!', false);
-            } else if (playerValue <= 21) {
-                if (dealerValue > 21) {
-                    totalWinnings += this.currentBet * 2;
-                    this.showGameResult('DEALER BUST - YOU WIN!', true);
-                } else if (playerValue > dealerValue) {
-                    if (playerValue === 21 && hand.length === 2) {
-                        totalWinnings += this.currentBet * 2.5;
-                        this.showGameResult('BLACKJACK!', true);
-                    } else {
-                        totalWinnings += this.currentBet * 2;
-                        this.showGameResult('YOU WIN!', true);
-                    }
-                } else if (playerValue === dealerValue) {
-                    totalWinnings += this.currentBet;
-                    this.showGameResult('PUSH', true);
+            } else if (dealerValue > 21) {
+                totalWinnings += this.currentBet * 2;
+                this.showGameResult('DEALER BUST - YOU WIN!', true);
+            } else if (playerValue > dealerValue) {
+                if (playerValue === 21 && hand.length === 2) {
+                    totalWinnings += Math.floor(this.currentBet * 2.5);
+                    this.showGameResult('BLACKJACK!', true);
                 } else {
-                    this.showGameResult('DEALER WINS', false);
+                    totalWinnings += this.currentBet * 2;
+                    this.showGameResult('YOU WIN!', true);
                 }
+            } else if (playerValue === dealerValue) {
+                totalWinnings += this.currentBet;
+                this.showGameResult('PUSH', true);
+            } else {
+                this.showGameResult('DEALER WINS', false);
             }
         }
         
         if (totalWinnings > 0) {
+            const userRef = db.collection('users').doc(auth.currentUser.uid);
+            userRef.update({
+                funbucks: firebase.firestore.FieldValue.increment(totalWinnings)
+            });
             portfolio.funbucks += totalWinnings;
             this.showWinAnimation(totalWinnings);
         }
@@ -14071,111 +14044,543 @@ const BlackjackGame = {
 
 window.BlackjackGame = BlackjackGame;
 
-function showBlackjackGame() {
-    const gameContainer = document.getElementById('game-container');
-    const gameContent = document.getElementById('current-game-content');
-    
-    if (!gameContainer || !gameContent) return;
-    
-    gameContent.innerHTML = `
-        <div class="w-full h-full bg-green-800 flex">
-            <div class="flex-1 relative p-4">
-                <div id="blackjack-container" class="h-full flex flex-col">
-                    <div class="dealer-section mb-8">
-                        <h3 class="text-white text-xl mb-4">Dealer's Hand</h3>
-                        <div class="dealer-hand flex gap-2"></div>
-                    </div>
-                    
-                    <div class="player-section mt-auto">
-                        <h3 class="text-white text-xl mb-4">Your Hand</h3>
-                        <div class="player-hands flex flex-col gap-4"></div>
-                    </div>
-                    
-                    <div id="blackjack-effects" class="absolute inset-0 pointer-events-none"></div>
-                </div>
-            </div>
-            
-            <div class="w-80 bg-green-900 p-6 flex flex-col">
-                <div class="mb-8">
-                    <div class="text-gray-300 text-sm mb-2">Your Balance</div>
-                    <div class="balance text-2xl font-bold text-green-400"></div>
-                </div>
+document.querySelector('[data-tab="live-games"]')?.addEventListener('click', () => {
+    const funbucksDisplay = document.getElementById('live-games-funbucks');
+    if (funbucksDisplay) {
+        funbucksDisplay.textContent = formatCurrency(portfolio.funbucks);
+    }
+});
 
-                <div class="mb-8">
-                    <div class="text-gray-300 text-sm mb-2">Current Bet</div>
-                    <div class="current-bet text-xl font-bold text-yellow-400">0</div>
-                    
-                    <div class="grid grid-cols-4 gap-2 mt-4">
-                        <button onclick="BlackjackGame.placeBet(10)" 
-                                class="bg-green-700 text-white p-2 rounded hover:bg-green-600">
-                            10
-                        </button>
-                        <button onclick="BlackjackGame.placeBet(25)" 
-                                class="bg-green-700 text-white p-2 rounded hover:bg-green-600">
-                            25
-                        </button>
-                        <button onclick="BlackjackGame.placeBet(50)" 
-                                class="bg-green-700 text-white p-2 rounded hover:bg-green-600">
-                            50
-                        </button>
-                        <button onclick="BlackjackGame.placeBet(100)" 
-                                class="bg-green-700 text-white p-2 rounded hover:bg-green-600">
-                            100
-                        </button>
-                    </div>
-                </div>
 
-                <div class="game-actions space-y-4">
-                    <div class="grid grid-cols-2 gap-4">
-                        <button id="hit-button"
-                                onclick="BlackjackGame.hit()" 
-                                class="bg-blue-600 text-white p-3 rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">
-                            Hit
-                        </button>
-                        <button id="stand-button"
-                                onclick="BlackjackGame.stand()" 
-                                class="bg-red-600 text-white p-3 rounded hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed">
-                            Stand
-                        </button>
-                    </div>
-                    
-                    <div class="grid grid-cols-2 gap-4">
-                        <button id="double-button"
-                                onclick="BlackjackGame.double()" 
-                                class="bg-purple-600 text-white p-3 rounded hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed">
-                            Double
-                        </button>
-                        <button id="split-button"
-                                onclick="BlackjackGame.split()" 
-                                class="bg-yellow-600 text-white p-3 rounded hover:bg-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed">
-                            Split
-                        </button>
-                    </div>
-                </div>
 
-                <div class="mt-8">
-                    <div class="text-gray-300 text-sm mb-2">Game Rules</div>
-                    <div class="text-gray-400 text-sm space-y-2">
-                        <p>• Dealer stands on 17</p>
-                        <p>• Blackjack pays 3:2</p>
-                        <p>• Double down on any first two cards</p>
-                        <p>• Split identical cards</p>
-                        <p>• No insurance</p>
+
+
+function showPlinkoGame() {
+    document.body.innerHTML += `
+        <div id="game-container" class="fixed inset-0 flex items-center justify-center z-[60] bg-gray-900">
+            <div id="current-game-content" class="w-full h-full max-w-7xl mx-auto">
+                <div class="w-full h-full bg-[#0F1629] flex">
+                    <div class="flex-1 relative">
+                        <canvas id="plinko-canvas"></canvas>
+                        <div id="plinko-effects"></div>
+                    </div>
+                    <div class="w-80 bg-[#1C2333] p-6 flex flex-col">
+                        <div class="mb-8">
+                            <div class="text-gray-400 text-sm mb-2">Balance</div>
+                            <div id="plinko-balance" class="text-2xl font-bold text-violet-400"></div>
+                        </div>
+
+                        <div class="mb-8">
+                            <div class="text-gray-400 text-sm mb-4">Difficulty</div>
+                            <div class="grid grid-cols-3 gap-2">
+                                <button data-difficulty="easy" class="difficulty-btn p-2 rounded-lg text-white text-sm font-medium transition-all" style="background-color: #10B981">Easy</button>
+                                <button data-difficulty="medium" class="difficulty-btn p-2 rounded-lg text-white text-sm font-medium transition-all" style="background-color: #3B82F6">Medium</button>
+                                <button data-difficulty="hard" class="difficulty-btn p-2 rounded-lg text-white text-sm font-medium transition-all" style="background-color: #7C3AED">Hard</button>
+                            </div>
+                        </div>
+
+                        <div class="mb-8">
+                            <div class="text-gray-400 text-sm mb-2">Bet Amount</div>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="plinko-bet" value="10" min="1" class="flex-1 px-4 py-2 bg-[#141926] rounded-lg text-white border border-gray-700">
+                                <button onclick="plinkoGame.adjustBet(0.5)" class="w-12 h-10 bg-[#141926] text-white rounded-lg hover:bg-[#1C2333] transition-colors">½</button>
+                                <button onclick="plinkoGame.adjustBet(2)" class="w-12 h-10 bg-[#141926] text-white rounded-lg hover:bg-[#1C2333] transition-colors">2×</button>
+                            </div>
+                        </div>
+
+                        <button onclick="plinkoGame.dropBall()" class="mt-auto w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition-colors">Drop Ball</button>
                     </div>
                 </div>
             </div>
         </div>
     `;
 
-    gameContainer.classList.remove('hidden');
+    const gameContainer = document.getElementById('game-container');
+    const closeButton = document.createElement('button');
+    closeButton.className = 'absolute top-4 right-4 text-gray-400 hover:text-white text-2xl font-bold z-50';
+    closeButton.textContent = '×';
+    closeButton.onclick = () => {
+        gameContainer.remove();
+        plinkoGame.cleanup();
+    };
+    gameContainer.appendChild(closeButton);
+    plinkoGame.init();
+}
+
+function showCoinFlipGame() {
+    document.body.innerHTML += `
+        <div id="game-container" class="fixed inset-0 flex items-center justify-center z-[60] bg-gray-900">
+            <div id="current-game-content" class="w-full h-full max-w-7xl mx-auto">
+                <div class="w-full h-full bg-[#0F1629] flex">
+                    <div class="flex-1 relative flex flex-col items-center justify-center">
+                        <div class="text-8xl mb-8" id="viking-decision">⚔️</div>
+                        <div class="text-4xl font-bold text-white mb-12" id="decision-text">Awaiting Decision</div>
+                        <div id="coin-effects"></div>
+                    </div>
+                    <div class="w-80 bg-[#1C2333] p-6 flex flex-col">
+                        <div class="mb-8">
+                            <div class="text-gray-400 text-sm mb-2">Balance</div>
+                            <div id="coin-balance" class="text-2xl font-bold text-violet-400"></div>
+                        </div>
+
+                        <div class="mb-8">
+                            <div class="text-gray-400 text-sm mb-2">Bet Amount</div>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="coin-bet" value="10" min="1" class="flex-1 px-4 py-2 bg-[#141926] rounded-lg text-white border border-gray-700">
+                                <button onclick="CoinFlipGame.adjustBet(0.5)" class="w-12 h-10 bg-[#141926] text-white rounded-lg hover:bg-[#1C2333] transition-colors">½</button>
+                                <button onclick="CoinFlipGame.adjustBet(2)" class="w-12 h-10 bg-[#141926] text-white rounded-lg hover:bg-[#1C2333] transition-colors">2×</button>
+                            </div>
+                        </div>
+
+                        <button onclick="CoinFlipGame.decide()" class="mt-auto w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition-colors">Decide</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    const gameContainer = document.getElementById('game-container');
+    const closeButton = document.createElement('button');
+    closeButton.className = 'absolute top-4 right-4 text-gray-400 hover:text-white text-2xl font-bold z-50';
+    closeButton.textContent = '×';
+    closeButton.onclick = () => {
+        gameContainer.remove();
+        CoinFlipGame.cleanup();
+    };
+    gameContainer.appendChild(closeButton);
+    CoinFlipGame.init();
+}
+
+function showCrashGame() {
+    document.body.innerHTML += `
+        <div id="game-container" class="fixed inset-0 flex items-center justify-center z-[60] bg-gray-900">
+            <div id="current-game-content" class="w-full h-full max-w-7xl mx-auto">
+                <div class="w-full h-full bg-[#0F1629] flex">
+                    <div class="flex-1 relative">
+                        <canvas id="crash-canvas"></canvas>
+                        <div id="crash-effects"></div>
+                    </div>
+                    <div class="w-80 bg-[#1C2333] p-6 flex flex-col">
+                        <div class="mb-8">
+                            <div class="text-gray-400 text-sm mb-2">Balance</div>
+                            <div id="crash-balance" class="text-2xl font-bold text-violet-400"></div>
+                        </div>
+
+                        <div class="mb-8">
+                            <div class="text-gray-400 text-sm mb-2">Bet Amount</div>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="crash-bet" value="10" min="1" class="flex-1 px-4 py-2 bg-[#141926] rounded-lg text-white border border-gray-700">
+                                <button onclick="CrashGame.adjustBet(0.5)" class="w-12 h-10 bg-[#141926] text-white rounded-lg hover:bg-[#1C2333] transition-colors">½</button>
+                                <button onclick="CrashGame.adjustBet(2)" class="w-12 h-10 bg-[#141926] text-white rounded-lg hover:bg-[#1C2333] transition-colors">2×</button>
+                            </div>
+                        </div>
+
+                        <div class="mb-8">
+                            <div class="text-gray-400 text-sm mb-2">Game History</div>
+                            <div id="crash-history" class="flex flex-wrap gap-2"></div>
+                        </div>
+
+                        <div class="mt-auto grid grid-cols-2 gap-4">
+                            <button onclick="CrashGame.placeBet()" class="w-full bg-green-600 text-white p-3 rounded-lg hover:bg-green-700 transition-colors">Place Bet</button>
+                            <button onclick="CrashGame.cashOut()" class="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition-colors">Cash Out</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    const gameContainer = document.getElementById('game-container');
+    const closeButton = document.createElement('button');
+    closeButton.className = 'absolute top-4 right-4 text-gray-400 hover:text-white text-2xl font-bold z-50';
+    closeButton.textContent = '×';
+    closeButton.onclick = () => {
+        gameContainer.remove();
+        CrashGame.cleanup();
+    };
+    gameContainer.appendChild(closeButton);
+    CrashGame.init();
+}
+
+function showBlackjackGame() {
+    document.body.innerHTML += `
+        <div id="game-container" class="fixed inset-0 flex items-center justify-center z-[60] bg-gray-900">
+            <div id="current-game-content" class="w-full h-full max-w-7xl mx-auto">
+                <div class="w-full h-full bg-green-800 flex">
+                    <div class="flex-1 relative p-4">
+                        <div id="blackjack-container" class="h-full flex flex-col">
+                            <div class="dealer-section mb-8">
+                                <h3 class="text-white text-xl mb-4">Dealer's Hand</h3>
+                                <div class="dealer-hand flex gap-2"></div>
+                            </div>
+                            
+                            <div class="player-section mt-auto">
+                                <h3 class="text-white text-xl mb-4">Your Hand</h3>
+                                <div class="player-hands flex flex-col gap-4"></div>
+                            </div>
+                            
+                            <div id="blackjack-effects" class="absolute inset-0 pointer-events-none"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="w-80 bg-green-900 p-6 flex flex-col">
+                        <div class="mb-8">
+                            <div class="text-gray-300 text-sm mb-2">Your Balance</div>
+                            <div class="balance text-2xl font-bold text-green-400"></div>
+                        </div>
+
+                        <div class="mb-8">
+                            <div class="text-gray-300 text-sm mb-2">Current Bet</div>
+                            <div class="current-bet text-xl font-bold text-yellow-400">0</div>
+                            
+                            <div class="grid grid-cols-4 gap-2 mt-4">
+                                ${[10, 25, 50, 100].map(amount => `
+                                    <button onclick="BlackjackGame.placeBet(${amount})" 
+                                            class="bg-green-700 text-white p-2 rounded hover:bg-green-600">
+                                        ${amount}
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="game-actions space-y-4">
+                            <div class="grid grid-cols-2 gap-4">
+                                <button id="hit-button" onclick="BlackjackGame.hit()" 
+                                        class="bg-blue-600 text-white p-3 rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                                    Hit
+                                </button>
+                                <button id="stand-button" onclick="BlackjackGame.stand()" 
+                                        class="bg-red-600 text-white p-3 rounded hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                                    Stand
+                                </button>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <button id="double-button" onclick="BlackjackGame.double()" 
+                                        class="bg-purple-600 text-white p-3 rounded hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                                    Double
+                                </button>
+                                <button id="split-button" onclick="BlackjackGame.split()" 
+                                        class="bg-yellow-600 text-white p-3 rounded hover:bg-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                                    Split
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="mt-8">
+                            <div class="text-gray-300 text-sm mb-2">Game Rules</div>
+                            <div class="text-gray-400 text-sm space-y-2">
+                                <p>• Dealer stands on 17</p>
+                                <p>• Blackjack pays 3:2</p>
+                                <p>• Double down on any first two cards</p>
+                                <p>• Split identical cards</p>
+                                <p>• No insurance</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    const gameContainer = document.getElementById('game-container');
+    const closeButton = document.createElement('button');
+    closeButton.className = 'absolute top-4 right-4 text-gray-400 hover:text-white text-2xl font-bold z-50';
+    closeButton.textContent = '×';
+    closeButton.onclick = () => {
+        gameContainer.remove();
+        BlackjackGame.cleanup();
+    };
+    gameContainer.appendChild(closeButton);
     BlackjackGame.init();
 }
 
 
+
+const SchoolRewards = {
+    rewards: [
+        { day: 'Monday', amount: 100, icon: '🌅', description: "Monday Motivation!" },
+        { day: 'Tuesday', amount: 200, icon: '📚', description: "Tuesday Boost!" },
+        { day: 'Wednesday', amount: 300, icon: '🌟', description: "Halfway There!" },
+        { day: 'Thursday', amount: 400, icon: '🎯', description: "Almost Friday!" },
+        { day: 'Friday', amount: 1000, icon: '🎉', description: "Weekend Ready!" }
+    ],
+
+    currentWeek: 1,
+    lastClaimDate: null,
+    canClaim: false,
+    rewardHour: 8,
+    rewardMinute: 40,
+
+    init() {
+        this.checkClaimStatus();
+        this.startRewardTimer();
+        this.setupListeners();
+    },
+
+    startRewardTimer() {
+        const updateTimer = () => {
+            const now = new Date();
+            const targetTime = new Date();
+            targetTime.setHours(this.rewardHour, this.rewardMinute, 0, 0);
+
+            // If we're past today's time, set for next day
+            if (now > targetTime) {
+                targetTime.setDate(targetTime.getDate() + 1);
+            }
+
+            const timeDiff = targetTime - now;
+            const hoursLeft = Math.floor(timeDiff / (1000 * 60 * 60));
+            const minutesLeft = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+            const secondsLeft = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+            const timerElement = document.getElementById('next-reward-timer');
+            if (timerElement) {
+                timerElement.textContent = `Next: ${String(hoursLeft).padStart(2, '0')}:${String(minutesLeft).padStart(2, '0')}:${String(secondsLeft).padStart(2, '0')}`;
+            }
+
+            // Auto-check claim status when reward time hits
+            if (hoursLeft === 0 && minutesLeft === 0 && secondsLeft === 0) {
+                this.checkClaimStatus();
+            }
+        };
+
+        updateTimer();
+        setInterval(updateTimer, 1000);
+    },
+
+    setupListeners() {
+        const claimButton = document.getElementById('claim-reward-btn');
+        if (claimButton) {
+            claimButton.addEventListener('click', () => this.claimReward());
+        }
+    },
+
+    async checkClaimStatus() {
+        if (!auth.currentUser) return;
+
+        try {
+            const userRef = db.collection('users').doc(auth.currentUser.uid);
+            const doc = await userRef.get();
+            const userData = doc.data();
+            
+            this.lastClaimDate = userData.lastDailyReward?.toDate() || null;
+            
+            const now = new Date();
+            const currentDay = now.getDay(); // 0 = Sunday, 1-5 = Mon-Fri, 6 = Saturday
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+            const currentTime = currentHour * 60 + currentMinute;
+            const targetTime = this.rewardHour * 60 + this.rewardMinute;
+
+            // Check if it's a weekday
+            if (currentDay >= 1 && currentDay <= 5) {
+                if (!this.lastClaimDate) {
+                    this.canClaim = currentTime >= targetTime;
+                } else {
+                    const lastClaimDay = new Date(this.lastClaimDate);
+                    const isSameDay = lastClaimDay.toDateString() === now.toDateString();
+                    this.canClaim = !isSameDay && currentTime >= targetTime;
+                }
+            } else {
+                this.canClaim = false;
+            }
+
+            this.updateRewardDisplay(currentDay);
+            this.updateClaimButton();
+
+        } catch (error) {
+            console.error('Error checking claim status:', error);
+        }
+    },
+
+    updateRewardDisplay(currentDay) {
+        const rewardBoxes = document.querySelectorAll('.reward-day');
+        
+        rewardBoxes.forEach((box, index) => {
+            const dayNumber = index + 1; // 1-5 for Mon-Fri
+            
+            // Remove existing status classes
+            box.classList.remove('claimed', 'active', 'locked');
+            
+            if (dayNumber < currentDay) {
+                // Past days
+                box.classList.add('claimed');
+                box.style.borderColor = 'rgb(34, 197, 94)';
+                box.style.opacity = '0.7';
+            } else if (dayNumber === currentDay) {
+                // Today
+                box.classList.add(this.canClaim ? 'active' : 'locked');
+                box.style.borderColor = this.canClaim ? 'rgb(168, 85, 247)' : 'rgb(75, 85, 99)';
+                box.style.opacity = this.canClaim ? '1' : '0.5';
+            } else {
+                // Future days
+                box.classList.add('locked');
+                box.style.borderColor = 'rgb(75, 85, 99)';
+                box.style.opacity = '0.5';
+            }
+        });
+    },
+
+    updateClaimButton() {
+        const button = document.getElementById('claim-reward-btn');
+        if (!button) return;
+
+        button.disabled = !this.canClaim;
+        
+        if (this.canClaim) {
+            button.textContent = 'Claim Daily Reward';
+            button.classList.remove('bg-gray-600');
+            button.classList.add('bg-purple-600', 'hover:bg-purple-700');
+        } else {
+            const now = new Date();
+            const dayOfWeek = now.getDay();
+            
+            if (dayOfWeek === 0 || dayOfWeek === 6) {
+                button.textContent = 'Come back on Monday';
+            } else if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+                button.textContent = 'Come back at 8:40 AM';
+            }
+            
+            button.classList.remove('bg-purple-600', 'hover:bg-purple-700');
+            button.classList.add('bg-gray-600');
+        }
+    },
+
+    async claimReward() {
+        if (!this.canClaim) return;
+
+        try {
+            const now = new Date();
+            const dayIndex = now.getDay() - 1; // Convert to 0-4 index for Mon-Fri
+            const reward = this.rewards[dayIndex];
+
+            if (!reward) {
+                showErrorMessage('No reward available for today');
+                return;
+            }
+
+            const userRef = db.collection('users').doc(auth.currentUser.uid);
+            
+            await db.runTransaction(async (transaction) => {
+                const userDoc = await transaction.get(userRef);
+                const userData = userDoc.data();
+                
+                transaction.update(userRef, {
+                    funbucks: firebase.firestore.FieldValue.increment(reward.amount),
+                    lastDailyReward: now,
+                    rewardWeek: this.currentWeek
+                });
+            });
+
+            // Update local portfolio
+            portfolio.funbucks += reward.amount;
+            updateHeaderDisplay();
+
+            // Show reward animation
+            this.showRewardAnimation(reward);
+
+            // Update UI state
+            this.lastClaimDate = now;
+            this.canClaim = false;
+            this.updateRewardDisplay(now.getDay());
+            this.updateClaimButton();
+
+            // Play claim sound effect
+            this.playClaimSound();
+
+        } catch (error) {
+            console.error('Error claiming reward:', error);
+            showErrorMessage('Failed to claim reward');
+        }
+    },
+
+    showRewardAnimation(reward) {
+        const container = document.createElement('div');
+        container.className = 'fixed inset-0 flex items-center justify-center z-50 animate__animated animate__fadeIn';
+        container.innerHTML = `
+            <div class="bg-black/80 p-8 rounded-xl text-center animate__animated animate__bounceIn">
+                <div class="text-6xl mb-4">${reward.icon}</div>
+                <div class="text-2xl font-bold text-purple-400 mb-2">+${reward.amount} FunBucks!</div>
+                <div class="text-gray-300">${reward.description}</div>
+            </div>
+        `;
+
+        document.body.appendChild(container);
+
+        // Add celebration particles
+        this.createCelebrationEffect(container);
+
+        setTimeout(() => {
+            container.classList.add('animate__fadeOut');
+            setTimeout(() => container.remove(), 500);
+        }, 2000);
+    },
+
+    createCelebrationEffect(container) {
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'celebration-particle';
+            
+            const color = `hsl(${Math.random() * 360}, 70%, 60%)`;
+            const left = Math.random() * 100;
+            const size = Math.random() * 8 + 4;
+            
+            particle.style.cssText = `
+                position: absolute;
+                left: ${left}%;
+                top: 50%;
+                width: ${size}px;
+                height: ${size}px;
+                background: ${color};
+                border-radius: 50%;
+                pointer-events: none;
+            `;
+            
+            const angle = Math.random() * Math.PI * 2;
+            const velocity = Math.random() * 6 + 4;
+            const vx = Math.cos(angle) * velocity;
+            const vy = Math.sin(angle) * velocity - 2;
+            
+            container.appendChild(particle);
+            
+            let posX = left;
+            let posY = 50;
+            
+            const animate = () => {
+                if (!container.isConnected) return;
+                
+                posX += vx;
+                posY += vy;
+                
+                particle.style.left = posX + '%';
+                particle.style.top = posY + '%';
+                
+                if (posY < 150) {
+                    requestAnimationFrame(animate);
+                } else {
+                    particle.remove();
+                }
+            };
+            
+            requestAnimationFrame(animate);
+        }
+    },
+
+    playClaimSound() {
+        const audio = new Audio('data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4LjI5LjEwMAAAAAAAAAAAAAAA//tQwAAAAAAAAAAAAAAAAAAAAAAASW5mbwAAAA8AAAASAAAhIQAYGBgYJCQkJCQwMDAwMDw8PDw8SEhISEhUVFRUVGBgYGBgbGxsbGx4eHh4eISEhISEkJCQkJCcnJycnKioqKiotLS0tLTAwMDAwMzMzMzM2NjY2Njk5OTk5PT09PT0//38AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//tQxAAAAAAAAAAAAAAAAAAAAAABYaW5nAAAADwAAAAsAABqKABMTExMTICAgICAtLS0tLTo6Ojo6R0dHR0dUVFRUVGFhYWFhbm5ubm57e3t7e4iIiIiIlZWVlZWioqKioq+vr6+vvLy8vLw=');
+        audio.volume = 0.3;
+        audio.play().catch(() => {});
+    }
+};
+
 document.querySelector('[data-tab="live-games"]')?.addEventListener('click', () => {
-    const funbucksDisplay = document.getElementById('live-games-funbucks');
-    if (funbucksDisplay) {
-        funbucksDisplay.textContent = formatCurrency(portfolio.funbucks);
+    SchoolRewards.init();
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (!document.getElementById('live-games-tab')?.classList.contains('hidden')) {
+        SchoolRewards.init();
     }
 });
 </script>
