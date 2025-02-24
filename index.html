@@ -3002,7 +3002,7 @@ header {
 
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             <!-- Plinko -->
-                            <button onclick="" 
+                            <button onclick="showPlinkoGame()" 
                                     class="p-6 bg-gray-800 rounded-xl border border-purple-500/20 hover:border-purple-500/40 transition-all">
                                 <div class="flex items-center gap-3">
                                     <div class="w-12 h-12 rounded-lg bg-purple-600 flex items-center justify-center">
@@ -3019,7 +3019,7 @@ header {
                                     </div>
                                     <div class="text-left">
                                         <div class="text-lg font-bold text-white">Plinko</div>
-                                        <div class="text-sm text-gray-400">Physics system not working properly, fixing monday</div>
+                                        <div class="text-sm text-gray-400">Max Win: 2x</div>
                                     </div>
                                 </div>
                             </button>
@@ -3041,20 +3041,6 @@ header {
                             </button>
 
                             <!-- Crash -->
-                            <button onclick="" 
-                                    class="p-6 bg-gray-800 rounded-xl border border-purple-500/20 hover:border-purple-500/40 transition-all">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-12 h-12 rounded-lg bg-purple-600 flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                                        </svg>
-                                    </div>
-                                    <div class="text-left">
-                                        <div class="text-lg font-bold text-white">Crash</div>
-                                        <div class="text-sm text-gray-400">fixing bugs with Funbucks coming as NaN</div>
-                                    </div>
-                                </div>
-                            </button>
 
                             <!-- Blackjack -->
                             <button onclick="showBlackjackGame()" 
@@ -13206,30 +13192,6 @@ function hideGameModal() {
         gameContainer.classList.add('hidden');
     }
 }
-function handlePinCollision(ball, pin) {
-    const dx = ball.x - pin.x;
-    const dy = ball.y - pin.y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-    
-    if (distance < 10) {
-        const centerBias = (this.width / 2 - ball.x) * 0.003;
-        const angle = Math.atan2(dy, dx);
-        const normalX = Math.cos(angle);
-        const normalY = Math.sin(angle);
-        
-        ball.x = pin.x + normalX * 10;
-        ball.y = pin.y + normalY * 10;
-        
-        const dotProduct = ball.vx * normalX + ball.vy * normalY;
-        ball.vx = (ball.vx - 2 * dotProduct * normalX) * 0.6 + centerBias;
-        ball.vy = (ball.vy - 2 * dotProduct * normalY) * 0.6;
-        
-        ball.vx += (Math.random() - 0.5) * 0.15;
-        
-        pin.glow = 1;
-        this.createParticle(ball.x, ball.y);
-    }
-}
 
 
 
@@ -13249,7 +13211,7 @@ const CoinFlipGame = {
     },
 
     adjustBet(multiplier) {
-        const input = document.getElementById('coin-bet');
+        const input = document.getElementById('plinko-bet');
         const currentBet = parseFloat(input.value) || 0;
         input.value = Math.max(1, Math.floor(currentBet * multiplier));
     },
@@ -14087,15 +14049,20 @@ const plinkoGame = {
     width: 800,
     height: 600,
     pins: [],
-    ball: null,
+    balls: [],
     particles: [],
     difficulty: 'medium',
     multipliers: {
-        easy: [5.6, 2.3, 1.5, 1.3, 1.1, 1.0, 1.1, 1.3, 1.5, 2.3, 5.6],
-        medium: [10.1, 3, 1.6, 1.4, 1.2, 0, 1.2, 1.4, 1.6, 3, 10.1],
-        hard: [18.2, 4.3, 2.1, 1.5, 1.3, 0, 1.3, 1.5, 2.1, 4.3, 18.2]
+        easy: [5.6, 1.5, 1.4, 1.3, 1.2, 1.1, 1, 0.5, 0.5, 0.5, 1, 1.1, 1.2, 1.3, 1.4, 5.6],
+        medium: [22, 1.5, 1.4, 1.3, 1.2, 1.1, 0.4, 0.4, 0.4, 1.1, 1.2, 1.3, 1.4, 1.5, 22],
+        hard: [50, 9, 1.5, 1.3, 1.2, 1.1, 0.2, 0.2, 0.2, 1.1, 1.2, 1.3, 1.5, 9, 50]
     },
+    targetMultiplierIndex: 7,
     currentBet: 0,
+    pinRows: 12,
+    pinSpacing: 40,
+    canDrop: true,
+    maxBalls: 15,
 
     init() {
         this.canvas = document.getElementById('plinko-canvas');
@@ -14115,24 +14082,24 @@ const plinkoGame = {
         this.height = rect.height;
         this.canvas.width = this.width;
         this.canvas.height = this.height;
+        this.pinSpacing = this.width / 20;
         this.setupPins();
     },
 
     setupPins() {
         this.pins = [];
-        const rows = 16;
-        const pinsPerRow = 9;
-        const pinSpacing = this.width / (pinsPerRow + 1);
-        const rowSpacing = (this.height * 0.7) / rows;
-        
-        for (let row = 0; row < rows; row++) {
-            const pinsInThisRow = row % 2 === 0 ? pinsPerRow : pinsPerRow - 1;
-            const offsetX = row % 2 === 0 ? 0 : pinSpacing / 2;
-            
-            for (let i = 0; i < pinsInThisRow; i++) {
+        const verticalSpacing = this.height * 0.6 / this.pinRows;
+        const startY = this.height * 0.9; // Start closer to the bottom of the screen
+
+        for (let row = 0; row < this.pinRows; row++) {
+            const pinsInRow = 15 - row;
+            const rowWidth = pinsInRow * this.pinSpacing;
+            const startX = (this.width - rowWidth) / 2 + this.pinSpacing / 2;
+
+            for (let pin = 0; pin < pinsInRow; pin++) {
                 this.pins.push({
-                    x: offsetX + pinSpacing * (i + 1),
-                    y: rowSpacing * (row + 1) + this.height * 0.15,
+                    x: startX + pin * this.pinSpacing,
+                    y: startY - row * verticalSpacing, // Reverse the y positioning
                     radius: 4,
                     glow: 0
                 });
@@ -14140,37 +14107,16 @@ const plinkoGame = {
         }
     },
 
+
     setupDifficultyButtons() {
-        document.querySelectorAll('.difficulty-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.difficulty-btn').forEach(b => 
-                    b.style.opacity = '0.5');
-                btn.style.opacity = '1';
-                this.difficulty = btn.dataset.difficulty;
+        const buttons = document.querySelectorAll('.difficulty-btn');
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                buttons.forEach(b => b.classList.remove('active'));
+                button.classList.add('active');
+                this.difficulty = button.dataset.difficulty;
             });
         });
-    },
-
-    dropBall() {
-        const betAmount = parseInt(document.getElementById('plinko-bet').value);
-        if (!betAmount || betAmount < 1 || betAmount > portfolio.funbucks) {
-            showErrorMessage('Invalid bet amount');
-            return;
-        }
-
-        this.currentBet = betAmount;
-        processFunbucksChange(-betAmount);
-        this.updateDisplay();
-
-        const angle = (Math.random() - 0.5) * 0.5;
-        this.ball = {
-            x: this.width / 2,
-            y: this.height * 0.1,
-            radius: 6,
-            vx: Math.sin(angle) * 2,
-            vy: 0,
-            path: []
-        };
     },
 
     adjustBet(multiplier) {
@@ -14182,58 +14128,203 @@ const plinkoGame = {
     updateDisplay() {
         const balance = document.getElementById('plinko-balance');
         if (balance) {
-            balance.textContent = `${formatCurrency(portfolio.funbucks)}`;
+            balance.textContent = formatCurrency(portfolio.funbucks);
         }
     },
 
-    createParticle(x, y) {
-        const angle = Math.random() * Math.PI * 2;
-        const velocity = Math.random() * 2 + 1;
-        this.particles.push({
-            x, y,
-            vx: Math.cos(angle) * velocity,
-            vy: Math.sin(angle) * velocity,
-            life: 1
+    dropBall() {
+        if (!this.canDrop || this.balls.length >= this.maxBalls) return;
+        
+        const betInput = document.getElementById('plinko-bet');
+        const betAmount = parseInt(betInput.value);
+        
+        if (!betAmount || betAmount < 1 || betAmount > portfolio.funbucks) {
+            showErrorMessage('Invalid bet amount');
+            return;
+        }
+
+        this.currentBet = betAmount;
+        processFunbucksChange(-betAmount);
+        this.updateDisplay();
+
+        const bias = Math.random() < 0.7 ? 0 : (Math.random() - 0.5) * 0.5;
+        
+        this.balls.push({
+            x: this.width / 2 + (Math.random() - 0.5) * 20,
+            y: this.height * 0.05,
+            radius: 6,
+            vx: bias,
+            vy: 0,
+            bet: betAmount,
+            landed: false,
+            hasWon: false
         });
     },
 
-    handlePinCollision(ball, pin) {
+    draw3DPin(pin) {
+        const gradient = this.ctx.createRadialGradient(
+            pin.x - 2, pin.y - 2, 1,
+            pin.x, pin.y, pin.radius * 2
+        );
+        
+        gradient.addColorStop(0, '#ffffff');
+        gradient.addColorStop(0.3, '#a0a0a0');
+        gradient.addColorStop(1, '#606060');
+
+        this.ctx.beginPath();
+        this.ctx.arc(pin.x, pin.y, pin.radius * 1.5, 0, Math.PI * 2);
+        this.ctx.fillStyle = gradient;
+        this.ctx.fill();
+
+        if (pin.glow > 0) {
+            const glowGradient = this.ctx.createRadialGradient(
+                pin.x, pin.y, 0,
+                pin.x, pin.y, pin.radius * 4
+            );
+            glowGradient.addColorStop(0, `rgba(255, 255, 255, ${pin.glow})`);
+            glowGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+            
+            this.ctx.beginPath();
+            this.ctx.arc(pin.x, pin.y, pin.radius * 4, 0, Math.PI * 2);
+            this.ctx.fillStyle = glowGradient;
+            this.ctx.fill();
+        }
+    },
+
+    draw3DBall(ball) {
+        const gradient = this.ctx.createRadialGradient(
+            ball.x - 2, ball.y - 2, 1,
+            ball.x, ball.y, ball.radius * 2
+        );
+        
+        gradient.addColorStop(0, '#60A5FA');
+        gradient.addColorStop(0.7, '#2563EB');
+        gradient.addColorStop(1, '#1E40AF');
+
+        this.ctx.beginPath();
+        this.ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+        this.ctx.fillStyle = gradient;
+        this.ctx.fill();
+
+        const shine = this.ctx.createRadialGradient(
+            ball.x - ball.radius/2, ball.y - ball.radius/2, 1,
+            ball.x, ball.y, ball.radius
+        );
+        shine.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
+        shine.addColorStop(0.5, 'rgba(255, 255, 255, 0)');
+
+        this.ctx.beginPath();
+        this.ctx.arc(ball.x - ball.radius/3, ball.y - ball.radius/3, ball.radius/2, 0, Math.PI * 2);
+        this.ctx.fillStyle = shine;
+        this.ctx.fill();
+    },
+
+    drawMultipliers() {
+        const multipliers = this.multipliers[this.difficulty];
+        const bucketWidth = this.width / multipliers.length;
+        const bucketHeight = this.height * 0.05;
+        const startY = this.height - bucketHeight;
+
+        this.ctx.save();
+        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+        this.ctx.shadowBlur = 10;
+        
+        // Draw all buckets with the same color
+        const gradient = this.ctx.createLinearGradient(0, startY, 0, this.height);
+        gradient.addColorStop(0, 'rgba(37, 99, 235, 0.8)');
+        gradient.addColorStop(1, 'rgba(29, 78, 216, 0.8)');
+
+        this.ctx.fillStyle = gradient;
+        this.ctx.fillRect(0, startY, this.width, bucketHeight);
+
+        multipliers.forEach((multiplier, i) => {
+            const x = i * bucketWidth;
+            this.ctx.font = 'bold 16px Arial';
+            this.ctx.fillStyle = 'white';
+            this.ctx.textAlign = 'center';
+            this.ctx.fillText(`${multiplier}x`, x + bucketWidth / 2, startY + bucketHeight / 2);
+        });
+
+        this.ctx.restore();
+    },
+
+    async checkWinningPosition(ball) {
+        if (ball.hasWon) return;
+        
+        const multipliers = this.multipliers[this.difficulty];
+        const bucketWidth = this.width / multipliers.length;
+        const bucketHeight = this.height * 0.05;
+        const startY = this.height - bucketHeight;
+        
+        if (ball.y >= startY - ball.radius) {
+            const bucketIndex = Math.floor(ball.x / bucketWidth);
+            const multiplier = multipliers[Math.min(multipliers.length - 1, Math.max(0, bucketIndex))];
+            const winAmount = Math.floor(ball.bet * multiplier);
+            
+            if (multiplier > 0) {
+                processFunbucksChange(winAmount);
+                this.showWinAnimation(winAmount);
+            }
+            
+            ball.hasWon = true;
+        }
+    },
+
+    handleCollision(ball, pin) {
         const dx = ball.x - pin.x;
         const dy = ball.y - pin.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         
-        if (distance < ball.radius + pin.radius) {
-            const centralForce = (this.width / 2 - ball.x) * 0.0015;
-            const angle = Math.atan2(dy, dx);
-            const normalX = Math.cos(angle);
-            const normalY = Math.sin(angle);
+        if (distance < ball.radius + pin.radius + 2) {
+            const centerBias = (this.width / 2 - ball.x) * 0.02;
             
-            ball.x = pin.x + normalX * (ball.radius + pin.radius);
-            ball.y = pin.y + normalY * (ball.radius + pin.radius);
+            ball.x = pin.x + (dx / distance) * (ball.radius + pin.radius + 2);
+            ball.y = pin.y + (dy / distance) * (ball.radius + pin.radius + 2);
             
+            const normalX = dx / distance;
+            const normalY = dy / distance;
+            
+            const bounce = 0.5;
             const dotProduct = ball.vx * normalX + ball.vy * normalY;
-            ball.vx = (ball.vx - 2 * dotProduct * normalX) * 0.5 + centralForce;
-            ball.vy = (ball.vy - 2 * dotProduct * normalY) * 0.5;
+            
+            ball.vx = (ball.vx - 2 * dotProduct * normalX) * bounce + centerBias;
+            ball.vy = (ball.vy - 2 * dotProduct * normalY) * bounce;
             
             pin.glow = 1;
-            this.createParticle(ball.x, ball.y);
+            this.createParticles(ball.x, ball.y);
+            return true;
+        }
+        return false;
+    },
+
+    createParticles(x, y) {
+        for (let i = 0; i < 3; i++) {
+            this.particles.push({
+                x,
+                y,
+                vx: (Math.random() - 0.5) * 3,
+                vy: (Math.random() - 0.5) * 3 - 2,
+                radius: Math.random() * 2 + 1,
+                life: 1,
+                color: 'rgba(96, 165, 250, '
+            });
         }
     },
 
-    determinePrize() {
-        const multipliers = this.multipliers[this.difficulty];
-        const bucketWidth = this.width / multipliers.length;
-        const bucketIndex = Math.floor(this.ball.x / bucketWidth);
-        const multiplier = multipliers[Math.min(multipliers.length - 1, Math.max(0, bucketIndex))];
-        
-        if (multiplier > 0) {
-            const winAmount = Math.floor(this.currentBet * multiplier);
-            processFunbucksChange(winAmount);
-            this.showWinAnimation(winAmount);
-        }
-        
-        this.ball = null;
-        this.currentBet = 0;
+    drawParticles() {
+        this.particles = this.particles.filter(particle => {
+            particle.x += particle.vx;
+            particle.y += particle.vy;
+            particle.vy += 0.1;
+            particle.life *= 0.95;
+
+            this.ctx.beginPath();
+            this.ctx.arc(particle.x, particle.y, particle.radius * particle.life, 0, Math.PI * 2);
+            this.ctx.fillStyle = particle.color + particle.life + ')';
+            this.ctx.fill();
+
+            return particle.life > 0.1;
+        });
     },
 
     showWinAnimation(amount) {
@@ -14249,75 +14340,54 @@ const plinkoGame = {
     animate() {
         this.ctx.clearRect(0, 0, this.width, this.height);
         
-        const multipliers = this.multipliers[this.difficulty];
-        const bucketWidth = this.width / multipliers.length;
-        
-        for (let i = 0; i < multipliers.length; i++) {
-            const x = i * bucketWidth;
-            this.ctx.fillStyle = multipliers[i] === 0 ? '#DC2626' : '#2563EB';
-            this.ctx.fillRect(x, this.height - 40, bucketWidth, 40);
-            
-            this.ctx.fillStyle = 'white';
-            this.ctx.font = '14px Arial';
-            this.ctx.textAlign = 'center';
-            this.ctx.fillText(multipliers[i].toFixed(1) + 'x', x + bucketWidth / 2, this.height - 15);
-        }
-        
-        this.pins.forEach(pin => {
-            this.ctx.beginPath();
-            this.ctx.arc(pin.x, pin.y, pin.radius, 0, Math.PI * 2);
-            this.ctx.fillStyle = `rgba(255, 255, 255, ${0.5 + pin.glow * 0.5})`;
-            this.ctx.fill();
+        for (const pin of this.pins) {
+            this.draw3DPin(pin);
             pin.glow *= 0.95;
-        });
-        
-        if (this.ball) {
-            this.ball.vy += 0.15;
-            this.ball.x += this.ball.vx;
-            this.ball.y += this.ball.vy;
-            
-            this.pins.forEach(pin => this.handlePinCollision(this.ball, pin));
-            
-            if (this.ball.x < this.ball.radius) {
-                this.ball.x = this.ball.radius;
-                this.ball.vx *= -0.5;
-            }
-            if (this.ball.x > this.width - this.ball.radius) {
-                this.ball.x = this.width - this.ball.radius;
-                this.ball.vx *= -0.5;
-            }
-            
-            this.ctx.beginPath();
-            this.ctx.arc(this.ball.x, this.ball.y, this.ball.radius, 0, Math.PI * 2);
-            this.ctx.fillStyle = '#60A5FA';
-            this.ctx.fill();
-            
-            if (this.ball.y > this.height - this.ball.radius) {
-                this.determinePrize();
-            }
         }
-        
-        this.particles = this.particles.filter(particle => {
-            particle.x += particle.vx;
-            particle.y += particle.vy;
-            particle.life *= 0.95;
-            
-            this.ctx.beginPath();
-            this.ctx.arc(particle.x, particle.y, 2, 0, Math.PI * 2);
-            this.ctx.fillStyle = `rgba(96, 165, 250, ${particle.life})`;
-            this.ctx.fill();
-            
-            return particle.life > 0.1;
+
+        this.drawMultipliers();
+        this.drawParticles();
+
+        this.balls = this.balls.filter(ball => {
+            if (ball.landed) return false;
+
+            ball.vy += 0.2;
+            ball.x += ball.vx;
+            ball.y += ball.vy;
+
+            for (const pin of this.pins) {
+                this.handleCollision(ball, pin);
+            }
+
+            if (ball.x < ball.radius) {
+                ball.x = ball.radius;
+                ball.vx *= -0.5;
+            }
+            if (ball.x > this.width - ball.radius) {
+                ball.x = this.width - ball.radius;
+                ball.vx *= -0.5;
+            }
+
+            this.checkWinningPosition(ball);
+
+            if (ball.y > this.height - ball.radius) {
+                ball.landed = true;
+                return false;
+            }
+
+            this.draw3DBall(ball);
+            return true;
         });
-        
+
         requestAnimationFrame(() => this.animate());
     },
 
     cleanup() {
-        this.ball = null;
+        this.balls = [];
         this.particles = [];
         this.currentBet = 0;
         this.pins = [];
+        this.canDrop = true;
     }
 };
 
